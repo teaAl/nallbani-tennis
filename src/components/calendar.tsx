@@ -30,13 +30,35 @@ const CalendarView = () => {
 	};
 
 	return (
-		<div className="w-full h-40" id="calendar">
+		<div id="calendar" className="p-9">
 			<Calendar
-				// onChange={(date: Date | Date[]) => handleDateChange(date as Date)}
+				// onChange={handleDateChange}
 				value={selectedDate}
 				tileDisabled={tileDisabled}
-				className=""
+				className="w-full mx-auto border rounded-lg shadow-lg p-4 text-center flex flex-col gap-8"
 			/>
+			{selectedDate && (
+				<div className="mt-4">
+					<h2 className="text-xl font-semibold">
+						Available Hours on {selectedDate.toLocaleDateString()}
+					</h2>
+					<div className="flex flex-wrap gap-2 mt-2">
+						{availableHours.map((hour) => (
+							<button
+								key={hour}
+								className={`px-4 py-2 rounded-md ${
+									bookedHours.includes(hour)
+										? "bg-gray-400 cursor-not-allowed"
+										: "bg-blue-500 text-white"
+								}`}
+								onClick={() => handleHourSelection(hour)}
+								disabled={bookedHours.includes(hour)}>
+								{hour}
+							</button>
+						))}
+					</div>
+				</div>
+			)}
 		</div>
 	);
 };
