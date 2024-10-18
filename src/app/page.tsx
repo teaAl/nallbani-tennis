@@ -16,12 +16,12 @@ export default function Home() {
 				<HomeBanner />
 			</div>
 			<div
-				className="h-screen flex justify-center items-center"
+				className="md:h-screen flex justify-center items-center"
 				id="bookingType">
 				<BookingType />
 			</div>
 			{bookingType && (
-				<div className="grid grid-cols-2 gap-10 p-10">
+				<div className="md:grid md:grid-cols-2 flex flex-col gap-10 p-6 md:p-10">
 					<div className="col-start-1">
 						<CalendarView />
 					</div>

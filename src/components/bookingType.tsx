@@ -24,10 +24,10 @@ const BookingType = () => {
 	};
 
 	return (
-		<div className="flex flex-col gap-10 p-10">
-			<div className="grid grid-cols-8 grid-rows-2 gap-10">
-				<p className="text-base font-nunito col-start-2 col-span-6 text-gray-300">
-					<span className="text-3xl text-pink-300">
+		<div className="flex flex-col gap-10 p-6 md:p-10">
+			<div className="flex flex-col md:grid md:grid-cols-8 md:grid-rows-2 gap-10">
+				<p className="text-sm md:text-base font-nunito md:col-start-2 md:col-span-6 text-gray-300 md:pt-0 pt-10">
+					<span className="text-xl md:text-3xl text-pink-300">
 						Whether you're stepping onto the court for the first time or
 						refining your skills, tennis challenges both{" "}
 						<strong className="text-green-300">body</strong> and{" "}
@@ -50,7 +50,7 @@ const BookingType = () => {
 					or ready to go all in,{" "}
 					<strong className="text-pink-300">tennis is waiting for you</strong>.
 				</p>
-				<div className="grid grid-cols-2 gap-10 row-start-2 col-start-2 col-span-6">
+				<div className="grid md:grid-cols-2 gap-10 row-start-2 col-start-2 col-span-6">
 					<div className=" bg-white bg-opacity-5 p-5 rounded-md flex flex-col gap-4">
 						<div className="grid grid-cols-4 gap-4">
 							<div className=" flex flex-col justify-between gap-4 col-start-1 col-span-3">
