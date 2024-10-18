@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import Lottie from "lottie-react";
 import tennisBallThinking from "@/public/animations/tennisballthinking.json";
 import tennisDribble from "@/public/animations/racquetani.json";
-import { useGlobalState } from "@/context/GlobalStateContext";
+import { useGlobalState } from "@/context/globalStateContext";
 import { scrollIntoView } from "@/utils/scrollToView";
 
 const BookingType = () => {

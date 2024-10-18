@@ -3,7 +3,7 @@
 import { use, useEffect, useState } from "react";
 import Calendar from "react-calendar";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
-import { useGlobalState } from "@/context/GlobalStateContext";
+import { useGlobalState } from "@/context/globalStateContext";
 
 type ValuePiece = Date | null;
 

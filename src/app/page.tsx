@@ -5,7 +5,7 @@ import HomeLayout from "@/components/homeLayout";
 import CalendarView from "@/components/calendar";
 import HourPickerList from "@/components/hours/hourPickerList";
 import BookingType from "@/components/bookingType";
-import { useGlobalState } from "@/context/GlobalStateContext";
+import { useGlobalState } from "@/context/globalStateContext";
 
 export default function Home() {
 	const { bookingType } = useGlobalState();

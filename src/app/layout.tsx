@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Poppins, Nunito } from "next/font/google";
-import { GlobalStateProvider } from "@/context/GlobalStateContext";
+import { GlobalStateProvider } from "@/context/globalStateContext";
 
 const poppins = Poppins({
 	subsets: ["latin"],

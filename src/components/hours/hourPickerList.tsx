@@ -1,6 +1,6 @@
 "use client";
 
-import { useGlobalState } from "../../context/GlobalStateContext";
+import { useGlobalState } from "@/context/globalStateContext";
 import React from "react";
 import HourPicker from "./hourPicker";
 import { InformationCircleIcon } from "@heroicons/react/24/outline";
