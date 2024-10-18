@@ -1,12 +1,14 @@
 "use client";
 
+import { scrollIntoView } from "@/utils/scrollToView";
+
 const HomeBanner = () => {
-	const scrollToBook = () => {
-		const calendar = document.getElementById("calendar");
-		if (calendar) {
-			calendar.scrollIntoView({ behavior: "smooth" });
-		}
-	};
+	// const scrollToBook = () => {
+	// 	const bookingTypeElement = document.getElementById("bookingType");
+	// 	if (bookingTypeElement) {
+	// 		bookingTypeElement.scrollIntoView({ behavior: "smooth" });
+	// 	}
+	// };
 
 	return (
 		<div className="h-full text-white text-center grid bg-cover bg-fixed bg-[url(../public/images/tennisbg.webp)]">
@@ -21,7 +23,7 @@ const HomeBanner = () => {
 				<div className="flex flex-row align-middle items-center justify-center gap-7">
 					<button
 						className="bg-white text-black px-4 py-2 rounded-md"
-						onClick={scrollToBook}>
+						onClick={() => scrollIntoView("bookingType")}>
 						Book your sessions
 					</button>
 					<button className="bg-white text-black px-4 py-2 rounded-md">

@@ -12,6 +12,10 @@ interface GlobalStateContextProps {
 	setFirstDate: React.Dispatch<React.SetStateAction<Date | null>>;
 	secondDate: Date | null;
 	setSecondDate: React.Dispatch<React.SetStateAction<Date | null>>;
+	bookingType: "exploring" | "serious" | null;
+	setBookingType: React.Dispatch<
+		React.SetStateAction<"exploring" | "serious" | null>
+	>;
 }
 
 const GlobalStateContext = createContext<GlobalStateContextProps | undefined>(
@@ -26,6 +30,9 @@ export const GlobalStateProvider = ({ children }: { children: ReactNode }) => {
 		useState<boolean>(false);
 	const [firstDate, setFirstDate] = useState<Date | null>(null);
 	const [secondDate, setSecondDate] = useState<Date | null>(null);
+	const [bookingType, setBookingType] = useState<
+		"exploring" | "serious" | null
+	>(null);
 
 	return (
 		<GlobalStateContext.Provider
@@ -40,6 +47,8 @@ export const GlobalStateProvider = ({ children }: { children: ReactNode }) => {
 				setFirstDate,
 				secondDate,
 				setSecondDate,
+				bookingType,
+				setBookingType,
 			}}>
 			{children}
 		</GlobalStateContext.Provider>
