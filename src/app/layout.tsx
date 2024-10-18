@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Poppins, Nunito } from "next/font/google";
+import { GlobalStateProvider } from "@/context/GlobalStateContext";
 
 const poppins = Poppins({
 	subsets: ["latin"],
@@ -25,10 +26,12 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html lang="en">
-			<body className={`${poppins.variable} ${nunito.variable} antialiased`}>
-				{children}
-			</body>
-		</html>
+		<GlobalStateProvider>
+			<html lang="en">
+				<body className={`${poppins.variable} ${nunito.variable} antialiased`}>
+					{children}
+				</body>
+			</html>
+		</GlobalStateProvider>
 	);
 }

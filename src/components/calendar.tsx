@@ -1,64 +1,88 @@
 "use client";
 
-import { useState } from "react";
+import { use, useEffect, useState } from "react";
 import Calendar from "react-calendar";
+import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
+import { useGlobalState } from "@/context/GlobalStateContext";
+
+type ValuePiece = Date | null;
+
+type Value = ValuePiece | [ValuePiece, ValuePiece];
 
 const CalendarView = () => {
-	const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-	const [availableHours, setAvailableHours] = useState<string[]>([]);
-	const [bookedHours, setBookedHours] = useState<string[]>([]);
+	const {
+		setIsFirstDateSelected,
+		setIsSecondDateSelected,
+		firstDate,
+		setFirstDate,
+		secondDate,
+		setSecondDate,
+	} = useGlobalState();
 
-	const handleDateChange = (date: Date) => {
-		setSelectedDate(date);
-		setAvailableHours(["10:00", "11:00", "12:00", "13:00", "14:00", "15:00"]);
-	};
+	const [value, onChange] = useState<Value>(new Date());
 
-	const handleHourSelection = (hour: string) => {
-		if (!bookedHours.includes(hour)) {
-			// Proceed with booking logic
-			alert(
-				`Booking session at ${hour} on ${selectedDate?.toLocaleDateString()}`
-			);
+	const handleDateClick = (date: Date) => {
+		// If firstDate is null, set it; otherwise, set secondDate
+		if (!firstDate) {
+			setFirstDate(date);
+		} else if (!secondDate && date.getTime() !== firstDate.getTime()) {
+			setSecondDate(date);
+		} else {
+			// If both firstDate and secondDate are set and new date is selected, reset both
+			setFirstDate(date);
+			setSecondDate(null);
 		}
 	};
 
-	const tileDisabled = ({ date, view }: { date: Date; view: string }) => {
+	useEffect(() => {
+		setIsFirstDateSelected(firstDate !== null);
+	}, [firstDate, setIsFirstDateSelected]);
+
+	useEffect(() => {
+		setIsSecondDateSelected(secondDate !== null);
+	}, [secondDate, setIsSecondDateSelected]);
+
+	const tileClassName = ({ date, view }: { date: Date; view: string }) => {
+		let baseClass = `flex justify-center items-center aspect-square p-4`;
+
 		if (view === "month") {
-			return date.getDay() === 0;
+			if (
+				(firstDate && date.toDateString() === firstDate.toDateString()) ||
+				(secondDate && date.toDateString() === secondDate.toDateString())
+			) {
+				return `${baseClass} react-calendar__tile--active`;
+			}
 		}
-		return false;
+
+		return baseClass;
 	};
 
 	return (
-		<div id="calendar" className="p-9">
+		<div
+			id="calendar"
+			className="bg-white bg-opacity-5 shadow-lg rounded-lg font-poppins flex-wrap">
 			<Calendar
-				// onChange={handleDateChange}
-				value={selectedDate}
-				tileDisabled={tileDisabled}
-				className="w-full mx-auto border rounded-lg shadow-lg p-4 text-center flex flex-col gap-8"
+				className="aspect-auto"
+				value={value}
+				onChange={onChange}
+				onClickDay={handleDateClick}
+				minDetail="month"
+				maxDetail="month"
+				maxDate={new Date(2025, 12, 31)}
+				minDate={new Date()}
+				tileClassName={tileClassName}
+				nextLabel={
+					<ChevronRightIcon className="h-8 w-8 text-pink-300 bg-white bg-opacity-10 p-1 rounded-full aspect-square" />
+				}
+				prevLabel={
+					<ChevronLeftIcon className="h-8 w-8 text-pink-300 bg-white bg-opacity-10 p-1 rounded-full aspect-square" />
+				}
+				tileDisabled={({ date }) => {
+					const today = new Date();
+					today.setHours(0, 0, 0, 0);
+					return date.getTime() < today.getTime();
+				}}
 			/>
-			{selectedDate && (
-				<div className="mt-4">
-					<h2 className="text-xl font-semibold">
-						Available Hours on {selectedDate.toLocaleDateString()}
-					</h2>
-					<div className="flex flex-wrap gap-2 mt-2">
-						{availableHours.map((hour) => (
-							<button
-								key={hour}
-								className={`px-4 py-2 rounded-md ${
-									bookedHours.includes(hour)
-										? "bg-gray-400 cursor-not-allowed"
-										: "bg-blue-500 text-white"
-								}`}
-								onClick={() => handleHourSelection(hour)}
-								disabled={bookedHours.includes(hour)}>
-								{hour}
-							</button>
-						))}
-					</div>
-				</div>
-			)}
 		</div>
 	);
 };
