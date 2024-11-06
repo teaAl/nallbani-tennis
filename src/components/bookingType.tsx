@@ -17,7 +17,7 @@ const BookingType = () => {
 	};
 
 	const setExploringBookingType = () => {
-		setBookingType("exploring");
+		setBookingType("exploratory");
 		setTimeout(() => {
 			scrollIntoView("calendar");
 		}, 0);

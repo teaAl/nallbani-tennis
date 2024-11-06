@@ -6,8 +6,14 @@ import HourPicker from "./hourPicker";
 import { InformationCircleIcon } from "@heroicons/react/24/outline";
 
 const HourPickerList = () => {
-	const { firstDate, secondDate, setFirstDate, setSecondDate } =
-		useGlobalState();
+	const {
+		firstDate,
+		secondDate,
+		setFirstDate,
+		setSecondDate,
+		setFirstHour,
+		setSecondHour,
+	} = useGlobalState();
 
 	return (
 		<>
@@ -15,13 +21,19 @@ const HourPickerList = () => {
 				{firstDate !== null && (
 					<HourPicker
 						date={firstDate}
-						removeSelectedDate={() => setFirstDate(null)}
+						removeSelectedDate={() => {
+							setFirstDate(null);
+							setFirstHour(null);
+						}}
 					/>
 				)}
 				{secondDate !== null && (
 					<HourPicker
 						date={secondDate}
-						removeSelectedDate={() => setSecondDate(null)}
+						removeSelectedDate={() => {
+							setSecondDate(null);
+							setFirstHour(null);
+						}}
 					/>
 				)}
 				{firstDate == null && secondDate == null && (
@@ -31,7 +43,9 @@ const HourPickerList = () => {
 						</p>
 						<p className="font-nunito text-sm text-pink-300 text-opacity-90 inline-flex gap-2 items-center">
 							<InformationCircleIcon className="w-4 h-4" />
-							Please select at least two dates on the calendar
+							To get most out of your session, please select at least two dates
+							available on the calendar
+							{/* Please select at least two dates on the calendar */}
 						</p>
 					</div>
 				)}

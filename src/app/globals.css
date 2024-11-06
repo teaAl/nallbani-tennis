@@ -101,3 +101,15 @@ abbr {
   background: #1087ff;
 } */
 /* end of custom styles for react-calendar */
+
+/* start of custom styles for form elements */
+
+input {
+  @apply w-full px-4 py-2 border rounded-lg bg-white bg-opacity-20 text-black placeholder:font-poppins placeholder:text-black placeholder:text-opacity-35 transition-all duration-300 outline-none border-transparent;
+}
+
+input:focus {
+  @apply drop-shadow-md shadow-sm shadow-pink-300 outline-none;
+}
+
+/* end of custom styles for form elements */
