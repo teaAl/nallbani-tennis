@@ -6,9 +6,22 @@ import CalendarView from "@/components/calendar";
 import HourPickerList from "@/components/hours/hourPickerList";
 import BookingType from "@/components/bookingType";
 import { useGlobalState } from "@/context/globalStateContext";
+import prisma from "@/lib/prisma";
+import { useEffect } from "react";
 
 export default function Home() {
 	const { bookingType } = useGlobalState();
+
+	// Example fetch in a component
+	async function fetchBookings() {
+		const response = await fetch("/api/bookings");
+		const data = await response.json();
+		console.log(data); // List of bookings
+	}
+
+	useEffect(() => {
+		fetchBookings();
+	}, []);
 
 	return (
 		<HomeLayout>
