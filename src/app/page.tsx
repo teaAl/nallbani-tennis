@@ -9,12 +9,15 @@ import { useGlobalState } from "@/context/globalStateContext";
 import prisma from "@/lib/prisma";
 import { useEffect } from "react";
 
+const url = process.env.NEXT_PUBLIC_BASE_API_URL;
+console.log(url);
+
 export default function Home() {
 	const { bookingType } = useGlobalState();
 
 	// Example fetch in a component
 	async function fetchBookings() {
-		const response = await fetch("/api/bookings");
+		const response = await fetch(`${url}/api/bookings`);
 		const data = await response.json();
 		console.log(data); // List of bookings
 	}
