@@ -17,7 +17,7 @@ export default function Home() {
 
 	// Example fetch in a component
 	async function fetchBookings() {
-		const response = await fetch(`${url}/api/bookings`);
+		const response = await fetch(`api/bookings`);
 		const data = await response.json();
 		console.log(data); // List of bookings
 	}
