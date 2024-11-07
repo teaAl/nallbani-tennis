@@ -6,7 +6,6 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "./generated/client"
 }
 
 datasource db {
@@ -16,25 +15,24 @@ datasource db {
 
 model Booking {
   id            Int           @id @default(autoincrement())
-  bookingType   String
+  bookingType   BookingType
   recurring     Boolean
-  startDate     DateTime
-  endDate       DateTime
-  name          String
-  surname       String
-  email         String        @unique
-  phone         String
+  individual    Boolean
+  group         Json
   needEquipment Boolean
+  schedule      Json
+  status        BookingStatus
+  contactInfo   Json
   createdAt     DateTime      @default(now())
-  status        String
-  bookedHours   BookedHours[]
 }
 
-model BookedHours {
-  id        Int      @id @default(autoincrement())
-  booking   Booking  @relation(fields: [bookingId], references: [id])
-  bookingId Int
-  date      DateTime
-  startHour Int
-  endHour   Int
+enum BookingType {
+  exploratory
+  serious
+}
+
+enum BookingStatus {
+  approved
+  pending
+  rejected
 }

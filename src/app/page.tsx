@@ -9,6 +9,7 @@ import { useGlobalState } from "@/context/globalStateContext";
 import prisma from "@/lib/prisma";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import * as mockData from "../../mock.json";
 
 const url = process.env.NEXT_PUBLIC_BASE_API_URL;
 console.log(url);
@@ -52,6 +53,21 @@ export default function Home() {
 
 	useEffect(() => {
 		fetchBookings();
+
+		// this will be used to disable days and hours on calendar
+		// mockData.forEach((booking) => {
+		// 	if (booking.bookingType === "serious") {
+		// 		console.log(
+		// 			"these days and hours should be disabled on calendar always",
+		// 			booking.schedule
+		// 		);
+		// 	} else {
+		// 		console.log(
+		// 			"these days and hours should be disabled on calendar only once",
+		// 			booking.schedule
+		// 		);
+		// 	}
+		// });
 	}, []);
 
 	return (
@@ -86,3 +102,4 @@ export default function Home() {
 		</HomeLayout>
 	);
 }
+//fullstack, typesafe, nextjs app

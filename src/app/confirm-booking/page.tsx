@@ -11,13 +11,17 @@ import {
 	ClockIcon,
 	InformationCircleIcon,
 } from "@heroicons/react/24/outline";
+import { z } from "zod";
 
 const ContactUsPage: React.FC = () => {
 	const router = useRouter();
-	const { partialBooking, setContactInfo } = useGlobalState();
+	const { partialBooking, setContactInfo, bookingType, bookingStatus } =
+		useGlobalState();
 	const [name, setName] = useState("");
 	const [email, setEmail] = useState("");
 	const [phone, setPhone] = useState("");
+
+	//uncomment this code after development
 
 	// useEffect(() => {
 	// 	if (partialBooking === null) {
@@ -30,10 +34,42 @@ const ContactUsPage: React.FC = () => {
 	const addBooking = (event: React.FormEvent) => {
 		// Add booking to database
 		event.preventDefault();
-		setContactInfo({ name, email, phone });
-		console.log("part 1 > ", partialBooking);
-		console.log("part 2 > ", name, email, phone);
-		router.push("/thank-you");
+		const formData = {
+			bookingType: bookingType,
+			schedule: [
+				{
+					date: partialBooking?.firstDate,
+					hour: partialBooking?.firstHour,
+				},
+				{
+					date: partialBooking?.secondDate,
+					hour: partialBooking?.secondHour,
+				},
+			],
+			// firstDate: partialBooking?.firstDate,
+			// secondDate: partialBooking?.secondDate,
+			// firstHour: partialBooking?.firstHour,
+			// secondHour: partialBooking?.secondHour,
+			recurring: bookingType === "serious" ? true : false,
+			bookingStatus: bookingStatus,
+			contactInfo: {
+				name: name,
+				email: email,
+				phone: phone,
+			},
+		};
+
+		try {
+			// const validatedData = createBookingSchema.parse(formData);
+			console.log(formData);
+			router.push("/thank-you");
+		} catch (error) {
+			if (error instanceof z.ZodError) {
+				console.error("Validation errors: ", error.errors);
+			} else {
+				console.error("Unknown error: ", error);
+			}
+		}
 	};
 
 	return (
@@ -48,22 +84,18 @@ const ContactUsPage: React.FC = () => {
 
 						<div className="flex flex-row justify-between bg-pink-300 bg-opacity-70 p-4 rounded-md">
 							<p className="text-lg font-nunito text-black font-bold text-opacity-90 flex flex-row gap-2 items-center">
-								{/* <CalendarDaysIcon className="w-4 h-4" /> */}
 								{partialBooking?.firstDate?.toDateString()}
 							</p>
 							<p className="text-lg font-nunito text-black font-bold text-opacity-90 flex flex-row gap-2 items-center">
 								{partialBooking?.firstHour}
-								{/* <ClockIcon className="w-4 h-4" /> */}
 							</p>
 						</div>
 						<div className="flex flex-row justify-between bg-pink-300 bg-opacity-70 p-4 rounded-md">
 							<p className="text-lg font-nunito text-black font-bold text-opacity-90 flex flex-row gap-2 items-center">
-								{/* <CalendarDaysIcon className="w-4 h-4" /> */}
 								{partialBooking?.secondDate?.toDateString()}
 							</p>
 							<p className="text-lg font-nunito text-black font-bold text-opacity-90 flex flex-row gap-2 items-center">
 								{partialBooking?.secondHour}
-								{/* <ClockIcon className="w-4 h-4" /> */}
 							</p>
 						</div>
 					</div>

@@ -1,0 +1,83 @@
+[
+    {
+      "id": "b001",
+      "bookingType": "exploratory",
+      "recurring": false,
+      "bookingStatus": "pending",
+      "schedule": [
+        { "date": "2024-12-05", "hour": "10:00" },
+        { "date": "2024-12-10", "hour": "14:00" }
+      ],
+      "contactInfo": {
+        "name": "Alice Johnson",
+        "email": "alice.johnson@example.com",
+        "phone": "+123456789"
+      },
+      "createdAt": "2024-11-07T08:00:00Z"
+    },
+    {
+      "id": "b002",
+      "bookingType": "serious",
+      "recurring": true,
+      "bookingStatus": "approved",
+      "schedule": [
+        { "day": "Monday", "hour": "09:00" },
+        { "day": "Thursday", "hour": "13:00" }
+      ],
+      "contactInfo": {
+        "name": "Bob Williams",
+        "email": "bob.williams@example.com",
+        "phone": "+1987654321"
+      },
+      "createdAt": "2024-11-01T14:30:00Z"
+    },
+    {
+      "id": "b003",
+      "bookingType": "exploratory",
+      "recurring": false,
+      "bookingStatus": "rejected",
+      "schedule": [
+        { "date": "2024-12-15", "hour": "11:00" },
+        { "date": "2024-12-17", "hour": "15:00" }
+      ],
+      "contactInfo": {
+        "name": "Charlie Smith",
+        "email": "charlie.smith@example.com",
+        "phone": "+1122334455"
+      },
+      "createdAt": "2024-11-02T09:00:00Z"
+    },
+    {
+      "id": "b004",
+      "bookingType": "serious",
+      "recurring": true,
+      "bookingStatus": "pending",
+      "schedule": [
+        { "day": "Wednesday", "hour": "10:00" },
+        { "day": "Friday", "hour": "16:00" }
+      ],
+      "contactInfo": {
+        "name": "Dana Lee",
+        "email": "dana.lee@example.com",
+        "phone": "+5544332211"
+      },
+      "createdAt": "2024-11-06T12:00:00Z"
+    },
+    {
+      "id": "b005",
+      "bookingType": "exploratory",
+      "recurring": false,
+      "bookingStatus": "approved",
+      "schedule": [
+        { "date": "2024-11-20", "hour": "08:00" },
+        { "date": "2024-11-23", "hour": "10:00" }
+      ],
+      "contactInfo": {
+        "name": "Eve Martinez",
+        "email": "eve.martinez@example.com",
+        "phone": "+6677889900"
+      },
+      "createdAt": "2024-11-05T07:30:00Z"
+    }
+  ]
+  
