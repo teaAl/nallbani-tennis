@@ -5,22 +5,26 @@ import tennisBallThinking from "@/public/animations/tennisballthinking.json";
 import tennisDribble from "@/public/animations/racquetani.json";
 import { useGlobalState } from "@/context/globalStateContext";
 import { scrollIntoView } from "@/utils/scrollToView";
+import { useRouter } from "next/navigation";
 
 const BookingType = () => {
+	const router = useRouter();
 	const { setBookingType } = useGlobalState();
 
 	const setSeriousBookingType = () => {
 		setBookingType("serious");
-		setTimeout(() => {
-			scrollIntoView("calendar");
-		}, 0);
+		// setTimeout(() => {
+		// 	scrollIntoView("individual-or-group");
+		// }, 0);
+		router.push("/book");
 	};
 
 	const setExploringBookingType = () => {
 		setBookingType("exploratory");
-		setTimeout(() => {
-			scrollIntoView("calendar");
-		}, 0);
+		// setTimeout(() => {
+		// 	scrollIntoView("individual-or-group");
+		// }, 0);
+		router.push("/book");
 	};
 
 	return (

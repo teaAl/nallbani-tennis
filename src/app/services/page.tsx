@@ -1,11 +1,17 @@
+import GeneralBanner from "@/components/generalBanner";
+import Layout from "@/components/homeLayout";
 import React from "react";
 
 const ServicesPage: React.FC = () => {
 	return (
-		<div>
-			<h1>Services Page</h1>
-			{/* Add your services content here */}
-		</div>
+		<Layout>
+			<div className="h-screen">
+				<div className="h-1/2">
+					<GeneralBanner title="Services" />
+				</div>
+				{/* Add your services content here */}
+			</div>
+		</Layout>
 	);
 };
 

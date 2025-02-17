@@ -1,22 +1,28 @@
 import React from "react";
+import GeneralBanner from "@/components/generalBanner";
+import Layout from "@/components/homeLayout";
 
 const ContactUsPage: React.FC = () => {
 	return (
-		<div>
-			<h1>Contact Us</h1>
-			<form>
-				<label htmlFor="name">Name:</label>
-				<input type="text" id="name" name="name" />
+		<Layout>
+			<div className="h-screen">
+				<div className="h-1/2">
+					<GeneralBanner title="Contact Us" />
+				</div>
+				<form>
+					<label htmlFor="name">Name:</label>
+					<input type="text" id="name" name="name" />
 
-				<label htmlFor="email">Email:</label>
-				<input type="email" id="email" name="email" />
+					<label htmlFor="email">Email:</label>
+					<input type="email" id="email" name="email" />
 
-				<label htmlFor="message">Message:</label>
-				<textarea id="message" name="message" rows={4} />
+					<label htmlFor="message">Message:</label>
+					<textarea id="message" name="message" rows={4} />
 
-				<button type="submit">Submit</button>
-			</form>
-		</div>
+					<button type="submit">Submit</button>
+				</form>
+			</div>
+		</Layout>
 	);
 };
 

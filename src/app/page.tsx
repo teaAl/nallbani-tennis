@@ -1,7 +1,7 @@
 "use client";
 
 import HomeBanner from "@/components/homeBanner";
-import HomeLayout from "@/components/homeLayout";
+import Layout from "@/components/homeLayout";
 import CalendarView from "@/components/calendar";
 import HourPickerList from "@/components/hours/hourPickerList";
 import BookingType from "@/components/bookingType";
@@ -9,7 +9,7 @@ import { useGlobalState } from "@/context/globalStateContext";
 import prisma from "@/lib/prisma";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import * as mockData from "../../mock.json";
+import IndividualOrGroup from "@/components/individualOrGroup";
 
 const url = process.env.NEXT_PUBLIC_BASE_API_URL;
 console.log(url);
@@ -25,6 +25,7 @@ export default function Home() {
 		partialBooking,
 		setPartialBooking,
 		bookingStatus,
+		showCalendar,
 	} = useGlobalState();
 
 	// Example fetch in a component
@@ -34,22 +35,22 @@ export default function Home() {
 		console.log(data); // List of bookings
 	}
 
-	const enableConfirmButton =
-		firstDate && secondDate && firstHour && secondHour ? true : false;
+	// const enableConfirmButton =
+	// 	firstDate && secondDate && firstHour && secondHour ? true : false;
 
-	const confirmBooking = () => {
-		const data = {
-			bookingType,
-			firstDate,
-			secondDate,
-			firstHour,
-			secondHour,
-			bookingStatus,
-		};
-		console.log(data);
-		setPartialBooking(data);
-		router.push("/confirm-booking");
-	};
+	// const confirmBooking = () => {
+	// 	const data = {
+	// 		bookingType,
+	// 		firstDate,
+	// 		secondDate,
+	// 		firstHour,
+	// 		secondHour,
+	// 		bookingStatus,
+	// 	};
+	// 	console.log(data);
+	// 	setPartialBooking(data);
+	// 	router.push("/confirm-booking");
+	// };
 
 	useEffect(() => {
 		fetchBookings();
@@ -71,7 +72,7 @@ export default function Home() {
 	}, []);
 
 	return (
-		<HomeLayout>
+		<Layout>
 			<div className="h-screen">
 				<HomeBanner />
 			</div>
@@ -81,7 +82,13 @@ export default function Home() {
 				id="bookingType">
 				<BookingType />
 			</div>
-			{bookingType && (
+			{/* {bookingType && (
+				<div className="flex flex-col gap-10 p-6 md:p-10">
+					<IndividualOrGroup />
+				</div>
+			)}
+
+			{showCalendar && (
 				<div className="md:grid md:grid-cols-2 flex flex-col gap-10 p-6 md:p-10">
 					<div className="col-start-1">
 						<CalendarView />
@@ -98,8 +105,7 @@ export default function Home() {
 						</button>
 					</div>
 				</div>
-			)}
-		</HomeLayout>
+			)} */}
+		</Layout>
 	);
 }
-//fullstack, typesafe, nextjs app

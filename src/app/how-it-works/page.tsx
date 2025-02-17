@@ -1,11 +1,17 @@
 import React from "react";
+import Layout from "@/components/homeLayout";
+import GeneralBanner from "@/components/generalBanner";
 
 const HowItWorksPage: React.FC = () => {
 	return (
-		<div>
-			<h1>How It Works</h1>
-			{/* Add your content here */}
-		</div>
+		<Layout>
+			<div className="h-screen">
+				<div className="h-1/2">
+					<GeneralBanner title="How It Works" />
+				</div>
+				{/* Add your content here */}
+			</div>
+		</Layout>
 	);
 };
 

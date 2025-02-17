@@ -18,7 +18,19 @@ model Booking {
   bookingType   BookingType
   recurring     Boolean
   individual    Boolean
+  experienceLvl ExperienceLevel
   group         Json
+  needEquipment Boolean
+  schedule      Json
+  status        BookingStatus
+  contactInfo   Json
+  createdAt     DateTime      @default(now())
+}
+
+model BookingSingle {
+  id            Int           @id @default(autoincrement())
+  bookingType   BookingType
+  experienceLvl ExperienceLevel
   needEquipment Boolean
   schedule      Json
   status        BookingStatus
@@ -35,4 +47,12 @@ enum BookingStatus {
   approved
   pending
   rejected
+}
+
+enum ExperienceLevel {
+  Beginner
+  Novice
+  Intermediate
+  Advanced
+  Professional
 }

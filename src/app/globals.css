@@ -28,6 +28,10 @@ body {
 
 /* start of custom styles for react-calendar */
 
+/*=============
+Aesthetics 
+=========================*/
+
 .react-calendar button:enabled:hover {
   @apply scale-110 transition-all;
 }
@@ -104,12 +108,54 @@ abbr {
 
 /* start of custom styles for form elements */
 
-input {
-  @apply w-full px-4 py-2 border rounded-lg bg-white bg-opacity-20 text-black placeholder:font-poppins placeholder:text-black placeholder:text-opacity-35 transition-all duration-300 outline-none border-transparent;
+input[type="text"], input[type="email"], input[type="number"], textarea {
+  @apply px-4 py-2 border rounded-lg bg-white bg-opacity-20 text-black placeholder:font-poppins placeholder:text-black placeholder:text-opacity-35 transition-all duration-300 outline-none border-transparent;
 }
 
-input:focus {
+input[type="text"]:focus, input[type="email"]:focus, input[type="number"]:focus, textarea:focus {
   @apply drop-shadow-md shadow-sm shadow-pink-300 outline-none;
+}
+
+/* custom group form styles */
+input.group, textarea.group {
+  @apply bg-opacity-10 placeholder:text-sm placeholder:text-pink-300 placeholder:text-opacity-30;
+}
+/* range slider custom styles */
+input[type="range"] {
+  @apply appearance-none w-60 cursor-pointer outline-none bg-white bg-opacity-10 rounded-2xl h-2;
+}
+/* range slider thumb styles */
+input[type="range"]::-webkit-slider-thumb {
+  @apply appearance-none w-6 h-6 rounded-full cursor-pointer flex items-center justify-center border-none bg-[url(../public/images/tennisball.png)] bg-cover;
+  transition: .2s ease-in-out;
+  /*  rotate thumb  */
+  transform: rotateZ(var(--thumb-rotate, 0deg));
+}
+/* range slider track progress styles */
+input[type="range"]::-webkit-slider-runnable-track, input[type="range"]::-moz-range-track {
+  @apply appearance-none h-4 bg-pink-300 bg-opacity-20 rounded-2xl;
+}
+
+/* Hover, active & focus Thumb: Webkit */
+input[type="range"]::-webkit-slider-thumb:hover {
+  box-shadow: 0 0 0 10px #86efad1d
+}
+input[type="range"]:active::-webkit-slider-thumb {
+  box-shadow: 0 0 0 13px #86efad1d
+}
+input[type="range"]:focus::-webkit-slider-thumb {
+  box-shadow: 0 0 0 13px #86efad1d
+}
+
+/* Hover, active & focus Thumb: Firfox */
+input[type="range"]::-moz-range-thumb:hover {
+  box-shadow: 0 0 0 10px #86efad1d
+}
+input[type="range"]:active::-moz-range-thumb {
+  box-shadow: 0 0 0 13px #86efad1d
+}
+input[type="range"]:focus::-moz-range-thumb {
+  box-shadow: 0 0 0 13px #86efad1d
 }
 
 /* end of custom styles for form elements */

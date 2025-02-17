@@ -4,13 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useGlobalState } from "@/context/globalStateContext";
 import HomeLayout from "@/components/homeLayout";
-import {
-	CalendarIcon,
-	CalendarDaysIcon,
-	CalendarDateRangeIcon,
-	ClockIcon,
-	InformationCircleIcon,
-} from "@heroicons/react/24/outline";
+import { CalendarDaysIcon } from "@heroicons/react/24/outline";
 import { z } from "zod";
 
 const ContactUsPage: React.FC = () => {

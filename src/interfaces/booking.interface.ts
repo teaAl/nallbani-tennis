@@ -2,16 +2,23 @@ interface Booking {
     id: number;
     bookingType: BookingType;
     recurring: boolean;
-    startDate: Date; //firstDate - firstHour
-    endDate: Date; //secondDate - secondHour
-    name: string;
-    surname: string;
-    email: string;
-    phone: string;
+    individual: boolean;
+    group: {
+        isGroup: boolean;
+        groupSize: string;
+        hasGroup: boolean;
+    };
     needEquipment: boolean;
-    createdAt: Date;
-    status: Status;
-    bookedHours: BookedHour[];
+    schedule: {
+        date: string;
+        hour: Hours;
+    }[];
+    bookingStatus: Status;
+    contactInfo: {
+        name: string;
+        email: string;
+        phone: string;
+    };
 }
 
 type Status = "approved" | "pending" | "rejected";
