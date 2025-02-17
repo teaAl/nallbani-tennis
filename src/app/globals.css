@@ -108,12 +108,12 @@ abbr {
 
 /* start of custom styles for form elements */
 
-input[type="text"], input[type="email"], input[type="number"], textarea {
-  @apply px-4 py-2 border rounded-lg bg-white bg-opacity-20 text-black placeholder:font-poppins placeholder:text-black placeholder:text-opacity-35 transition-all duration-300 outline-none border-transparent;
+input[type="text"], input[type="email"], input[type="tel"], textarea {
+  @apply p-4 bg-black bg-gradient-to-r from-[#f9a8d43b] to-black border-b-transparent rounded-br-none rounded-tl-none rounded-bl-md rounded-tr-md text-white placeholder:font-poppins placeholder:text-white placeholder:text-opacity-45 transition-all duration-500 outline-none;
 }
 
-input[type="text"]:focus, input[type="email"]:focus, input[type="number"]:focus, textarea:focus {
-  @apply drop-shadow-md shadow-sm shadow-pink-300 outline-none;
+input[type="text"]:focus, input[type="email"]:focus, input[type="tel"]:focus, textarea:focus {
+  @apply border-b-green-300 outline-none -translate-y-1 bg-zinc-900 bg-gradient-to-r from-[#f9a8d43b] to-[#f9a8d43b] placeholder:text-opacity-5;
 }
 
 /* custom group form styles */
@@ -159,3 +159,6 @@ input[type="range"]:focus::-moz-range-thumb {
 }
 
 /* end of custom styles for form elements */
+.h-screen-20 {
+  height: calc(100vh - 4.6rem);
+}

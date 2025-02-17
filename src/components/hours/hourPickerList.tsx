@@ -13,30 +13,24 @@ const HourPickerList = () => {
 		setSecondDate,
 		setFirstHour,
 		setSecondHour,
+		dateBooked,
+		hourBooked,
+		setHourBooked,
 	} = useGlobalState();
 
 	return (
 		<>
 			<div className="flex flex-col gap-5">
-				{firstDate !== null && (
+				{dateBooked !== null && (
 					<HourPicker
-						date={firstDate}
-						removeSelectedDate={() => {
-							setFirstDate(null);
-							setFirstHour(null);
-						}}
+						date={dateBooked}
+						// removeSelectedDate={() => {
+						// 	setFirstDate(null);
+						// 	setFirstHour(null);
+						// }}
 					/>
 				)}
-				{secondDate !== null && (
-					<HourPicker
-						date={secondDate}
-						removeSelectedDate={() => {
-							setSecondDate(null);
-							setFirstHour(null);
-						}}
-					/>
-				)}
-				{firstDate == null && secondDate == null && (
+				{dateBooked === null && (
 					<div className="flex flex-col justify-between p-2 gap-4">
 						<p className="hidden md:flex font-nunito text-lg  border-b-2 border-pink-300 border-opacity-10 pb-4">
 							You haven't booked any days for your sessions yet

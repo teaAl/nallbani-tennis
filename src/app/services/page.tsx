@@ -1,5 +1,5 @@
 import GeneralBanner from "@/components/generalBanner";
-import Layout from "@/components/homeLayout";
+import Layout from "@/layouts/homeLayout";
 import React from "react";
 
 const ServicesPage: React.FC = () => {

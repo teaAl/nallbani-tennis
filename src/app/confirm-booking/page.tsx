@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useGlobalState } from "@/context/globalStateContext";
-import HomeLayout from "@/components/homeLayout";
+import HomeLayout from "@/layouts/homeLayout";
 import { CalendarDaysIcon } from "@heroicons/react/24/outline";
 import { z } from "zod";
 

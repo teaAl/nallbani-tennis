@@ -63,6 +63,10 @@ interface GlobalStateContextProps {
 	setLessonType: React.Dispatch<
 		React.SetStateAction<"individual" | "group" | null>
 	>;
+	dateBooked: Date | null;
+	setDateBooked: React.Dispatch<React.SetStateAction<Date | null>>;
+	hourBooked: Hours | null;
+	setHourBooked: React.Dispatch<React.SetStateAction<Hours | null>>;
 }
 
 const GlobalStateContext = createContext<GlobalStateContextProps | undefined>(
@@ -104,6 +108,8 @@ export const GlobalStateProvider = ({ children }: { children: ReactNode }) => {
 	const [lessonType, setLessonType] = useState<"individual" | "group" | null>(
 		null
 	);
+	const [dateBooked, setDateBooked] = useState<Date | null>(null);
+	const [hourBooked, setHourBooked] = useState<Hours | null>(null);
 
 	const handleNextStep = () => {
 		setSteps((prevSteps) => {
@@ -162,6 +168,10 @@ export const GlobalStateProvider = ({ children }: { children: ReactNode }) => {
 				handleNextStep,
 				lessonType,
 				setLessonType,
+				dateBooked,
+				setDateBooked,
+				hourBooked,
+				setHourBooked,
 			}}>
 			{children}
 		</GlobalStateContext.Provider>

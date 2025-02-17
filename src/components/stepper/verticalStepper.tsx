@@ -13,17 +13,11 @@ interface StepperProps {
 
 const Stepper = ({ stepsData }: StepperProps) => {
 	return (
-		<>
-			<div className="flex max-w-md flex-col h-screen justify-around">
-				{stepsData?.map((step, index) => (
-					<Step
-						key={index}
-						step={step}
-						isLast={index === stepsData.length - 1}
-					/>
-				))}
-			</div>
-		</>
+		<div className="max-w-md flex flex-col h-full justify-around items-end">
+			{stepsData?.map((step, index) => (
+				<Step key={index} step={step} isLast={index === stepsData.length - 1} />
+			))}
+		</div>
 	);
 };
 

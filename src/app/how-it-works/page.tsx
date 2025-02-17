@@ -1,5 +1,5 @@
 import React from "react";
-import Layout from "@/components/homeLayout";
+import Layout from "@/layouts/homeLayout";
 import GeneralBanner from "@/components/generalBanner";
 
 const HowItWorksPage: React.FC = () => {

@@ -5,31 +5,28 @@ import { useGlobalState } from "@/context/globalStateContext";
 
 interface HourPickerProps {
 	date: Date;
-	removeSelectedDate: () => void;
 }
 
-const HourPicker = ({ date, removeSelectedDate }: HourPickerProps) => {
-	const {
-		firstDate,
-		secondDate,
-		firstHour,
-		setFirstHour,
-		secondHour,
-		setSecondHour,
-	} = useGlobalState();
+const HourPicker = ({ date }: HourPickerProps) => {
+	const { setHourBooked, hourBooked, setDateBooked } = useGlobalState();
 
-	const setSelectedHours = (date: Date, hour: Hours) => {
-		if (firstDate && firstDate === date) {
-			setFirstHour(hour);
-		} else if (secondDate && secondDate === date) {
-			setSecondHour(hour);
-		}
-	};
+	// const setSelectedHours = (date: Date, hour: Hours) => {
+	// 	if (firstDate && firstDate === date) {
+	// 		setFirstHour(hour);
+	// 	} else if (secondDate && secondDate === date) {
+	// 		setSecondHour(hour);
+	// 	}
+	// };
 
-	const setActiveHour = (date: Date, hour: Hours) => {
-		if (firstDate && firstDate === date && firstHour === hour) {
-			return "bg-pink-300 text-black";
-		} else if (secondDate && secondDate === date && secondHour === hour) {
+	const setActiveHour = (hour: Hours) => {
+		// if (firstDate && firstDate === date && firstHour === hour) {
+		// 	return "bg-pink-300 text-black";
+		// } else if (secondDate && secondDate === date && secondHour === hour) {
+		// 	return "bg-pink-300 text-black";
+		// } else {
+		// 	return "bg-white bg-opacity-5";
+		// }
+		if (hourBooked === hour) {
 			return "bg-pink-300 text-black";
 		} else {
 			return "bg-white bg-opacity-5";
@@ -47,7 +44,10 @@ const HourPicker = ({ date, removeSelectedDate }: HourPickerProps) => {
 				</p>
 				<XMarkIcon
 					className="w-7 h-7 cursor-pointer text-pink-300 hover:scale-110 transition-all bg-white bg-opacity-15 rounded-full p-1"
-					onClick={removeSelectedDate}
+					onClick={() => {
+						setHourBooked(null);
+						setDateBooked(null);
+					}}
 				/>
 			</div>
 			<div className="bg-opacity-5 rounded-sm">
@@ -55,10 +55,9 @@ const HourPicker = ({ date, removeSelectedDate }: HourPickerProps) => {
 					{hours.map((hour) => (
 						<button
 							key={hour}
-							className={` 
-								${setActiveHour(date, hour)}
+							className={` ${setActiveHour(hour)}
 								font-nunito text-lg  rounded-sm p-2 transform-all duration-150 hover:scale-110 shadow-sm`}
-							onClick={() => setSelectedHours(date, hour)}>
+							onClick={() => setHourBooked(hour)}>
 							{hour}
 						</button>
 					))}

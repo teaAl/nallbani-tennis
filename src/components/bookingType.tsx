@@ -3,29 +3,15 @@ import React, { useState } from "react";
 import Lottie from "lottie-react";
 import tennisBallThinking from "@/public/animations/tennisballthinking.json";
 import tennisDribble from "@/public/animations/racquetani.json";
+import singlePlayer from "@/public/animations/singleplayer.json";
+import multiPlayer from "@/public/animations/multiplayer.json";
 import { useGlobalState } from "@/context/globalStateContext";
 import { scrollIntoView } from "@/utils/scrollToView";
 import { useRouter } from "next/navigation";
 
 const BookingType = () => {
 	const router = useRouter();
-	const { setBookingType } = useGlobalState();
-
-	const setSeriousBookingType = () => {
-		setBookingType("serious");
-		// setTimeout(() => {
-		// 	scrollIntoView("individual-or-group");
-		// }, 0);
-		router.push("/book");
-	};
-
-	const setExploringBookingType = () => {
-		setBookingType("exploratory");
-		// setTimeout(() => {
-		// 	scrollIntoView("individual-or-group");
-		// }, 0);
-		router.push("/book");
-	};
+	const { setLessonType } = useGlobalState();
 
 	return (
 		<div className="flex flex-col gap-10 p-6 md:p-10">
@@ -59,19 +45,21 @@ const BookingType = () => {
 						<div className="grid grid-cols-4 gap-4">
 							<div className=" flex flex-col justify-between gap-4 col-start-1 col-span-3">
 								<h3 className="text-xl font-semibold text-green-300 font-poppins">
-									Just Exploring
+									Individual Lesson
 								</h3>
 								<p className="text-gray-300 text-base">
-									Perfect if you want to try a couple of sessions without
-									commitment.
+									Individual lessons are perfect if you want to learn faster and
+									lessons are tailored to your needs and requirements.
 								</p>
 							</div>
-							<Lottie animationData={tennisBallThinking} />
+							<Lottie animationData={singlePlayer} />
 						</div>
 						<button
-							className="bg-green-300 bg-opacity-50 px-4 py-2 rounded-md text-black font-nunito w-full"
-							onClick={setExploringBookingType}>
-							Let's Give It a Try!
+							className="bg-green-300 px-4 py-2 rounded-md text-black font-nunito w-full"
+							onClick={() => (
+								setLessonType("individual"), router.push("/book")
+							)}>
+							Book Individual Lesson
 						</button>
 					</div>
 
@@ -79,19 +67,19 @@ const BookingType = () => {
 						<div className="grid grid-cols-4 gap-4">
 							<div className=" flex flex-col justify-between gap-4 col-start-1 col-span-3">
 								<h3 className="text-xl font-semibold text-pink-300 font-poppins">
-									Serious Commitment
+									Group Lesson
 								</h3>
 								<p className="text-gray-300 text-base">
-									Ideal for students who want to schedule recurring lessons and
-									make steady progress.
+									You can join an existing group if experience level matches or
+									you can create your own group with friends.
 								</p>
 							</div>
-							<Lottie animationData={tennisDribble} />
+							<Lottie animationData={multiPlayer} />
 						</div>
 						<button
-							className="bg-pink-300 bg-opacity-50 px-4 py-2 rounded-md text-black font-nunito w-full"
-							onClick={setSeriousBookingType}>
-							Start My Learning Journey!
+							className="bg-pink-300 px-4 py-2 rounded-md text-black font-nunito w-full"
+							onClick={() => (setLessonType("group"), router.push("/book"))}>
+							Book Group Lesson
 						</button>
 					</div>
 				</div>

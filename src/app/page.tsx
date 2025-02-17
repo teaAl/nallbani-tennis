@@ -1,7 +1,7 @@
 "use client";
 
 import HomeBanner from "@/components/homeBanner";
-import Layout from "@/components/homeLayout";
+import Layout from "@/layouts/homeLayout";
 import CalendarView from "@/components/calendar";
 import HourPickerList from "@/components/hours/hourPickerList";
 import BookingType from "@/components/bookingType";
