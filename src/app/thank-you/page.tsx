@@ -1,4 +1,4 @@
-import HomeLayout from "@/components/homeLayout";
+import HomeLayout from "@/layouts/homeLayout";
 import React from "react";
 
 const ThankYouPage: React.FC = () => {
