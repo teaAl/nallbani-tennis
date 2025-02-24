@@ -3,42 +3,60 @@ import CalendarView from "./calendar";
 import HourPicker from "./hours/hourPicker";
 import HourPickerList from "./hours/hourPickerList";
 import NewCalendar from "./newCalendar";
-import { InformationCircleIcon } from "@heroicons/react/16/solid";
+import { InformationCircleIcon, WrenchScrewdriverIcon } from "@heroicons/react/16/solid";
 import Lottie from "lottie-react";
 import tennisBallThinking from "@/public/animations/tennisballthinking.json";
 import { ChevronDoubleDownIcon } from "@heroicons/react/20/solid";
+import { useEffect, useState } from "react";
+
 
 const DateTime = () => {
 	const { dateBooked, hourBooked, handleNextStep } = useGlobalState();
 	const todayDate = new Date();
 
+	const [flipped, setFlipped] = useState(false);
+
+	useEffect(() => {
+		console.log(dateBooked);
+		if (dateBooked) {
+			setFlipped(true);
+		} else {
+			setFlipped(false);
+		}
+		console.log(flipped);
+	}, [dateBooked]);
+
 	return (
-		<div className="md:grid md:grid-cols-2 flex flex-col gap-0 p-6 md:p-10 ">
-			<div className="col-start-1 w-min">
-				{/* <CalendarView /> */}
-				<NewCalendar />
-			</div>
-			<div className="col-start-2 flex flex-col gap-4 justify-between items-center ">
-				<div
-					className={`transition-all duration-400 ${
-						dateBooked ? "opacity-100 h-auto z-30" : "opacity-0 h-0 -z-30"
-					}`}>
-					<HourPicker date={dateBooked ? dateBooked : todayDate} />
+		<>
+			<section className="py-16 mx-auto sm:py-20">
+				<div className="mx-auto flex justify-center object-center px-4 pb-2 sm:pb-8 lg:max-w-7xl">
+					<div className="flex justify-center object-center flex-col gap-12 sm:gap-16">
+						<div className="mx-auto grid gap-12 space-y-10 md:space-y-0 sm:gap-16 lg:grid-cols-3">
+							<div className="group h-[380px] w-[430px] [perspective:1000px]">
+								<div className={`relative h-full w-full rounded-xl shadow-xl transition-all duration-500 [transform-style:preserve-3d] ${flipped ? "[transform:rotateY(180deg)]" : ""}`}>
+									{/* Front Face */}
+									<div className="absolute inset-0 h-full w-full mx-auto rounded-xl [backface-visibility:hidden]">
+										{/* <Lottie animationData={tennisBallThinking} /> */}
+										<NewCalendar />
+									</div>
+									{/* Back Face */}
+									<div className="absolute inset-0 h-full w-full rounded-xl px-2 bg-white bg-opacity-5 text-center text-slate-200 [transform:rotateY(180deg)] [backface-visibility:hidden]">
+										<div className="flex min-h-full flex-col items-center justify-center">
+											<HourPicker date={dateBooked || todayDate} />
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
-				<div
-					className={`flex flex-col justify-between p-2 gap-4 transition-all duration-400 border-t-2 border-pink-300 border-opacity-10 ${
-						dateBooked ? "opacity-0 h-0" : "opacity-100 h-auto"
-					}`}>
-					<p className="font-nunito text-sm text-pink-300 text-opacity-90 inline-flex gap-2 items-center py-6">
-						<InformationCircleIcon className="w-4 h-4" />
-						Please select a date on the calendar to check available hours
-					</p>
-				</div>
-				<div
-					className={`${
-						hourBooked === null ? "opacity-0" : "opacity-100"
-					} cursor-pointer duration-300 transition-all`}>
+			</section>
+			<div
+				className={`${!hourBooked ? "opacity-0 -z-50" : "opacity-100 z-50"
+					} flex flex-row justify-around align-middle items-center duration-300 transition-all`}>
+				<div className={`cursor-pointer`}>
 					<button
+						type="submit"
 						className="bg-transparent text-pink-300 justify-items-center p-4 rounded-full scale-95 animate-bounce duration-300 transition-all hover:scale-100"
 						onClick={handleNextStep}>
 						Proceed
@@ -46,9 +64,8 @@ const DateTime = () => {
 					</button>
 				</div>
 			</div>
-		</div>
+		</>
 	);
 };
 
 export default DateTime;
-// Flip calendar after date selection to select hour and equipment

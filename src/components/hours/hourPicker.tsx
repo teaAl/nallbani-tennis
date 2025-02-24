@@ -34,8 +34,8 @@ const HourPicker = ({ date }: HourPickerProps) => {
 	};
 
 	return (
-		<div className="bg-white bg-opacity-5 rounded-sm p-4 gap-4 flex flex-col">
-			<div className="flex flex-row justify-between p-2 gap-4 border-b-2 border-pink-300 border-opacity-10">
+		<div className="bg-transparent rounded-sm gap-6 flex flex-col w-full px-2">
+			<div className="flex flex-row justify-between gap-4 border-b-2 border-pink-300 border-opacity-10 py-3">
 				<p className="font-nunito text-lg">
 					Select available hours for{" "}
 					<span className="font-nunito font-bold text-pink-300">
@@ -43,7 +43,7 @@ const HourPicker = ({ date }: HourPickerProps) => {
 					</span>
 				</p>
 				<XMarkIcon
-					className="w-7 h-7 cursor-pointer text-pink-300 hover:scale-110 transition-all bg-white bg-opacity-15 rounded-full p-1"
+					className="w-6 h-6 cursor-pointer text-pink-300 hover:scale-110 transition-all bg-white bg-opacity-15 rounded-full p-1"
 					onClick={() => {
 						setHourBooked(null);
 						setDateBooked(null);

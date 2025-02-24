@@ -17,6 +17,7 @@ import DateTime from "@/components/dateTime";
 import FlipLessonCard from "@/components/tezd";
 import NewCalendar from "@/components/newCalendar";
 import ContactForm from "@/components/bookingContactForm";
+import BookingConfirmation from "@/components/bookingConfirmation";
 
 const url = process.env.NEXT_PUBLIC_BASE_API_URL;
 console.log(url);
@@ -43,10 +44,11 @@ const stepComponents = {
 	"Date and Time": () => (
 		// <div className="grid grid-cols-10 w-full">
 		// 	<div className="col-span-8 col-start-2">
-		<div>
-			<DateTime />
+		<div className="grid grid-cols-6 w-full">
+			<div className="col-span-4 col-start-2 flex justify-center items-center">
+				<DateTime />
+			</div>
 		</div>
-		// 	</div>
 		// </div>
 	),
 	// "Date and Time": () => <NewCalendar />,
@@ -57,7 +59,7 @@ const stepComponents = {
 			</div>
 		</div>
 	),
-	Confirmation: () => <div>Confirmation</div>,
+	Confirmation: () => <BookingConfirmation />,
 };
 
 const getStepComponent = (step: StepType) => {
@@ -68,7 +70,7 @@ const getStepComponent = (step: StepType) => {
 			step.active ? <ContactForm /> : step.completed ? <CompletedStep /> : null,
 		Confirmation: () =>
 			step.active ? (
-				<div>Confirmation</div>
+				<BookingConfirmation />
 			) : step.completed ? (
 				<CompletedStep />
 			) : null,

@@ -30,9 +30,9 @@ const NewCalendar = () => {
 		<>
 			<div
 				id="calendar"
-				className="bg-white bg-opacity-5 shadow-lg rounded-lg font-poppins flex-wrap">
+				className="bg-pink-300 bg-opacity-10 py-4 px-4 shadow-lg rounded-lg font-poppins flex-wrap items-center justify-center">
 				<Calendar
-					className="aspect-auto"
+					className="aspect-auto w-full h-full"
 					value={value}
 					onChange={onChange}
 					onClickDay={(value) => (setDateBooked(value), setHourBooked(null))}

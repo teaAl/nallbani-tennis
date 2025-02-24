@@ -1,5 +1,5 @@
 @import 'tailwindcss/base';
-@import 'tailwindcss/components'; 
+@import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
@@ -40,7 +40,8 @@ Aesthetics
   @apply transition-all;
 }
 
-.react-calendar__navigation__arrow:disabled, .react-calendar__tile:disabled {
+.react-calendar__navigation__arrow:disabled,
+.react-calendar__tile:disabled {
   @apply opacity-50;
 }
 
@@ -58,9 +59,11 @@ Aesthetics
 .react-calendar__navigation button.react-calendar__navigation__arrow:first-child {
   display: none;
 }
-.react-calendar__navigation button.react-calendar__navigation__arrow:last-child {  
+
+.react-calendar__navigation button.react-calendar__navigation__arrow:last-child {
   display: none;
 }
+
 /*end of hide year buttons*/
 
 /*start of navigation styles*/
@@ -71,21 +74,23 @@ Aesthetics
 .react-calendar__navigation__label {
   @apply text-pink-300 text-lg font-extrabold w-max mx-auto;
 }
+
 /*end of navigation styles*/
 
 /*start of day tile calendat styles*/
 .react-calendar__tile>abbr {
-  @apply aspect-square w-12 h-12 p-3 rounded-full border border-pink-300 border-opacity-20 transition-all;
+  @apply aspect-square w-10 h-10 p-2 rounded-full border border-pink-300 border-opacity-20 transition-all;
 }
 
 /*start of weekday styles*/
 .react-calendar__month-view__weekdays__weekday {
-  @apply text-center text-pink-300 font-bold text-lg p-4 no-underline font-nunito;
+  @apply text-center text-pink-300 font-bold text-sm p-4 no-underline font-nunito;
 }
 
 abbr {
   @apply no-underline;
 }
+
 /*end of weekday styles*/
 
 /* .react-calendar__tile--start {
@@ -108,22 +113,31 @@ abbr {
 
 /* start of custom styles for form elements */
 
-input[type="text"], input[type="email"], input[type="tel"], textarea {
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+textarea {
   @apply p-4 bg-black bg-gradient-to-r from-[#f9a8d43b] to-black border-b-transparent rounded-br-none rounded-tl-none rounded-bl-md rounded-tr-md text-white placeholder:font-poppins placeholder:text-white placeholder:text-opacity-45 transition-all duration-500 outline-none;
 }
 
-input[type="text"]:focus, input[type="email"]:focus, input[type="tel"]:focus, textarea:focus {
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="tel"]:focus,
+textarea:focus {
   @apply border-b-green-300 outline-none -translate-y-1 bg-zinc-900 bg-gradient-to-r from-[#f9a8d43b] to-[#f9a8d43b] placeholder:text-opacity-5;
 }
 
 /* custom group form styles */
-input.group, textarea.group {
+input.group,
+textarea.group {
   @apply bg-opacity-10 placeholder:text-sm placeholder:text-pink-300 placeholder:text-opacity-30;
 }
+
 /* range slider custom styles */
 input[type="range"] {
   @apply appearance-none w-60 cursor-pointer outline-none bg-white bg-opacity-10 rounded-2xl h-2;
 }
+
 /* range slider thumb styles */
 input[type="range"]::-webkit-slider-thumb {
   @apply appearance-none w-6 h-6 rounded-full cursor-pointer flex items-center justify-center border-none bg-[url(../public/images/tennisball.png)] bg-cover;
@@ -131,8 +145,10 @@ input[type="range"]::-webkit-slider-thumb {
   /*  rotate thumb  */
   transform: rotateZ(var(--thumb-rotate, 0deg));
 }
+
 /* range slider track progress styles */
-input[type="range"]::-webkit-slider-runnable-track, input[type="range"]::-moz-range-track {
+input[type="range"]::-webkit-slider-runnable-track,
+input[type="range"]::-moz-range-track {
   @apply appearance-none h-4 bg-pink-300 bg-opacity-20 rounded-2xl;
 }
 
@@ -140,9 +156,11 @@ input[type="range"]::-webkit-slider-runnable-track, input[type="range"]::-moz-ra
 input[type="range"]::-webkit-slider-thumb:hover {
   box-shadow: 0 0 0 10px #86efad1d
 }
+
 input[type="range"]:active::-webkit-slider-thumb {
   box-shadow: 0 0 0 13px #86efad1d
 }
+
 input[type="range"]:focus::-webkit-slider-thumb {
   box-shadow: 0 0 0 13px #86efad1d
 }
@@ -151,9 +169,11 @@ input[type="range"]:focus::-webkit-slider-thumb {
 input[type="range"]::-moz-range-thumb:hover {
   box-shadow: 0 0 0 10px #86efad1d
 }
+
 input[type="range"]:active::-moz-range-thumb {
   box-shadow: 0 0 0 13px #86efad1d
 }
+
 input[type="range"]:focus::-moz-range-thumb {
   box-shadow: 0 0 0 13px #86efad1d
 }
