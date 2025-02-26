@@ -18,7 +18,7 @@ const validationSchema = z.object({
 
 const ContactForm = () => {
 	const router = useRouter();
-	const { lessonType, dateBooked, hourBooked, hasEquipment, handleNextStep, setContactInfo, contactInfo, nextStep } =
+	const { lessonType, dateBooked, hourBooked, hasEquipment, setContactInfo, contactInfo, nextStep } =
 		useGlobalState();
 
 	const [name, setName] = useState("");

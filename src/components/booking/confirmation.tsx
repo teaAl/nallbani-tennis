@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 
 const BookingConfirmation = () => {
     const router = useRouter();
-    const { dateBooked, hourBooked, contactInfo, hasEquipment, lessonType, handleNextStep } = useGlobalState();
+    const { dateBooked, hourBooked, contactInfo, hasEquipment, lessonType } = useGlobalState();
     const dateNumber = dateBooked?.toLocaleDateString('en-US', { day: 'numeric' });
     const monthString = dateBooked?.toLocaleDateString('en-US', { month: 'long' });
     const weekdayString = dateBooked?.toLocaleDateString('en-US', { weekday: 'long' });
