@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { XMarkIcon } from "@heroicons/react/20/solid";
+import { XMarkIcon, ArrowUturnLeftIcon } from "@heroicons/react/20/solid";
 import { hours } from "@/constants/hours";
 import { useGlobalState } from "@/context/globalStateContext";
 
@@ -8,24 +8,8 @@ interface HourPickerProps {
 }
 
 const HourPicker = ({ date }: HourPickerProps) => {
-	const { setHourBooked, hourBooked, setDateBooked } = useGlobalState();
-
-	// const setSelectedHours = (date: Date, hour: Hours) => {
-	// 	if (firstDate && firstDate === date) {
-	// 		setFirstHour(hour);
-	// 	} else if (secondDate && secondDate === date) {
-	// 		setSecondHour(hour);
-	// 	}
-	// };
-
+	const { setHourBooked, hourBooked, setDateBooked, setHasEquipment } = useGlobalState();
 	const setActiveHour = (hour: Hours) => {
-		// if (firstDate && firstDate === date && firstHour === hour) {
-		// 	return "bg-pink-300 text-black";
-		// } else if (secondDate && secondDate === date && secondHour === hour) {
-		// 	return "bg-pink-300 text-black";
-		// } else {
-		// 	return "bg-white bg-opacity-5";
-		// }
 		if (hourBooked === hour) {
 			return "bg-pink-300 text-black";
 		} else {
@@ -39,14 +23,15 @@ const HourPicker = ({ date }: HourPickerProps) => {
 				<p className="font-nunito text-lg">
 					Select available hours for{" "}
 					<span className="font-nunito font-bold text-pink-300">
-						{date.toDateString()}
+						{date instanceof Date ? date.toDateString() : ''}
 					</span>
 				</p>
-				<XMarkIcon
+				<ArrowUturnLeftIcon
 					className="w-6 h-6 cursor-pointer text-pink-300 hover:scale-110 transition-all bg-white bg-opacity-15 rounded-full p-1"
 					onClick={() => {
 						setHourBooked(null);
 						setDateBooked(null);
+						setHasEquipment(null);
 					}}
 				/>
 			</div>

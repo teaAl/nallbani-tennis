@@ -18,7 +18,7 @@ const NewCalendar = () => {
 		let baseClass = `flex justify-center items-center aspect-square p-4`;
 
 		if (view === "month") {
-			if (dateBooked && date.toDateString() === dateBooked.toDateString()) {
+			if (dateBooked instanceof Date && date.toDateString() === dateBooked.toDateString()) {
 				return `${baseClass} react-calendar__tile--active`;
 			}
 		}

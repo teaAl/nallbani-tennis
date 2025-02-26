@@ -1,12 +1,10 @@
 "use client";
-import React, { useState } from "react";
+
+import React from "react";
 import Lottie from "lottie-react";
-import tennisBallThinking from "@/public/animations/tennisballthinking.json";
-import tennisDribble from "@/public/animations/racquetani.json";
 import singlePlayer from "@/public/animations/singleplayer.json";
 import multiPlayer from "@/public/animations/multiplayer.json";
 import { useGlobalState } from "@/context/globalStateContext";
-import { scrollIntoView } from "@/utils/scrollToView";
 import { useRouter } from "next/navigation";
 
 const BookingType = () => {
@@ -89,3 +87,8 @@ const BookingType = () => {
 };
 
 export default BookingType;
+/*
+TODO: 
+1. Fix the animation for the group lesson
+2. Handle navigation to the booking page better
+*/

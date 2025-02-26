@@ -33,30 +33,27 @@ const Step: React.FC<StepProps> = React.memo(({ step, isLast }) => {
 
 	return (
 		<div
-			className={`${
-				active ? "gap-8" : "gap-3"
-			} flex duration-300 transition-all h-full justify-end`}>
+			className={`${active ? "gap-8" : "gap-3"
+				} flex duration-300 transition-all h-full justify-end`}>
 			<div>
 				<h3
-					className={`mt-1 text-sm font-medium ${
-						active
+					className={`mt-1 text-sm font-medium ${active
 							? "text-green-300 scale-125"
 							: completed
-							? "text-pink-300"
-							: "text-pink-300 text-opacity-30"
-					}`}>
+								? "text-pink-300"
+								: "text-pink-300 text-opacity-30"
+						}`}>
 					{title}
 				</h3>
 			</div>
 			<div className="flex flex-col items-center">
 				<div
-					className={`bg-pink-300 ${
-						active
+					className={`bg-pink-300 ${active
 							? " scale-125"
 							: completed
-							? "bg-opacity-100"
-							: "bg-opacity-30"
-					} rounded-full duration-300 transition-all`}>
+								? "bg-opacity-100"
+								: "bg-opacity-30"
+						} rounded-full duration-300 transition-all`}>
 					{completed ? (
 						<div className="m-1 flex size-6 items-center p-1 justify-center rounded-full bg-black">
 							{/* <TennisBallIcon size={"10"} /> */}
@@ -70,9 +67,8 @@ const Step: React.FC<StepProps> = React.memo(({ step, isLast }) => {
 				</div>
 				{!isLast && (
 					<div
-						className={`border border-pink-300 ${
-							completed ? "border-opacity-100" : " border-opacity-30"
-						} h-full transition-all duration-300`}
+						className={`border border-pink-300 ${completed ? "border-opacity-100" : " border-opacity-30"
+							} h-full transition-all duration-300`}
 					/>
 				)}
 			</div>

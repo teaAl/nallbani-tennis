@@ -1,64 +1,9 @@
 "use client";
 import { StepType } from "@/components/stepper/step";
-import React, { createContext, useContext, useState, ReactNode } from "react";
+import { stepsData } from "@/constants/bookSteps";
+import React, { createContext, useContext, useState, ReactNode, useEffect } from "react";
 
 interface GlobalStateContextProps {
-	isFirstDateSelected: boolean;
-	setIsFirstDateSelected: React.Dispatch<React.SetStateAction<boolean>>;
-	isSecondDateSelected: boolean;
-	setIsSecondDateSelected: React.Dispatch<React.SetStateAction<boolean>>;
-	firstDate: Date | null;
-	setFirstDate: React.Dispatch<React.SetStateAction<Date | null>>;
-	secondDate: Date | null;
-	setSecondDate: React.Dispatch<React.SetStateAction<Date | null>>;
-	firstHour: Hours | null;
-	setFirstHour: React.Dispatch<React.SetStateAction<Hours | null>>;
-	secondHour: Hours | null;
-	setSecondHour: React.Dispatch<React.SetStateAction<Hours | null>>;
-	bookingType: BookingType;
-	setBookingType: React.Dispatch<React.SetStateAction<BookingType>>;
-	partialBooking: {
-		bookingType: BookingType;
-		firstDate: Date | null;
-		secondDate: Date | null;
-		firstHour: Hours | null;
-		secondHour: Hours | null;
-		bookingStatus: Status;
-	} | null;
-	setPartialBooking: React.Dispatch<
-		React.SetStateAction<{
-			bookingType: BookingType;
-			firstDate: Date | null;
-			secondDate: Date | null;
-			firstHour: Hours | null;
-			secondHour: Hours | null;
-			bookingStatus: Status;
-		} | null>
-	>;
-	bookingStatus: Status;
-	setBookingStatus: React.Dispatch<React.SetStateAction<Status>>;
-	contactInfo: { name: string; email: string; phone: string } | null;
-	setContactInfo: React.Dispatch<
-		React.SetStateAction<{ name: string; email: string; phone: string } | null>
-	>;
-	individual: boolean | null;
-	setIndividual: React.Dispatch<React.SetStateAction<boolean | null>>;
-	isGroup: boolean;
-	setIsGroup: React.Dispatch<React.SetStateAction<boolean>>;
-	hasGroup: boolean;
-	setHasGroup: React.Dispatch<React.SetStateAction<boolean>>;
-	groupSize: 0 | 2 | 3 | 4 | 5;
-	setGroupSize: React.Dispatch<React.SetStateAction<0 | 2 | 3 | 4 | 5>>;
-	needEquipment: boolean;
-	setNeedEquipment: React.Dispatch<React.SetStateAction<boolean>>;
-	showContinueButton: boolean;
-	setShowContinueButton: React.Dispatch<React.SetStateAction<boolean>>;
-	showCalendar: boolean;
-	setShowCalendar: React.Dispatch<React.SetStateAction<boolean>>;
-	// updated booking flow
-	steps: StepType[];
-	setSteps: React.Dispatch<React.SetStateAction<StepType[]>>;
-	handleNextStep: () => void;
 	lessonType: "individual" | "group" | null;
 	setLessonType: React.Dispatch<
 		React.SetStateAction<"individual" | "group" | null>
@@ -67,6 +12,21 @@ interface GlobalStateContextProps {
 	setDateBooked: React.Dispatch<React.SetStateAction<Date | null>>;
 	hourBooked: Hours | null;
 	setHourBooked: React.Dispatch<React.SetStateAction<Hours | null>>;
+	contactInfo: { name: string; email: string; phone: string } | null;
+	setContactInfo: React.Dispatch<
+		React.SetStateAction<{ name: string; email: string; phone: string } | null>
+	>;
+	hasEquipment: boolean | null;
+	setHasEquipment: React.Dispatch<React.SetStateAction<boolean | null>>;
+	steps: StepType[];
+	setSteps: React.Dispatch<React.SetStateAction<StepType[]>>;
+	currentStepIndex: number;
+	nextStep: () => void;
+	prevStep: () => void;
+	goToStep: (index: number) => void;
+	saveStateToLocalStorage: (path: string) => void;
+	loadStateFromLocalStorage: (path: string) => void;
+	clearBookingState: () => void;
 }
 
 const GlobalStateContext = createContext<GlobalStateContextProps | undefined>(
@@ -74,104 +34,124 @@ const GlobalStateContext = createContext<GlobalStateContextProps | undefined>(
 );
 
 export const GlobalStateProvider = ({ children }: { children: ReactNode }) => {
-	const [isFirstDateSelected, setIsFirstDateSelected] =
-		useState<boolean>(false);
-	const [isSecondDateSelected, setIsSecondDateSelected] =
-		useState<boolean>(false);
-	const [firstDate, setFirstDate] = useState<Date | null>(null);
-	const [secondDate, setSecondDate] = useState<Date | null>(null);
-	const [firstHour, setFirstHour] = useState<Hours | null>(null);
-	const [secondHour, setSecondHour] = useState<Hours | null>(null);
-	const [bookingType, setBookingType] = useState<BookingType>(null);
-	const [partialBooking, setPartialBooking] = useState<{
-		bookingType: BookingType;
-		firstDate: Date | null;
-		secondDate: Date | null;
-		firstHour: Hours | null;
-		secondHour: Hours | null;
-		bookingStatus: Status;
-	} | null>(null);
-	const [bookingStatus, setBookingStatus] = useState<Status>("pending");
-	const [contactInfo, setContactInfo] = useState<{
-		name: string;
-		email: string;
-		phone: string;
-	} | null>(null);
-	const [individual, setIndividual] = useState<boolean | null>(null);
-	const [isGroup, setIsGroup] = useState<boolean>(false);
-	const [hasGroup, setHasGroup] = useState<boolean>(false);
-	const [groupSize, setGroupSize] = useState<0 | 2 | 3 | 4 | 5>(0);
-	const [showCalendar, setShowCalendar] = useState<boolean>(false);
-	const [needEquipment, setNeedEquipment] = useState<boolean>(false);
-	const [showContinueButton, setShowContinueButton] = useState<boolean>(false);
-	const [steps, setSteps] = useState<StepType[]>([]);
 	const [lessonType, setLessonType] = useState<"individual" | "group" | null>(
 		null
 	);
 	const [dateBooked, setDateBooked] = useState<Date | null>(null);
 	const [hourBooked, setHourBooked] = useState<Hours | null>(null);
+	const [hasEquipment, setHasEquipment] = useState<boolean | null>(null);
+	const [contactInfo, setContactInfo] = useState<{
+		name: string;
+		email: string;
+		phone: string;
+	} | null>(null);
+	const [steps, setSteps] = useState<StepType[]>([]);
+	const [currentStepIndex, setCurrentStepIndex] = useState(0);
 
-	const handleNextStep = () => {
-		setSteps((prevSteps) => {
-			const nextActiveIndex = prevSteps.findIndex((step) => step.active) + 1;
+	const updateSteps = (index: number) => {
+		setSteps((prevSteps) =>
+			prevSteps.map((step, i) => ({
+				...step,
+				active: i === index,
+				completed: i < index,
+			}))
+		);
+	};
 
-			return prevSteps.map((step, index) => {
-				return {
-					...step,
-					active: index === nextActiveIndex,
-					completed: index < nextActiveIndex,
-				};
-			});
+	const nextStep = () => {
+		setCurrentStepIndex((prevIndex) => {
+			const newIndex = Math.min(prevIndex + 1, steps.length - 1);
+			updateSteps(newIndex);
+			return newIndex;
 		});
-		console.log(steps);
+	};
+
+	const prevStep = () => {
+		setCurrentStepIndex((prevIndex) => {
+			const newIndex = Math.max(prevIndex - 1, 0);
+			updateSteps(newIndex);
+			return newIndex;
+		});
+	};
+
+	const goToStep = (index: number) => {
+		setCurrentStepIndex(index);
+		updateSteps(index);
+	};
+
+	const saveStateToLocalStorage = (path: string) => {
+		// Only save state if we're on the booking page
+		if (path === "/book") {
+			const state = {
+				lessonType,
+				// Convert Date object to ISO string for proper serialization
+				dateBooked: dateBooked instanceof Date ? dateBooked.toISOString() : null,
+				hourBooked,
+				contactInfo,
+				hasEquipment,
+				steps,
+				currentStepIndex,
+			};
+			localStorage.setItem("bookingState", JSON.stringify(state));
+		}
+	}
+
+	// In GlobalStateContext
+	const loadStateFromLocalStorage = (path: string) => {
+		// Skip if not on booking page
+		if (path !== "/book") return;
+
+		try {
+			const savedState = localStorage.getItem("bookingState");
+			if (!savedState) return;
+
+			// Parse stored state
+			const state = JSON.parse(savedState);
+
+			// Create a batch update to avoid multiple renders
+			const updates = () => {
+				if (state.lessonType) setLessonType(state.lessonType);
+				if (state.dateBooked) setDateBooked(new Date(state.dateBooked));
+				if (state.hourBooked) setHourBooked(state.hourBooked);
+				if (state.contactInfo) setContactInfo(state.contactInfo);
+				if (state.hasEquipment !== undefined) setHasEquipment(state.hasEquipment);
+				if (state.steps && state.steps.length > 0) setSteps(state.steps);
+				if (state.currentStepIndex !== undefined) setCurrentStepIndex(state.currentStepIndex);
+			};
+
+			// Execute all state updates at once
+			updates();
+		} catch (error) {
+			console.error("Error loading booking state:", error);
+		}
+	};
+
+	const clearBookingState = () => {
+		localStorage.removeItem("bookingState");
 	};
 
 	return (
 		<GlobalStateContext.Provider
 			value={{
-				bookingStatus,
-				setBookingStatus,
-				partialBooking,
-				setPartialBooking,
-				isFirstDateSelected,
-				setIsFirstDateSelected,
-				isSecondDateSelected,
-				setIsSecondDateSelected,
-				firstDate,
-				setFirstDate,
-				secondDate,
-				setSecondDate,
-				firstHour,
-				setFirstHour,
-				secondHour,
-				setSecondHour,
-				bookingType,
-				setBookingType,
-				contactInfo,
-				setContactInfo,
-				individual,
-				setIndividual,
-				isGroup,
-				setIsGroup,
-				hasGroup,
-				setHasGroup,
-				groupSize,
-				setGroupSize,
-				showCalendar,
-				setShowCalendar,
-				needEquipment,
-				setNeedEquipment,
-				showContinueButton,
-				setShowContinueButton,
-				steps,
-				setSteps,
-				handleNextStep,
 				lessonType,
 				setLessonType,
 				dateBooked,
 				setDateBooked,
 				hourBooked,
 				setHourBooked,
+				hasEquipment,
+				setHasEquipment,
+				contactInfo,
+				setContactInfo,
+				steps,
+				setSteps,
+				currentStepIndex,
+				nextStep,
+				prevStep,
+				goToStep,
+				saveStateToLocalStorage,
+				loadStateFromLocalStorage,
+				clearBookingState,
 			}}>
 			{children}
 		</GlobalStateContext.Provider>
@@ -185,3 +165,14 @@ export const useGlobalState = () => {
 	}
 	return context;
 };
+
+/*
+To keep: 
+1. lessonType, setLessonType -> individual, group
+2. dateBooked, setDateBooked -> Date | null
+3. hourBooked, setHourBooked -> Hours | null
+4. contactInfo, setContactInfo -> { name: string; email: string; phone: string } | null
+5. hasEquipment, setHasEquipment -> boolean
+6. steps, setSteps -> StepType[]
+7. currentStepIndex, nextStep, prevStep, goToStep
+*/

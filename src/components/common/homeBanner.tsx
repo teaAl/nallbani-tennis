@@ -24,7 +24,7 @@ const HomeBanner = () => {
 				<div className="flex flex-row align-middle items-center justify-center gap-7">
 					<button
 						className="bg-green-300 bg-opacity-60 text-black px-4 py-2 rounded-md hover:bg-opacity-65 hover:scale-105 transition-all"
-						onClick={() => scrollIntoView("bookingType")}>
+						onClick={() => scrollIntoView("start-booking")}>
 						Book Online
 					</button>
 					<button

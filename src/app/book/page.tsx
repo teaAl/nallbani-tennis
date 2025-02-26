@@ -1,57 +1,25 @@
 "use client";
 
-import HomeBanner from "@/components/homeBanner";
 import Layout from "@/layouts/homeLayout";
-import CalendarView from "@/components/calendar";
-import HourPickerList from "@/components/hours/hourPickerList";
-import BookingType from "@/components/bookingType";
 import { useGlobalState } from "@/context/globalStateContext";
 import prisma from "@/lib/prisma";
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import GeneralBanner from "@/components/generalBanner";
-import Stepper, { StepType } from "@/components/stepper/verticalStepper";
-import IndividualOrGroup from "@/components/individualOrGroup";
-import CompletedStep from "@/components/stepper/completedStep";
-import DateTime from "@/components/dateTime";
-import FlipLessonCard from "@/components/tezd";
-import NewCalendar from "@/components/newCalendar";
-import ContactForm from "@/components/bookingContactForm";
-import BookingConfirmation from "@/components/bookingConfirmation";
+import { useEffect, useRef } from "react";
+import { usePathname } from "next/navigation";
+import Stepper from "@/components/stepper/verticalStepper";
+import { stepsData } from "@/constants/bookSteps";
+import DateTime from "@/components/booking/dateTime";
+import ContactForm from "@/components/booking/contactForm";
+import BookingConfirmation from "@/components/booking/confirmation";
+import { ArrowUturnLeftIcon } from "@heroicons/react/20/solid";
+import withBookingType from "@/components/hoc/withBookingType";
 
 const url = process.env.NEXT_PUBLIC_BASE_API_URL;
 console.log(url);
 
-const stepsData: StepType[] = [
-	{
-		title: "Date and Time",
-		completed: false,
-		active: true,
-	},
-	{
-		title: "Contact Information",
-		completed: false,
-		active: false,
-	},
-	{
-		title: "Confirmation",
-		completed: false,
-		active: false,
-	},
-];
-
 const stepComponents = {
 	"Date and Time": () => (
-		// <div className="grid grid-cols-10 w-full">
-		// 	<div className="col-span-8 col-start-2">
-		<div className="grid grid-cols-6 w-full">
-			<div className="col-span-4 col-start-2 flex justify-center items-center">
-				<DateTime />
-			</div>
-		</div>
-		// </div>
+		<DateTime />
 	),
-	// "Date and Time": () => <NewCalendar />,
 	"Contact Information": () => (
 		<div className="grid grid-cols-6 w-full">
 			<div className="col-span-4 col-start-2">
@@ -59,36 +27,42 @@ const stepComponents = {
 			</div>
 		</div>
 	),
-	Confirmation: () => <BookingConfirmation />,
-};
-
-const getStepComponent = (step: StepType) => {
-	const stepComponents = {
-		"Date and Time": () =>
-			step.active ? <DateTime /> : step.completed ? <CompletedStep /> : null,
-		"Contact Information": () =>
-			step.active ? <ContactForm /> : step.completed ? <CompletedStep /> : null,
-		Confirmation: () =>
-			step.active ? (
+	Confirmation: () => (
+		<div className="grid grid-cols-6 w-full">
+			<div className="col-span-4 col-start-2">
 				<BookingConfirmation />
-			) : step.completed ? (
-				<CompletedStep />
-			) : null,
-	};
-
-	return stepComponents[step.title as keyof typeof stepComponents]();
+			</div>
+		</div>
+	),
 };
 
-export default function Book() {
-	const router = useRouter();
-	const { steps, setSteps, handleNextStep } = useGlobalState();
-	// const [steps, setSteps] = useState(stepsData);
+const Book = () => {
+	const { steps, setSteps, currentStepIndex, prevStep, saveStateToLocalStorage, loadStateFromLocalStorage, hourBooked, dateBooked } = useGlobalState();
+	const pathName = usePathname();
+	const prevValues = useRef({ steps, currentStepIndex, dateBooked, hourBooked });
 
 	useEffect(() => {
 		if (steps.length === 0) {
 			setSteps(stepsData);
 		}
-	}, [steps, setSteps]);
+	}, []);
+
+	useEffect(() => {
+		// Compare with previous values to avoid unnecessary saves
+		const prev = prevValues.current;
+		const hasChanged =
+			steps.length !== prev.steps.length ||
+			currentStepIndex !== prev.currentStepIndex ||
+			dateBooked !== prev.dateBooked ||
+			hourBooked !== prev.hourBooked;
+
+		if (hasChanged && steps.length > 0) {
+			saveStateToLocalStorage(pathName);
+
+			// Update the ref with current values
+			prevValues.current = { steps, currentStepIndex, dateBooked, hourBooked };
+		}
+	}, [steps, currentStepIndex, dateBooked, hourBooked, saveStateToLocalStorage, pathName]);
 
 	const activeStep = steps.find((step) => step.active);
 	const ActiveStepContent = activeStep
@@ -100,36 +74,26 @@ export default function Book() {
 			<div className="h-full grid grid-cols-5 mt-[2em] p-4 gap-4">
 				<div className="col-start-1 col-span-1 border-opacity-50 flex justify-center">
 					<div className="grid grid-rows-6 gap-0 h-full">
+						<div className="row-start-1 row-span-1 w-full flex justify-end items-center">
+							<button
+								onClick={prevStep}
+								disabled={currentStepIndex === 0}
+								className={` text-green-300 p-2 border border-green-300 bg-white bg-opacity-5 rounded-full disabled:opacity-30`}
+							>
+								<ArrowUturnLeftIcon className="w-5 h-5" />
+							</button>
+						</div>
 						<div className="row-start-2 row-span-5">
-							<Stepper stepsData={steps} />
+							<Stepper />
 						</div>
 					</div>
 				</div>
-				<div className="h-full flex flex-col col-span-4 flex-wrap max-w-full items-center justify-center">
-					{/* THIS IS FOR THE COMPLETED STEP COMPONENT */}
-					{/* {steps.map((step, index) => (
-						<div
-							key={index}
-							className={`transition-all duration-300 ${
-								step.active ? "" : ""
-							}`}>
-							{getStepComponent(step)}
-						</div>
-					))} */}
-					{/* {activeStep && <div>{activeStep.title}</div>} */}
+				<div className="col-span-4 flex w-full items-center justify-around">
 					{ActiveStepContent && <ActiveStepContent />}
-					{/* <button
-						onClick={() => handleNextStep()}
-						// disabled={steps[steps.length - 1].completed}
-						disabled={steps.length === 0 || steps[steps.length - 1].completed}
-						aria-label="Proceed to the Next Step"
-						className="rounded-md bg-white px-10 py-2 text-xl text-black transition-all duration-300 hover:scale-105 disabled:opacity-0">
-						{steps.length > 0 && steps[steps.length - 1].active
-							? "Done"
-							: "Next"}
-					</button> */}
 				</div>
 			</div>
 		</Layout>
 	);
 }
+
+export default withBookingType(Book);

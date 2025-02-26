@@ -3,6 +3,7 @@ import "./globals.css";
 import { Poppins, Nunito } from "next/font/google";
 import { GlobalStateProvider } from "@/context/globalStateContext";
 import { sql } from "@vercel/postgres";
+import BookingLayout from "@/layouts/bookingLayout";
 
 const poppins = Poppins({
 	subsets: ["latin"],
@@ -28,11 +29,13 @@ export default function RootLayout({
 }>) {
 	return (
 		<GlobalStateProvider>
-			<html lang="en">
-				<body className={`${poppins.variable} ${nunito.variable} antialiased`}>
-					{children}
-				</body>
-			</html>
+			<BookingLayout>
+				<html lang="en">
+					<body className={`${poppins.variable} ${nunito.variable} antialiased`}>
+						{children}
+					</body>
+				</html>
+			</BookingLayout>
 		</GlobalStateProvider>
 	);
 }

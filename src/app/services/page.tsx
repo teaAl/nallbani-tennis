@@ -1,4 +1,4 @@
-import GeneralBanner from "@/components/generalBanner";
+import GeneralBanner from "@/components/common/generalBanner";
 import Layout from "@/layouts/homeLayout";
 import React from "react";
 
