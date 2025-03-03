@@ -68,23 +68,23 @@ Aesthetics
 
 /*start of navigation styles*/
 .react-calendar__navigation {
-  @apply w-full border-b p-6 border-pink-300 border-opacity-15 flex justify-center;
+  @apply w-full border-b md:p-6 p-4 border-pink-300 border-opacity-15 flex justify-center;
 }
 
 .react-calendar__navigation__label {
-  @apply text-pink-300 text-lg font-extrabold w-max mx-auto;
+  @apply text-pink-300 md:text-lg text-base font-extrabold w-max mx-auto;
 }
 
 /*end of navigation styles*/
 
 /*start of day tile calendat styles*/
 .react-calendar__tile>abbr {
-  @apply aspect-square w-10 h-10 p-2 rounded-full border border-pink-300 border-opacity-20 transition-all;
+  @apply aspect-square md:w-10 md:h-10 w-6 h-6 md:p-2 p-1 rounded-full border border-pink-300 border-opacity-20 transition-all;
 }
 
 /*start of weekday styles*/
 .react-calendar__month-view__weekdays__weekday {
-  @apply text-center text-pink-300 font-bold text-sm p-4 no-underline font-nunito;
+  @apply text-center text-pink-300 font-bold md:text-sm text-xs md:p-4 p-2 no-underline font-nunito;
 }
 
 abbr {
@@ -92,6 +92,17 @@ abbr {
 }
 
 /*end of weekday styles*/
+
+/* Additional responsive adjustments */
+.react-calendar__month-view__days {
+  @apply text-xs sm:text-sm;
+}
+
+/* Fix for mobile view width issues */
+.react-calendar {
+  width: 100% !important;
+  max-width: 100% !important;
+}
 
 /* .react-calendar__tile--start {
   background: #006edc;

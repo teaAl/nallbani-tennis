@@ -1,5 +1,4 @@
 "use client";
-import { StepType } from "@/components/stepper/step";
 import { stepsData } from "@/constants/bookSteps";
 import React, { createContext, useContext, useState, ReactNode, useEffect } from "react";
 

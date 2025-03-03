@@ -42,10 +42,10 @@ const NewCalendar = () => {
 					minDate={new Date()}
 					tileClassName={tileClassName}
 					nextLabel={
-						<ChevronRightIcon className="h-8 w-8 text-pink-300 bg-white bg-opacity-10 p-1 rounded-full aspect-square" />
+						<ChevronRightIcon className="h-6 w-6 sm:h-8 sm:w-8 text-pink-300 bg-white bg-opacity-10 p-1 rounded-full aspect-square" />
 					}
 					prevLabel={
-						<ChevronLeftIcon className="h-8 w-8 text-pink-300 bg-white bg-opacity-10 p-1 rounded-full aspect-square" />
+						<ChevronLeftIcon className="h-6 w-6 sm:h-8 sm:w-8 text-pink-300 bg-white bg-opacity-10 p-1 rounded-full aspect-square" />
 					}
 					tileDisabled={({ date }) => {
 						const today = new Date();

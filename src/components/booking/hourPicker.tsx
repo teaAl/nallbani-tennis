@@ -20,7 +20,7 @@ const HourPicker = ({ date }: HourPickerProps) => {
 	return (
 		<div className="bg-transparent rounded-sm gap-6 flex flex-col w-full px-2">
 			<div className="flex flex-row justify-between gap-4 border-b-2 border-pink-300 border-opacity-10 py-3">
-				<p className="font-nunito text-lg">
+				<p className="font-nunito md:text-lg text-base md:text-center text-left">
 					Select available hours for{" "}
 					<span className="font-nunito font-bold text-pink-300">
 						{date instanceof Date ? date.toDateString() : ''}
@@ -41,7 +41,7 @@ const HourPicker = ({ date }: HourPickerProps) => {
 						<button
 							key={hour}
 							className={` ${setActiveHour(hour)}
-								font-nunito text-lg  rounded-sm p-2 transform-all duration-150 hover:scale-110 shadow-sm`}
+								font-nunito md:text-lg text-sm rounded-sm p-2 transform-all duration-150 hover:scale-110 shadow-sm`}
 							onClick={() => setHourBooked(hour)}>
 							{hour}
 						</button>

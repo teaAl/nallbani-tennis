@@ -58,7 +58,7 @@ const ContactForm = () => {
 	};
 
 	return (
-		<div className="h-full flex flex-col justify-between gap-6">
+		<div className="h-full flex flex-col justify-around gap-6">
 			<form
 				className="flex flex-col gap-6 justify-between">
 				<div className="px-6 py-10 rounded-md flex flex-col gap-6">

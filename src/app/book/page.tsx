@@ -12,6 +12,7 @@ import ContactForm from "@/components/booking/contactForm";
 import BookingConfirmation from "@/components/booking/confirmation";
 import { ArrowUturnLeftIcon } from "@heroicons/react/20/solid";
 import withBookingType from "@/components/hoc/withBookingType";
+import { ChevronDoubleLeftIcon } from "@heroicons/react/24/outline";
 
 const url = process.env.NEXT_PUBLIC_BASE_API_URL;
 console.log(url);
@@ -21,15 +22,15 @@ const stepComponents = {
 		<DateTime />
 	),
 	"Contact Information": () => (
-		<div className="grid grid-cols-6 w-full">
-			<div className="col-span-4 col-start-2">
+		<div className="md:grid md:grid-cols-6 w-full h-full">
+			<div className="md:col-span-4 md:col-start-2">
 				<ContactForm />
 			</div>
 		</div>
 	),
 	Confirmation: () => (
-		<div className="grid grid-cols-6 w-full">
-			<div className="col-span-4 col-start-2">
+		<div className="md:grid md:grid-cols-6 w-full">
+			<div className="md:col-span-4 md:col-start-2">
 				<BookingConfirmation />
 			</div>
 		</div>
@@ -71,19 +72,20 @@ const Book = () => {
 
 	return (
 		<Layout>
-			<div className="h-full grid grid-cols-5 mt-[2em] p-4 gap-4">
-				<div className="col-start-1 col-span-1 border-opacity-50 flex justify-center">
-					<div className="grid grid-rows-6 gap-0 h-full">
-						<div className="row-start-1 row-span-1 w-full flex justify-end items-center">
+			<div className="h-full flex flex-col md:grid md:grid-cols-5 mt-0 md:mt-[2em] p-4 gap-6">
+				<div className="md:col-start-1 md:col-span-1 border-opacity-50 flex md:justify-center justify-evenly w-full">
+					<div className="flex md:grid md:grid-rows-6 gap-0 h-full w-full">
+						<div className="md:row-start-1 md:row-span-1 md:w-full w-auto flex justify-start md:justify-end items-center">
 							<button
 								onClick={prevStep}
 								disabled={currentStepIndex === 0}
-								className={` text-green-300 p-2 border border-green-300 bg-white bg-opacity-5 rounded-full disabled:opacity-30`}
+								className={`h-10 md:mr-0 mr-1 md:h-auto md:text-green-300 text-black p-2 md:border border-0 md:border-green-300 md:bg-white bg-pink-300 md:bg-opacity-5 bg-opacity-100 rounded-l-full md:rounded-full md:disabled:opacity-30 `}
 							>
-								<ArrowUturnLeftIcon className="w-5 h-5" />
+								<ArrowUturnLeftIcon className="md:block hidden md:w-5 md:h-5 w-5 h-5" />
+								<ChevronDoubleLeftIcon className="md:hidden block w-5 h-5" />
 							</button>
 						</div>
-						<div className="row-start-2 row-span-5">
+						<div className="md:row-start-2 md:row-span-5 w-full">
 							<Stepper />
 						</div>
 					</div>
