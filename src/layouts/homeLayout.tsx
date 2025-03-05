@@ -6,7 +6,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
 		<>
 			{/* <div className="flex flex-col h-screen"> */}
 			<NavigationMenu />
-			<main className={`h-screen pt-16`}>
+			<main className={`min-h-screen h-full pt-16`}>
 				{/* <NavigationMenu /> */}
 				{children}
 				<footer className="p-3 text-sm text-pink-300 text-center bg-white bg-opacity-10 ">
