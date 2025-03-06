@@ -10,15 +10,15 @@ const TennisBallIcon = ({ size }: { size: string }) => {
 			xmlns="http://www.w3.org/2000/svg"
 			viewBox="-34.46 -34.46 561.23 561.23"
 			stroke="#86efac"
-			stroke-width="49.2308"
+			strokeWidth="49.2308"
 			transform="matrix(-1, 0, 0, -1, 0, 0)rotate(-45)">
-			<g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+			<g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
 			<g
 				id="SVGRepo_tracerCarrier"
-				stroke-linecap="round"
-				stroke-linejoin="round"
+				strokeLinecap="round"
+				strokeLinejoin="round"
 				stroke="#86efac"
-				stroke-width="14.76924"></g>
+				strokeWidth="14.76924"></g>
 			<g id="SVGRepo_iconCarrier">
 				<g>
 					<g>

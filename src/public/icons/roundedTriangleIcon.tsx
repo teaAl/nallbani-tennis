@@ -12,17 +12,17 @@ const RoundedTriangleIcon = ({ size, color }: { size: string, color: string }) =
             transform="rotate(90)"
         >
             <g id="SVGRepo_bgCarrier"
-                stroke-width="0"
+                strokeWidth="0"
             ></g>
             <g id="SVGRepo_tracerCarrier"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-            ></g>
+                strokeLinecap="round"
+                strokeLinejoin="round"
+            ></g>s
             <g id="SVGRepo_iconCarrier">
                 <title>1116</title>
                 <defs> </defs>
                 <g stroke="none"
-                    stroke-width="1"
+                    strokeWidth="1"
                     fill="none"
                     fill-rule="evenodd"
                 >
