@@ -13,46 +13,27 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Booking {
-  id            Int           @id @default(autoincrement())
-  bookingType   BookingType
-  recurring     Boolean
-  individual    Boolean
-  experienceLvl ExperienceLevel
-  group         Json
-  needEquipment Boolean
-  schedule      Json
-  status        BookingStatus
-  contactInfo   Json
-  createdAt     DateTime      @default(now())
-}
-
-model BookingSingle {
-  id            Int           @id @default(autoincrement())
-  bookingType   BookingType
-  experienceLvl ExperienceLevel
-  needEquipment Boolean
-  schedule      Json
-  status        BookingStatus
-  contactInfo   Json
-  createdAt     DateTime      @default(now())
+model Bookings {
+  id           Int           @id @default(autoincrement())
+  bookingType  BookingType
+  bookingDate  DateTime
+  bookingTime  DateTime
+  hasEquipment Boolean
+  username     String
+  useremail    String
+  userphone    String
+  status       BookingStatus
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
 }
 
 enum BookingType {
-  exploratory
-  serious
+  individual
+  group
 }
 
 enum BookingStatus {
   approved
   pending
   rejected
-}
-
-enum ExperienceLevel {
-  Beginner
-  Novice
-  Intermediate
-  Advanced
-  Professional
 }
