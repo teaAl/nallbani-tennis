@@ -72,7 +72,7 @@ const Book = () => {
 
 	return (
 		<Layout>
-			<div className="h-full flex flex-col md:grid md:grid-cols-5 mt-0 md:mt-[2em] p-4 gap-6">
+			<div className="min-h-screen flex flex-col md:grid md:grid-cols-5 mt-0 md:mt-[2em] p-4 gap-6 ">
 				<div className="md:col-start-1 md:col-span-1 border-opacity-50 flex md:justify-center justify-evenly w-full">
 					<div className="flex md:grid md:grid-rows-6 gap-0 h-full w-full">
 						<div className="md:row-start-1 md:row-span-1 md:w-full w-auto flex justify-start md:justify-end items-center">
@@ -90,7 +90,7 @@ const Book = () => {
 						</div>
 					</div>
 				</div>
-				<div className="col-span-4 flex w-full items-center justify-around">
+				<div className="col-span-4 flex w-full items-center justify-around md:bg-[#0a0a0a] md:bg-opacity-90 md:bg-blend-overlay md:bg-cover md:bg-bottom md:bg-no-repeat md:bg-[url(../public/images/tennisbg.png)]">
 					{ActiveStepContent && <ActiveStepContent />}
 				</div>
 			</div>

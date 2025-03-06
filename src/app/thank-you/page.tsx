@@ -12,7 +12,7 @@ const ThankYouPage: React.FC = () => {
 	return (
 		<HomeLayout>
 			{/* flex flex-row items-center justify-center */}
-			<div className="md:grid md:grid-col md:grid-cols-2 flex flex-col gap-10 p-6 md:p-10 h-full w-full mx-auto">
+			<div className="md:grid md:grid-col md:grid-cols-2 flex flex-col gap-10 p-6 md:p-10 md:h-full w-full mx-auto">
 				<h1 className="md:hidden align-middle text-green-300 font-popins text-2xl font-bold text-center">
 					Thank you for your booking!
 				</h1>
@@ -46,8 +46,8 @@ const ThankYouPage: React.FC = () => {
 	);
 };
 
-export default withBookingConfirmation(ThankYouPage);
-// export default ThankYouPage;
+// export default withBookingConfirmation(ThankYouPage);
+export default ThankYouPage;
 
 /*
 TODO: fix animation glitch

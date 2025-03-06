@@ -5,14 +5,15 @@ import { scrollIntoView } from "@/utils/scrollToView";
 
 const withBookingType = (WrappedComponent: React.ComponentType) => {
     return (props: any) => {
-        const { lessonType } = useGlobalState();
+        const { lessonType, clearBookingState } = useGlobalState();
         const router = useRouter();
         const pathName = usePathname();
 
         useEffect(() => {
             if (pathName === "/book") {
             } else {
-                localStorage.removeItem("bookingState");
+                // localStorage.removeItem("bookingState");
+                clearBookingState();
             }
 
             const handleRouteChange = (url: string) => {

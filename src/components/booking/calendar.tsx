@@ -30,7 +30,7 @@ const NewCalendar = () => {
 		<>
 			<div
 				id="calendar"
-				className="bg-pink-300 bg-opacity-10 py-4 px-4 shadow-lg rounded-lg font-poppins flex-wrap items-center justify-center">
+				className="/*bg-pink-300*/ /*bg-opacity-10*/ bg-[#171717ba] py-4 px-4 shadow-lg rounded-lg font-poppins flex-wrap items-center justify-center">
 				<Calendar
 					className="aspect-auto w-full h-full"
 					value={value}

@@ -1,19 +1,17 @@
 import React from "react";
 import NavigationMenu from "@/components/common/navigationMenu";
+import Footer from "@/components/common/footer";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
 	return (
 		<>
-			{/* <div className="flex flex-col h-screen"> */}
-			<NavigationMenu />
-			<main className={`min-h-screen h-full pt-16`}>
-				{/* <NavigationMenu /> */}
-				{children}
-				<footer className="p-3 text-sm text-pink-300 text-center bg-white bg-opacity-10 ">
-					&copy; 2024 Nallbani Tennis. All rights reserved.
-				</footer>
-			</main>
-			{/* </div> */}
+			<div className="flex flex-col min-h-screen h-full">
+				<NavigationMenu />
+				<main className="/*min-h-screen*/ /*h-screen*/ flex-grow pt-16 shadow-md">
+					{children}
+				</main>
+				<Footer />
+			</div>
 		</>
 	);
 };

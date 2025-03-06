@@ -24,10 +24,7 @@ export default function Home() {
 
 	return (
 		<Layout>
-			<div className="h-screen">
-				<HomeBanner />
-			</div>
-
+			<HomeBanner />
 			<div
 				className="md:h-screen flex justify-center items-center"
 				id="start-booking">

@@ -98,7 +98,7 @@ export const GlobalStateProvider = ({ children }: { children: ReactNode }) => {
 	// In GlobalStateContext
 	const loadStateFromLocalStorage = (path: string) => {
 		// Skip if not on booking page
-		if (path !== "/book") return;
+		// if (path !== "/book") return;
 
 		try {
 			const savedState = localStorage.getItem("bookingState");
