@@ -110,3 +110,10 @@ const ContactForm = () => {
 };
 
 export default ContactForm;
+
+/*
+TODO: 
+level of experience - 0-3muaj, 3-6, 6-12, 12+ muaj gjithmone
+geneder - f/m
+age - 12-14, 14-16, 16-18, 18-25, 25+
+*/

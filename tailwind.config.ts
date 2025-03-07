@@ -5,6 +5,7 @@ const config: Config = {
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/public/**/*.{js,ts,jsx,tsx,mdx, png, jpg, jpeg, svg, gif, webp}",
   ],
   theme: {
     extend: {
@@ -16,10 +17,10 @@ const config: Config = {
         // coolgray: "var(--coolgray)",
         // violet: "var(--violet)",
         // lazurite: "var(--lazurite)",
-        background: '#0a0a0a',
+        background: '#0a0a0a', //181818
         foreground: '#afafaf',
         pear: '#cddc3b',
-        olive: '#648767',
+        olive: '#648767', //5f845d
         coolgray: '#A7A5C6',
         violet: '#827191',
         lazurite: '#456990',

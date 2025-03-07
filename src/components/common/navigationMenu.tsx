@@ -3,7 +3,9 @@
 import { XMarkIcon, Bars3Icon } from "@heroicons/react/20/solid";
 import Link from "next/link";
 import { useState } from "react";
-// import { useState } from "react";
+import Image from "next/image";
+import logonb from "../../public/images/logo-nt.png";
+
 
 const NavigationMenu = () => {
 	const [showNav, setShowNav] = useState(false);
@@ -39,9 +41,11 @@ const NavigationMenu = () => {
 	return (
 		<>
 			<div
-				className={`${showNav ? "h-screen absolute" : " h-16 sticky"
+				className={`${showNav ? "h-screen absolute" : " h-16 sticky items-center"
 					} md:hidden p-3 top-0 w-screen flex justify-between align-middle bg-black transition-all duration-300 z-20`}>
-				<div className="text-2xl text-pear opacity-70">LOGO</div>
+				<div className="text-2xl text-pear opacity-70">
+					<Image src={logonb} width={70} height={70} alt="" />
+				</div>
 				<>
 					<div
 						className={`${showNav ? "opacity-100 h-full z-20" : "opacity-0 -z-20 h-0"
@@ -68,14 +72,14 @@ const NavigationMenu = () => {
 					)}
 				</>
 			</div>
-			<div className="hidden font-poppins p-3 absolute top-0 w-full md:flex flex-row justify-between">
-				<div>LOGO</div>
+			<div className="hidden font-poppins p-3 absolute top-0 w-full md:flex flex-row justify-between items-center">
+				<Image src={logonb} width={80} height={80} alt="logo" />
 				<div className="flex flex-row gap-5">
 					{links.map((link) => (
 						<Link
 							key={link.id}
 							href={link.link}
-							className="hover:scale-105 hover:font-semibold transition-all shadow-sm">
+							className="hover:scale-105 hover:font-semibold transition-all shadow-sm text-foreground font-bold text-lg">
 							<p>{link.name}</p>
 						</Link>
 					))}
