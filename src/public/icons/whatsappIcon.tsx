@@ -1,7 +1,7 @@
-const WhatsappIcon = ({ size }: { size: string }) => {
+const WhatsappIcon = ({ size, fill }: { size: string, fill: string }) => {
 	return (
 		<svg
-			fill="#86efac"
+			fill={fill}
 			// height="200px"
 			// width="200px"
 			width={size}

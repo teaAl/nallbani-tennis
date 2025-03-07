@@ -79,7 +79,7 @@ const Book = () => {
 							<button
 								onClick={prevStep}
 								disabled={currentStepIndex === 0}
-								className={`h-10 md:mr-0 mr-1 md:h-auto md:text-green-300 text-black p-2 md:border border-0 md:border-green-300 md:bg-white bg-pink-300 md:bg-opacity-5 bg-opacity-100 rounded-l-full md:rounded-full md:disabled:opacity-30 `}
+								className={`h-10 md:mr-0 mr-1 md:h-auto md:text-pear text-black p-2 md:border border-0 md:border-pear md:bg-white bg-pear md:bg-opacity-5 bg-opacity-100 rounded-l-full md:rounded-full md:disabled:opacity-30 `}
 							>
 								<ArrowUturnLeftIcon className="md:block hidden md:w-5 md:h-5 w-5 h-5" />
 								<ChevronDoubleLeftIcon className="md:hidden block w-5 h-5" />

@@ -32,15 +32,8 @@ const DateTime = () => {
 					</div>
 					{/* Back Face */}
 					<div className="h-full w-full rounded-xl p-2 bg-[#171717ba] text-center text-slate-200 [transform:rotateY(180deg)] [backface-visibility:hidden]">
-						<div className="flex min-h-full flex-col items-center justify-center gap-6">
+						<div className="flex min-h-full flex-col items-center justify-around gap-6">
 							<HourPicker date={dateBooked || todayDate} />
-							<div className="flex flex-row justify-between items-center border-t border-t-pink-300 border-opacity-10 w-full pt-6 px-2">
-								<p className="text-pink-300 font-poppins md:text-center text-left">Do you have your own tennis racket?</p>
-								<div className="flex flex-row">
-									<HandThumbDownIcon onClick={() => setHasEquipment(false)} className={`w-10 h-8 text-white px-2 cursor-pointer hover:scale-105 hover:bg-red-700 hover:bg-opacity-100 transition-all duration-300 ${hasEquipment === false ? 'bg-red-700 bg-opacity-100' : 'bg-white bg-opacity-10'}`} />
-									<HandThumbUpIcon onClick={() => setHasEquipment(true)} className={`w-10 h-8 text-white  px-2 cursor-pointer hover:scale-105 hover:bg-green-700 transition-all duration-300 ${hasEquipment === true ? 'bg-green-700 bg-opacity-100' : 'bg-white bg-opacity-10'}`} />
-								</div>
-							</div>
 						</div>
 					</div>
 				</div>
@@ -51,7 +44,7 @@ const DateTime = () => {
 				<div className={`cursor-pointer`}>
 					<button
 						type="submit"
-						className="bg-transparent text-pink-300 justify-items-center p-4 rounded-full scale-95 animate-bounce duration-300 transition-all hover:scale-100"
+						className="bg-transparent text-pear justify-items-center p-4 rounded-full scale-95 animate-bounce duration-300 transition-all hover:scale-100"
 						onClick={nextStep}>
 						Proceed
 						<ChevronDoubleDownIcon className="w-10 h-10" />

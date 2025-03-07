@@ -63,7 +63,7 @@ const ContactForm = () => {
 				className="flex flex-col gap-6 justify-between">
 				<div className="px-6 py-10 rounded-md flex flex-col gap-6">
 					<div className="relative flex items-center group">
-						<UserIcon className="absolute left-3 w-5 h-5 text-green-300 " />
+						<UserIcon className="absolute left-3 w-5 h-5 text-pear " />
 						<input
 							type="text"
 							placeholder="Name"
@@ -71,7 +71,7 @@ const ContactForm = () => {
 						/>
 					</div>
 					<div className="relative flex items-center group">
-						<EnvelopeIcon className="absolute left-3 w-5 h-5 text-green-300 " />
+						<EnvelopeIcon className="absolute left-3 w-5 h-5 text-pear " />
 						<input
 							type="email"
 							placeholder="Email"
@@ -79,7 +79,7 @@ const ContactForm = () => {
 						/>
 					</div>
 					<div className="relative flex items-center group">
-						<PhoneIcon className="absolute left-3 w-5 h-5 text-green-300 " />
+						<PhoneIcon className="absolute left-3 w-5 h-5 text-pear " />
 						<input
 							type="tel"
 							placeholder="Phone"
@@ -87,7 +87,7 @@ const ContactForm = () => {
 							onChange={(e) => setPhone(e.target.value)}
 						/>
 					</div>
-					<p className="font-nunito text-sm text-pink-300 text-opacity-90 inline-flex gap-2 items-center border-t-2 border-pink-300 border-opacity-10 py-4">
+					<p className="font-nunito text-sm text-pear text-opacity-90 inline-flex gap-2 items-center border-t-2 border-pear border-opacity-10 py-4">
 						<InformationCircleIcon className="w-4 h-4" />
 						We request these details to contact you in case of any changes
 					</p>
@@ -97,7 +97,7 @@ const ContactForm = () => {
 						} flex flex-row justify-around align-middle items-center duration-300 transition-all`}>
 					<div className={`cursor-pointer`}>
 						<button
-							className="bg-transparent text-pink-300 justify-items-center p-4 rounded-full scale-95 animate-bounce duration-300 transition-all hover:scale-100"
+							className="bg-transparent text-pear justify-items-center p-4 rounded-full scale-95 animate-bounce duration-300 transition-all hover:scale-100"
 							onClick={addContactInfo}>
 							Proceed
 							<ChevronDoubleDownIcon className="w-10 h-10" />

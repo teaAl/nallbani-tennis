@@ -9,8 +9,20 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        // background: "var(--background)",
+        // foreground: "var(--foreground)",
+        // pear: "var(--pear)",
+        // olive: "var(--olive)",
+        // coolgray: "var(--coolgray)",
+        // violet: "var(--violet)",
+        // lazurite: "var(--lazurite)",
+        background: '#0a0a0a',
+        foreground: '#afafaf',
+        pear: '#cddc3b',
+        olive: '#648767',
+        coolgray: '#A7A5C6',
+        violet: '#827191',
+        lazurite: '#456990',
       },
       fontFamily: {
         poppins: "var(--font-poppins)",

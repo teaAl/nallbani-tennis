@@ -17,20 +17,20 @@ const HomeBanner = () => {
 				<h1 className="cursor-default font-extrabold text-5xl md:text-9xl font-poppins bg-[url(../public/images/net.png)] text-transparent bg-bottom md:bg-right-bottom opacity-90 bg-clip-text webkit-bg-clip-text">
 					Nallbani Tennis
 				</h1>
-				<p className="cursor-default md:text-xl tracking-wider font-poppins font-semibold text-pink-300 opacity-90">
-					Elevate your <span className="text-green-300 underline">game</span>{" "}
+				<p className="cursor-default md:text-xl tracking-wider font-poppins font-semibold text-foreground opacity-90">
+					Elevate your <span className="text-pear underline">game</span>{" "}
 					with us
 				</p>
 				<div className="flex flex-row align-middle items-center justify-center gap-7">
 					<button
-						className="bg-green-300 bg-opacity-60 text-black px-4 py-2 rounded-md hover:bg-opacity-65 hover:scale-105 transition-all"
+						className="bg-pear text-black px-4 py-2 rounded-md hover:bg-opacity-65 hover:scale-105 transition-all"
 						onClick={() => scrollIntoView("start-booking")}>
 						Book Online
 					</button>
 					<button
-						className="bg-pink-300 bg-opacity-60 text-black px-4 py-2 rounded-md hover:bg-opacity-65 hover:scale-105 transition-all inline-flex gap-2 items-center"
+						className="bg-black text-olive px-4 py-2 rounded-md hover:bg-opacity-65 hover:scale-105 transition-all inline-flex gap-2 items-center"
 						onClick={() => window.open("https://wa.me/355683188648", "_blank")}>
-						<WhatsappIcon size={"20"} />
+						<WhatsappIcon fill="#648767" size={"20"} />
 						Chat with us
 					</button>
 				</div>
