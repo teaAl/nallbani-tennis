@@ -24,7 +24,7 @@ const RoundedTriangleIcon = ({ size, color }: { size: string, color: string }) =
                 <g stroke="none"
                     strokeWidth="1"
                     fill="none"
-                    fill-rule="evenodd"
+                    fillRule="evenodd"
                 >
                     <g transform="translate(4.000000, 1.000000)"
                         fill={color}

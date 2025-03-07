@@ -17,6 +17,15 @@ const BookingConfirmation = () => {
         nextStep()
         router.push('/thank-you');
         // clearBookingState();
+        const booking = {
+            bookingType: lessonType,
+            date: dateBooked,
+            hour: hourBooked,
+            contactInfo: contactInfo,
+            hasEquipment: hasEquipment,
+            lessonType: lessonType
+        }
+        console.log(booking);
     };
 
     return (
