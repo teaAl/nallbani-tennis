@@ -13,6 +13,7 @@ import BookingConfirmation from "@/components/booking/confirmation";
 import { ArrowUturnLeftIcon } from "@heroicons/react/20/solid";
 import withBookingType from "@/components/hoc/withBookingType";
 import { ChevronDoubleLeftIcon } from "@heroicons/react/24/outline";
+import AboutYou from "@/components/booking/aboutYou";
 
 const url = process.env.NEXT_PUBLIC_BASE_API_URL;
 console.log(url);
@@ -20,6 +21,9 @@ console.log(url);
 const stepComponents = {
 	"Date and Time": () => (
 		<DateTime />
+	),
+	"About You": () => (
+		<AboutYou />
 	),
 	"Contact Information": () => (
 		<div className="md:grid md:grid-cols-6 w-full h-full">
@@ -46,6 +50,7 @@ const Book = () => {
 		if (steps.length === 0) {
 			setSteps(stepsData);
 		}
+		console.log(stepsData);
 	}, []);
 
 	useEffect(() => {

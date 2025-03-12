@@ -50,7 +50,6 @@ const ThankYouPage: React.FC = () => {
 export default ThankYouPage;
 
 /*
-TODO: fix animation glitch
 
 reference svg images used for lottie animations
 https://storyset.com/illustration/tennis/amico
