@@ -87,7 +87,7 @@ const ContactForm = () => {
 							onChange={(e) => setPhone(e.target.value)}
 						/>
 					</div>
-					<p className="font-nunito text-sm text-pear text-opacity-90 inline-flex gap-2 items-center border-t-2 border-pear border-opacity-10 py-4">
+					<p className="font-nunito text-sm text-pear/90 inline-flex gap-2 items-center border-t-2 border-pear/10 py-4">
 						<InformationCircleIcon className="w-4 h-4" />
 						We request these details to contact you in case of any changes
 					</p>

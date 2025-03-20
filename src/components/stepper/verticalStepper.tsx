@@ -15,7 +15,7 @@ const Stepper = () => {
 						<Step step={step} isLast={index === steps.length - 1} />
 					</React.Fragment>
 				))}
-				<div className="absolute bottom-0 md:hidden max-w-screen-sm w-full bg-olive bg-opacity-30 rounded-r-full md:rounded-full h-10">
+				<div className="absolute bottom-0 md:hidden max-w-(--breakpoint-sm) w-full bg-olive/30 rounded-r-full md:rounded-full h-10">
 					<div className="bg-pear h-full /*rounded-r-full*/ transition-all duration-300" style={{ width: width }}>
 						<div className="w-full justify-end flex items-center h-full translate-x-5 -translate-y-[2px]">
 							<div className="text-right ">

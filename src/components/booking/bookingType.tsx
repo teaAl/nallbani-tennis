@@ -39,7 +39,7 @@ const BookingType = () => {
 					<strong className="text-pear">tennis is waiting for you</strong>.
 				</p>
 				<div className="grid md:grid-cols-2 gap-10 row-start-2 col-start-2 col-span-6">
-					<div className=" bg-white bg-opacity-5 p-5 rounded-md flex flex-col gap-4 justify-between">
+					<div className=" bg-white/5 p-5 rounded-md flex flex-col gap-4 justify-between">
 						<div className="grid grid-cols-4 gap-4">
 							<div className=" flex flex-col justify-between gap-4 col-start-1 col-span-3">
 								<h3 className="text-xl font-semibold text-pear font-poppins">
@@ -61,7 +61,7 @@ const BookingType = () => {
 						</button>
 					</div>
 
-					<div className="flex flex-col gap-4 bg-white bg-opacity-5 p-5 rounded-md justify-between">
+					<div className="flex flex-col gap-4 bg-white/5 p-5 rounded-md justify-between">
 						<div className="grid grid-cols-4 gap-4">
 							<div className=" flex flex-col justify-between gap-4 col-start-1 col-span-3">
 								<h3 className="text-xl font-semibold text-olive font-poppins">

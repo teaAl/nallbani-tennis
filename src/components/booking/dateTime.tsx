@@ -31,7 +31,7 @@ const DateTime = () => {
 						<NewCalendar />
 					</div>
 					{/* Back Face */}
-					<div className="h-full w-full rounded-xl p-2 bg-[#171717ba] backdrop-blur-sm text-center text-slate-200 [transform:rotateY(180deg)] [backface-visibility:hidden]">
+					<div className="h-full w-full rounded-xl p-2 bg-[#171717ba] backdrop-blur-xs text-center text-slate-200 [transform:rotateY(180deg)] [backface-visibility:hidden]">
 						<div className="flex min-h-full flex-col items-center justify-around gap-6">
 							<HourPicker date={dateBooked || todayDate} />
 						</div>

@@ -54,7 +54,7 @@ const NavigationMenu = () => {
 							<Link
 								key={link.id}
 								href={link.link}
-								className={`active:scale-105 active:font-semibold active:text-pear transition-all shadow-sm text-center uppercase text-gray-300 opacity-80 ${showNav ? "z-20" : "-z-20"}`}>
+								className={`active:scale-105 active:font-semibold active:text-pear transition-all shadow-xs text-center uppercase text-gray-300 opacity-80 ${showNav ? "z-20" : "-z-20"}`}>
 								<p>{link.name}</p>
 							</Link>
 						))}
@@ -79,7 +79,7 @@ const NavigationMenu = () => {
 						<Link
 							key={link.id}
 							href={link.link}
-							className="hover:scale-105 hover:font-semibold transition-all shadow-sm text-foreground font-bold text-lg">
+							className="hover:scale-105 hover:font-semibold transition-all shadow-xs text-foreground font-bold text-lg">
 							<p>{link.name}</p>
 						</Link>
 					))}

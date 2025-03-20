@@ -29,7 +29,6 @@ const config: Config = {
         poppins: "var(--font-poppins)",
         nunito: "var(--font-nunito)",
       },
-
       keyframes: {
         pulse: {
           "0%, 100%": {
@@ -47,6 +46,9 @@ const config: Config = {
       }
     },
   },
-  plugins: [],
+  plugins: [
+    require('tailwindcss-animated'),
+  ],
 };
-export default config;
+
+// export default config;

@@ -29,15 +29,15 @@ const Step: React.FC<StepProps> = React.memo(({ step, isLast }) => {
 			{/* <div> */}
 			<span className="md:hidden flex justify-around w-3/4">
 				{stepMobileIcon(`w-9 h-9 ${active ? " text-pear bg-black rounded-full p-1.5" :
-					completed ? "w-9 h-9 text-pear bg-black bg-opacity-60 rounded-full p-1.5" : "w-8 h-8 text-black text-opacity-40"
+					completed ? "w-9 h-9 text-pear bg-black/60 rounded-full p-1.5" : "w-8 h-8 text-black/40"
 					} transition-all duration-300`)}
 			</span>
 			<span
 				className={`md:flex hidden mt-0 text-xs md:mt-1 md:text-base md:font-medium ${active
 					? "text-pear scale-125"
 					: completed
-						? "md:text-pear md:text-opacity-50 text-black"
-						: "text-olive text-opacity-100 md:text-opacity-30"
+						? "md:text-pear/50 text-black"
+						: "text-olive/100 md:text-olive-30"
 					}`}>
 				{title}
 			</span>
@@ -47,8 +47,8 @@ const Step: React.FC<StepProps> = React.memo(({ step, isLast }) => {
 					className={`${active
 						? " scale-125 bg-pear"
 						: completed
-							? "bg-opacity-100 bg-pear"
-							: "bg-opacity-30 bg-olive"
+							? "bg-pear/100"
+							: "bg-olive/30"
 						} rounded-full duration-300 transition-all`}>
 					{completed ? (
 						<div className="m-[2px] md:m-1 flex size-5 md:size-6 items-center p-1 justify-center rounded-full bg-black">
@@ -62,7 +62,7 @@ const Step: React.FC<StepProps> = React.memo(({ step, isLast }) => {
 				</div>
 				{!isLast && (
 					<div
-						className={`hidden md:block border  ${completed ? "border-opacity-100 border-pear" : " border-opacity-30 border-olive"
+						className={`hidden md:block border  ${completed ? "border-pear/100" : "border-olive/30"
 							} h-full transition-all duration-300`}
 					/>
 				)}

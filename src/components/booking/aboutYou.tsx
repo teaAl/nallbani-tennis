@@ -36,7 +36,7 @@ const AboutYou = () => {
                     {experienceOptions.map((option, index) => (
                         <div key={index} className="snap-always text-center snap-center">
                             <button
-                                className={`${selectedExperience === index ? 'text-pear text-opacity-100 scale-110' : 'text-olive text-opacity-70'} p-2 transition-all duration-300`}
+                                className={`${selectedExperience === index ? 'text-pear/100 scale-110' : 'text-olive/70'} p-2 transition-all duration-300`}
                                 onClick={() => nextStep()}
                             >
                                 {option}
@@ -45,7 +45,7 @@ const AboutYou = () => {
                     ))}
                 </div>
             </div>
-            <p className="font-nunito text-sm text-pear text-opacity-90 inline-flex gap-2 items-center border-t-2 border-pear border-opacity-10 py-4">
+            <p className="font-nunito text-sm text-pear/90 inline-flex gap-2 items-center border-t-2 border-pear/10 py-4">
                 <InformationCircleIcon className="w-4 h-4" />
                 We request these details to better suit your lesson
             </p>
