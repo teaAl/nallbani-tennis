@@ -13,6 +13,7 @@ import BookingConfirmation from "@/components/booking/confirmation";
 import { ArrowUturnLeftIcon } from "@heroicons/react/20/solid";
 import withBookingType from "@/components/hoc/withBookingType";
 import { ChevronDoubleLeftIcon } from "@heroicons/react/24/outline";
+import AboutYou from "@/components/booking/aboutYou";
 
 const url = process.env.NEXT_PUBLIC_BASE_API_URL;
 console.log(url);
@@ -20,6 +21,9 @@ console.log(url);
 const stepComponents = {
 	"Date and Time": () => (
 		<DateTime />
+	),
+	"About You": () => (
+		<AboutYou />
 	),
 	"Contact Information": () => (
 		<div className="md:grid md:grid-cols-6 w-full h-full">
@@ -46,6 +50,7 @@ const Book = () => {
 		if (steps.length === 0) {
 			setSteps(stepsData);
 		}
+		console.log(stepsData);
 	}, []);
 
 	useEffect(() => {
@@ -73,13 +78,13 @@ const Book = () => {
 	return (
 		<Layout>
 			<div className="min-h-screen flex flex-col md:grid md:grid-cols-5 mt-0 md:mt-[2em] p-4 gap-6 ">
-				<div className="md:col-start-1 md:col-span-1 border-opacity-50 flex md:justify-center justify-evenly w-full">
+				<div className="md:col-start-1 md:col-span-1 flex md:justify-center justify-evenly w-full">
 					<div className="flex md:grid md:grid-rows-6 gap-0 h-full w-full">
 						<div className="md:row-start-1 md:row-span-1 md:w-full w-auto flex justify-start md:justify-end items-center">
 							<button
 								onClick={prevStep}
 								disabled={currentStepIndex === 0}
-								className={`h-10 md:mr-0 mr-1 md:h-auto md:text-green-300 text-black p-2 md:border border-0 md:border-green-300 md:bg-white bg-pink-300 md:bg-opacity-5 bg-opacity-100 rounded-l-full md:rounded-full md:disabled:opacity-30 `}
+								className={`h-10 md:mr-0 mr-1 md:h-auto md:text-pear text-black p-2 md:border border-0 md:border-pear md:bg-white/5 bg-pear/100 rounded-l-full md:rounded-full md:disabled:text-black/30 `}
 							>
 								<ArrowUturnLeftIcon className="md:block hidden md:w-5 md:h-5 w-5 h-5" />
 								<ChevronDoubleLeftIcon className="md:hidden block w-5 h-5" />
@@ -90,7 +95,7 @@ const Book = () => {
 						</div>
 					</div>
 				</div>
-				<div className="col-span-4 flex w-full items-center justify-around md:bg-[#0a0a0a] md:bg-opacity-90 md:bg-blend-overlay md:bg-cover md:bg-bottom md:bg-no-repeat md:bg-[url(../public/images/tennisbg.png)]">
+				<div className="col-span-4 flex w-full items-center justify-around md:bg-gray-900/90 md:bg-blend-overlay md:bg-cover md:bg-bottom md:bg-no-repeat md:bg-[url(../public/images/tennisbg.png)]">
 					{ActiveStepContent && <ActiveStepContent />}
 				</div>
 			</div>

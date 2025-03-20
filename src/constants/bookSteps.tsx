@@ -5,6 +5,11 @@ export const stepsData: StepType[] = [
         active: true,
     },
     {
+        title: "About You",
+        completed: false,
+        active: false,
+    },
+    {
         title: "Contact Information",
         completed: false,
         active: false,

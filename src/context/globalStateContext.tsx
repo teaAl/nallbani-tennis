@@ -26,6 +26,17 @@ interface GlobalStateContextProps {
 	saveStateToLocalStorage: (path: string) => void;
 	loadStateFromLocalStorage: (path: string) => void;
 	clearBookingState: () => void;
+
+	/* START -- THESE WILL CHANGE DB MODELS AS WELL -- START */
+	experience: "never" | "0-3" | "3-6" | "6-9" | "9-12" | "12+" | null;
+	setExperience: React.Dispatch<
+		React.SetStateAction<"never" | "0-3" | "3-6" | "6-9" | "9-12" | "12+" | null>
+	>;
+	/* END -- THESE WILL CHANGE DB MODELS AS WEL -- ENDL */
+	/* START -- THIS IS WHERE THE NEW THEME STARTS */
+	user: "guest" | "member" | "admin" | null;
+	setUser: React.Dispatch<React.SetStateAction<"guest" | "member" | "admin" | null>>
+	/* END -- THIS IS WHERE THE NEW THEME STARTS */
 }
 
 const GlobalStateContext = createContext<GlobalStateContextProps | undefined>(
@@ -46,6 +57,16 @@ export const GlobalStateProvider = ({ children }: { children: ReactNode }) => {
 	} | null>(null);
 	const [steps, setSteps] = useState<StepType[]>([]);
 	const [currentStepIndex, setCurrentStepIndex] = useState(0);
+	/* START -- THESE WILL CHANGE DB MODELS AS WELL -- START */
+	const [experience, setExperience] = useState<"never" | "0-3" | "3-6" | "6-9" | "9-12" | "12+" | null>(
+		null
+	);
+	/* END -- THESE WILL CHANGE DB MODELS AS WEL -- ENDL */
+	/* START -- THIS IS WHERE THE NEW THEME STARTS */
+	const [user, setUser] = useState<"guest" | "member" | "admin" | null>(
+		null
+	);
+	/* END -- THIS IS WHERE THE NEW THEME STARTS */
 
 	const updateSteps = (index: number) => {
 		setSteps((prevSteps) =>
@@ -151,6 +172,14 @@ export const GlobalStateProvider = ({ children }: { children: ReactNode }) => {
 				saveStateToLocalStorage,
 				loadStateFromLocalStorage,
 				clearBookingState,
+				/* START -- THESE WILL CHANGE DB MODELS AS WELL -- START */
+				experience,
+				setExperience,
+				/* END -- THESE WILL CHANGE DB MODELS AS WEL -- ENDL */
+				/* START -- THIS IS WHERE THE NEW THEME STARTS */
+				user,
+				setUser,
+				/* END -- THIS IS WHERE THE NEW THEME STARTS */
 			}}>
 			{children}
 		</GlobalStateContext.Provider>

@@ -28,31 +28,31 @@ const Step: React.FC<StepProps> = React.memo(({ step, isLast }) => {
 				} w-full z-10 flex md:flex-row flex-col duration-300 transition-all h-full md:items-start justify-center md:justify-end`}>
 			{/* <div> */}
 			<span className="md:hidden flex justify-around w-3/4">
-				{stepMobileIcon(`${active ? "w-9 h-9 text-green-300 bg-black bg-opacity-60 rounded-full p-1" :
-					completed ? "w-9 h-9 text-pink-300 bg-black bg-opacity-30 rounded-full p-1" : "w-8 h-8 text-black text-opacity-40"
+				{stepMobileIcon(`w-9 h-9 ${active ? " text-pear bg-black rounded-full p-1.5" :
+					completed ? "w-9 h-9 text-pear bg-black/60 rounded-full p-1.5" : "w-8 h-8 text-black/40"
 					} transition-all duration-300`)}
 			</span>
 			<span
 				className={`md:flex hidden mt-0 text-xs md:mt-1 md:text-base md:font-medium ${active
-					? "text-green-300 scale-125"
+					? "text-pear scale-125"
 					: completed
-						? "md:text-green-300 text-black"
-						: "text-pink-300 text-opacity-100 md:text-opacity-30"
+						? "md:text-pear/50 text-black"
+						: "text-olive/100 md:text-olive-30"
 					}`}>
 				{title}
 			</span>
 			{/* </div> */}
 			<div className="hidden md:flex flex-row md:flex-col items-center md:h-full h-0 md:scale-100 scale-75">
 				<div
-					className={`bg-pink-300 ${active
-						? " scale-125"
+					className={`${active
+						? " scale-125 bg-pear"
 						: completed
-							? "bg-opacity-100"
-							: "bg-opacity-30"
+							? "bg-pear/100"
+							: "bg-olive/30"
 						} rounded-full duration-300 transition-all`}>
 					{completed ? (
 						<div className="m-[2px] md:m-1 flex size-5 md:size-6 items-center p-1 justify-center rounded-full bg-black">
-							<CheckSVG size="13" />
+							<CheckSVG size="13" fill="#cddc3b" />
 						</div>
 					) : (
 						<div
@@ -62,7 +62,7 @@ const Step: React.FC<StepProps> = React.memo(({ step, isLast }) => {
 				</div>
 				{!isLast && (
 					<div
-						className={`hidden md:block border border-pink-300 ${completed ? "border-opacity-100" : " border-opacity-30"
+						className={`hidden md:block border  ${completed ? "border-pear/100" : "border-olive/30"
 							} h-full transition-all duration-300`}
 					/>
 				)}

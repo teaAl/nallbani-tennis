@@ -30,7 +30,7 @@ const NewCalendar = () => {
 		<>
 			<div
 				id="calendar"
-				className="/*bg-pink-300*/ /*bg-opacity-10*/ bg-[#171717ba] py-4 px-4 shadow-lg rounded-lg font-poppins flex-wrap items-center justify-center">
+				className="bg-pear/10 bg-[#171717ba] backdrop-blur-xs py-4 px-4 shadow-lg rounded-lg font-poppins flex-wrap items-center justify-center">
 				<Calendar
 					className="aspect-auto w-full h-full"
 					value={value}
@@ -42,10 +42,10 @@ const NewCalendar = () => {
 					minDate={new Date()}
 					tileClassName={tileClassName}
 					nextLabel={
-						<ChevronRightIcon className="h-6 w-6 sm:h-8 sm:w-8 text-pink-300 bg-white bg-opacity-10 p-1 rounded-full aspect-square" />
+						<ChevronRightIcon className="h-6 w-6 sm:h-8 sm:w-8 text-pear bg-white/10 p-1 rounded-full aspect-square" />
 					}
 					prevLabel={
-						<ChevronLeftIcon className="h-6 w-6 sm:h-8 sm:w-8 text-pink-300 bg-white bg-opacity-10 p-1 rounded-full aspect-square" />
+						<ChevronLeftIcon className="h-6 w-6 sm:h-8 sm:w-8 text-pear bg-white/10 p-1 rounded-full aspect-square" />
 					}
 					tileDisabled={({ date }) => {
 						const today = new Date();

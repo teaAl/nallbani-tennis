@@ -1,28 +1,62 @@
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@plugin 'tailwindcss-animate';
+
+@custom-variant dark (&:is(.dark *));
+@import 'tailwindcss';
+@import 'tailwindcss-animated';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* @media (prefers-color-scheme: dark) {
+  :root {
+    --foreground: #afafaf;
+    --pear: #cddc3b;
+    --olive: #648767;
+    --coolgray: #A7A5C6;
+    --violet: #827191;
+    --lazurite: #456990;
+  }
+} */
+
+@theme {
+  --color-foreground: #afafaf;
+  --color-pear: #cddc3b;
+  --color-olive: #648767;
+  --color-coolgray: #A7A5C6;
+  --color-violet: #827191;
+  --color-lazurite: #456990;
+  --font-nunito: 'Nunito', sans-serif;
+  --font-poppins: 'Poppins', sans-serif;
+  --shadow-square: "30px 25px 0px 0px #fafafa"
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer utilities {
+  #my-extension {
+    @tailwind utilities;
   }
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
+  @apply bg-gray-900 font-nunito;
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+
+  /* Chrome, Safari and Opera */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
   }
 }
 
@@ -46,13 +80,15 @@ Aesthetics
 }
 
 .react-calendar__tile--now>abbr {
-  @apply border border-pink-300 border-opacity-100 text-pink-300 font-bold bg-white bg-opacity-10;
+  @apply border border-pear/100
+  /*border-opacity-100*/
+  text-pear font-bold bg-white/10;
 
 }
 
 .react-calendar__tile--active>abbr {
-  @apply bg-pink-300 text-black font-bold;
-  /* @apply border border-pink-300 border-opacity-100 text-pink-300 font-bold bg-white bg-opacity-10; */
+  @apply bg-pear text-black font-bold;
+  /* @apply border border-pear border-opacity-100 text-pear font-bold bg-white bg-opacity-10; */
 }
 
 /*start of hide year buttons*/
@@ -68,23 +104,23 @@ Aesthetics
 
 /*start of navigation styles*/
 .react-calendar__navigation {
-  @apply w-full border-b md:p-6 p-4 border-pink-300 border-opacity-15 flex justify-center;
+  @apply w-full border-b p-4 border-pear/15 flex justify-center;
 }
 
 .react-calendar__navigation__label {
-  @apply text-pink-300 md:text-lg text-base font-extrabold w-max mx-auto;
+  @apply text-pear md:text-lg text-base font-extrabold w-max mx-auto;
 }
 
 /*end of navigation styles*/
 
 /*start of day tile calendat styles*/
 .react-calendar__tile>abbr {
-  @apply aspect-square md:w-10 md:h-10 w-6 h-6 md:p-2 p-1 rounded-full border border-pink-300 border-opacity-20 transition-all;
+  @apply aspect-square md:w-9 md:h-9 w-6 h-6 md:p-2 p-1 rounded-full border border-olive/20 transition-all;
 }
 
 /*start of weekday styles*/
 .react-calendar__month-view__weekdays__weekday {
-  @apply text-center text-pink-300 font-bold md:text-sm text-xs md:p-4 p-2 no-underline font-nunito;
+  @apply text-center text-pear font-bold md:text-sm text-xs md:p-4 p-2 no-underline font-nunito;
 }
 
 abbr {
@@ -128,7 +164,7 @@ input[type="text"],
 input[type="email"],
 input[type="tel"],
 textarea {
-  @apply w-full pl-10 pr-4 py-3 bg-black bg-gradient-to-r from-[#f9a8d43b] to-black border-b-transparent rounded-br-none rounded-tl-none rounded-bl-md rounded-tr-md text-white placeholder:font-poppins placeholder:text-white placeholder:text-opacity-45 transition-all duration-500 outline-none;
+  @apply w-full pl-10 pr-4 py-3 bg-black bg-linear-to-r from-[#6487673b] to-black border-b-transparent rounded-br-none rounded-tl-none rounded-bl-md rounded-tr-md text-white placeholder:font-poppins placeholder:text-white/45 transition-all duration-500 outline-hidden;
 }
 
 /* input:-webkit-internal-autofill-selected {
@@ -155,7 +191,6 @@ input:-webkit-autofill:active {
   @apply border-b-green-300 outline-none bg-zinc-900 bg-gradient-to-r from-[#f9a8d43b] to-[#f9a8d43b] placeholder:text-opacity-5;
 } */
 
-
 input[type="text"]:focus,
 input[type="email"]:focus,
 input[type="tel"]:focus,
@@ -164,20 +199,22 @@ input:-webkit-autofill,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active,
 input:-webkit-autofill:focus-within {
-  @apply border-b-green-300 outline-none bg-zinc-900 bg-gradient-to-r from-[#f9a8d43b] to-[#f9a8d43b] placeholder:text-opacity-5;
+  @apply border-b-green-300 outline-hidden bg-zinc-900 bg-linear-to-r from-[#6487673b] to-[#6487673b] placeholder:text-white/5;
   -webkit-text-fill-color: white !important;
-  -webkit-box-shadow: 0 0 0 60px #37242E inset !important;
+  -webkit-box-shadow: 0 0 0 60px #648767 inset !important;
 }
 
 /* custom group form styles */
 input.group,
 textarea.group {
-  @apply bg-opacity-10 placeholder:text-sm placeholder:text-pink-300 placeholder:text-opacity-30;
+  @apply
+  /*bg-opacity-10*/
+  placeholder:text-sm placeholder:text-pear/30;
 }
 
 /* range slider custom styles */
 input[type="range"] {
-  @apply appearance-none w-60 cursor-pointer outline-none bg-white bg-opacity-10 rounded-2xl h-2;
+  @apply appearance-none w-60 cursor-pointer outline-hidden bg-white/10 rounded-2xl h-2;
 }
 
 /* range slider thumb styles */
@@ -191,7 +228,7 @@ input[type="range"]::-webkit-slider-thumb {
 /* range slider track progress styles */
 input[type="range"]::-webkit-slider-runnable-track,
 input[type="range"]::-moz-range-track {
-  @apply appearance-none h-4 bg-pink-300 bg-opacity-20 rounded-2xl;
+  @apply appearance-none h-4 bg-pear/20 rounded-2xl;
 }
 
 /* Hover, active & focus Thumb: Webkit */

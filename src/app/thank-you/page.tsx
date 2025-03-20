@@ -13,28 +13,28 @@ const ThankYouPage: React.FC = () => {
 		<HomeLayout>
 			{/* flex flex-row items-center justify-center */}
 			<div className="md:grid md:grid-col md:grid-cols-2 flex flex-col gap-10 p-6 md:p-10 md:h-full w-full mx-auto">
-				<h1 className="md:hidden align-middle text-green-300 font-popins text-2xl font-bold text-center">
+				<h1 className="md:hidden align-middle text-olive font-popins text-2xl font-bold text-center">
 					Thank you for your booking!
 				</h1>
 				<Lottie animationData={tennisgame} />
 				<div className="flex flex-col gap-6 justify-center">
-					<h1 className="md:block hidden align-middle text-green-300 font-popins text-4xl font-bold">
+					<h1 className="md:block hidden align-middle text-olive font-popins text-4xl font-bold">
 						Thank you for your booking!
 					</h1>
-					<p className="text-left text-white text-opacity-60 font-poppins">
+					<p className="text-left text-foreground font-poppins">
 						You have received an email with the details of your booking.
 					</p>
-					<p className="text-left font-poppins text-white text-opacity-60">One of our coaches will confirm your booking shortly.
-						In the meantime, you can check out our <a href="/about" className="text-pink-300">About</a> page.</p>
+					<p className="text-left font-poppins text-foreground">One of our coaches will confirm your booking shortly.
+						In the meantime, you can check out our <a href="/about" className="text-pear">About</a> page.</p>
 					<div className="flex flex-row gap-6 justify-berween items-center">
 						<button
-							className="bg-pink-300 px-4 py-2 rounded-md text-black font-nunito w-full"
+							className="bg-olive px-4 py-2 rounded-md text-black font-nunito w-full"
 							onClick={() => router.replace("/")}
 						>
 							Return Home
 						</button>
 						<button
-							className="bg-pink-300 px-4 py-2 rounded-md text-black font-nunito w-full"
+							className="bg-pear px-4 py-2 rounded-md text-black font-nunito w-full"
 							onClick={() => router.replace("/services")}
 						>
 							Services
@@ -50,7 +50,6 @@ const ThankYouPage: React.FC = () => {
 export default ThankYouPage;
 
 /*
-TODO: fix animation glitch
 
 reference svg images used for lottie animations
 https://storyset.com/illustration/tennis/amico
