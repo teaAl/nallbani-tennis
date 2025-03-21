@@ -25,7 +25,7 @@ const ServicesSection = () => {
 
 
     return (
-        <div className="md:w-4/5 w-full md:p-4 p-4 grid md:grid-cols-3 mx-auto md:gap-0 gap-8">
+        <div className="md:w-4/5 w-full md:p-4 p-6 grid md:grid-cols-3 mx-auto md:gap-0 gap-8 ">
             <div className="flex flex-col gap-4 justify-between">
                 <span className={`md:text-base text-sm uppercase text-foreground font-light font-poppins
                     ${isSubHeadingVisible ? "animate-fade-down animate-once animate-ease-linear delay-300" : "opacity-0"}`}
@@ -48,8 +48,8 @@ const ServicesSection = () => {
                     Read more {'>'}
                 </button>
             </div>
-            <div className="flex flex-col gap-4 justify-between md:pl-8">
-                <Image src={tennisgirl} alt="" className={`shadow-[30px_25px_0px_0px_#1e2939] -z-10
+            <div className="flex flex-col gap-4 md:justify-between md:pl-8">
+                <Image src={tennisgirl} alt="" className={`shadow-[30px_25px_0px_0px_#1e2939] -z-10 mx-auto
                     ${isImageVisible ? "animate-fade-up animate-once animate-ease-in delay-500" : 'opacity-0'}`} ref={imageRef} />
             </div>
             <div className="flex flex-col md:justify-around md:pt-0 pt-4 gap-4">

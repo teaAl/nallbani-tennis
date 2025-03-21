@@ -31,7 +31,7 @@ const WideSection = () => {
                 </p>
             </div>
             <div className={`w-max ${isButtonVisible ? "animate-fade-up animate-once animate-ease-linear delay-500" : 'opacity-0'}`} ref={buttonRef}>
-                <ActionButton text="Read more about us" />
+                <ActionButton text="Read more about us" variant="primary" size="md" />
             </div>
         </div>
     )

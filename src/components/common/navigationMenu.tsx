@@ -1,92 +1,107 @@
-"use client";
+'use client';
 
-import { XMarkIcon, Bars3Icon } from "@heroicons/react/20/solid";
-import Link from "next/link";
-import { useState } from "react";
-import Image from "next/image";
+import { useEffect, useState, useRef } from "react";
+import { useIsVisible } from "@/utils/useIsVisible";
 import logonb from "../../public/images/logo-nt.png";
+import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import ActionButton from "../ui/actionbtn";
+import EnIcon from "@/public/icons/en";
+import AlIcon from "@/public/icons/al";
+import { Bars3Icon } from "@heroicons/react/24/outline";
 
+const links = [
+    {
+        id: 1,
+        link: "/",
+        name: "Home",
+    },
+    {
+        id: 2,
+        link: "/about",
+        name: "About Us",
+    },
+    {
+        id: 3,
+        link: "/services",
+        name: "Services",
+    },
+    {
+        id: 5,
+        link: "/pricing",
+        name: "Pricing",
+    },
+];
 
-const NavigationMenu = () => {
-	const [showNav, setShowNav] = useState(false);
+const NavigationNew = () => {
+    const pathName = usePathname();
+    const [user, setUser] = useState<"admin" | "member" | "guest" | null>(null);
+    const [language, setLanguage] = useState<"en" | "al" | null>('en');
+    const [showDropdown, setShowDropdown] = useState(false);
+    const navRef = useRef<HTMLDivElement | null>(null);
+    const isNavVisible = useIsVisible(navRef);
 
-	const links = [
-		{
-			id: 1,
-			link: "/",
-			name: "Home",
-		},
-		{
-			id: 2,
-			link: "/about",
-			name: "About Us",
-		},
-		{
-			id: 3,
-			link: "/services",
-			name: "Services",
-		},
-		{
-			id: 4,
-			link: "/how-it-works",
-			name: "How it works",
-		},
-		{
-			id: 5,
-			link: "/contact-us",
-			name: "Contact Us",
-		},
-	];
+    useEffect(() => {
+        setUser("admin");
+    }, [user]);
 
-	return (
-		<>
-			<div
-				className={`${showNav ? "h-screen absolute" : " h-16 sticky items-center"
-					} md:hidden p-3 top-0 w-screen flex justify-between align-middle bg-black transition-all duration-300 z-20`}>
-				<div className="text-2xl text-pear opacity-70">
-					<Image src={logonb} width={70} height={70} alt="" />
-				</div>
-				<>
-					<div
-						className={`${showNav ? "opacity-100 h-full z-20" : "opacity-0 -z-20 h-0"
-							} flex flex-col /*gap-8*/ items-center justify-around p-8 transition-all duration-700`}>
-						{showNav && links.map((link) => (
-							<Link
-								key={link.id}
-								href={link.link}
-								className={`active:scale-105 active:font-semibold active:text-pear transition-all shadow-xs text-center uppercase text-gray-300 opacity-80 ${showNav ? "z-20" : "-z-20"}`}>
-								<p>{link.name}</p>
-							</Link>
-						))}
-					</div>
-					{showNav ? (
-						<XMarkIcon
-							className="w-7 h-7 text-pear opacity-70"
-							onClick={() => setShowNav(!showNav)}
-						/>
-					) : (
-						<Bars3Icon
-							className="w-7 h-7 text-pear opacity-70"
-							onClick={() => setShowNav(!showNav)}
-						/>
-					)}
-				</>
-			</div>
-			<div className="hidden font-poppins p-3 absolute top-0 w-full md:flex flex-row justify-between items-center">
-				<Image src={logonb} width={80} height={80} alt="logo" />
-				<div className="flex flex-row gap-5">
-					{links.map((link) => (
-						<Link
-							key={link.id}
-							href={link.link}
-							className="hover:scale-105 hover:font-semibold transition-all shadow-xs text-foreground font-bold text-lg">
-							<p>{link.name}</p>
-						</Link>
-					))}
-				</div>
-			</div>
-		</>
-	);
+    return (
+        <>
+            <div className={`hidden md:flex flex-row justify-between items-center px-4 py-2 w-full bg-gray-900 relative z-20
+                ${isNavVisible ? "animate-fade animate-once animate-ease-in" : "opacity-90"}`}
+                ref={navRef}
+            >
+                <Image src={logonb} width={70} height={70} alt="" />
+                <div className="flex flex-row gap-10">
+                    {links.map((link) => {
+                        const isActive = pathName === link.link;
+                        return (
+                            <Link key={link.id} href={link.link}>
+                                <span
+                                    className={`uppercase transition-all duration-300 cursor-pointer font-poppins
+                                ${isActive ? 'text-pear border-b border-b-pear font-normal' : 'text-foreground font-light'}
+                                hover:text-pear`}
+                                >
+                                    {link.name}
+                                </span>
+                            </Link>
+                        );
+                    })}
+                </div>
+                <div className="flex flex-row gap-5">
+                    <ActionButton text="Become a member" variant="secondary" size="md" />
+                    <div className="flex flex-row gap-2 items-center cursor-pointer hover:scale-105 transition-all duration-300" onClick={() => setShowDropdown(!showDropdown)}>
+                        {language === "en" ? <EnIcon size="25" /> :
+                            <AlIcon size="25" />
+                        }
+                        <span className="text-foreground uppercase">{language}</span>
+                    </div>
+                </div>
+            </div>
+            <div className={`${showDropdown ? 'absolute top-12 right-1.5 z-50' : 'hidden'} bg-gray-900 rounded-md gap-2`}>
+                <ul className="flex flex-col">
+                    <li className="flex flex-row gap-2 items-center cursor-pointer transition-all duration-300 hover:bg-foreground/20 p-2 rounded-t-md" onClick={() => (setLanguage("al"), setShowDropdown(false))}>
+                        <AlIcon size="25" />
+                        <span className="text-foreground">AL</span>
+                    </li>
+                    <li className="flex flex-row gap-2 items-center cursor-pointer transition-all duration-300 hover:bg-foreground/20 p-2 rounded-b-md" onClick={() => (setLanguage("en"), setShowDropdown(false))}>
+                        <EnIcon size="25" />
+                        <span className="text-foreground">EN</span>
+                    </li>
+                </ul>
+            </div>
+            <div className="md:hidden flex flex-row justify-between items-center p-4">
+                <Bars3Icon className="w-8 h-8 text-foreground cursor-pointer" />
+                <Image src={logonb} width={60} height={60} alt="" />
+            </div>
+        </>
+    )
 };
 
-export default NavigationMenu;
+export default NavigationNew;
+
+/*
+TODO:
+- Nav menu for mobile
+*/

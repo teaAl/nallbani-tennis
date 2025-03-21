@@ -42,12 +42,13 @@ const SubHome = () => {
     return (
         <>
             {/* Desktop View */}
-            <div className="md:w-2/3 w-5/6 h-full flex md:flex-row flex-col md:justify-around justify-center items-center mx-auto md:gap-8 gap-4">
+            <div className="md:w-2/3 w-full h-full flex md:flex-row flex-col justify-around items-center mx-auto gap-8">
                 <div className={`${isCard1Visible ? "animate-fade-up animate-once animate-ease-in delay-500" : "opacity-0"}`}
                     ref={card1Ref}>
                     <Card
                         title="Become a Member"
-                        buttonText="Join Now"
+                        // buttonText="Join Now"
+                        button={{ text: "Join Now", variant: "primary", size: "md" }}
                         list={membershipListItems}
                         type="member"
                     />
@@ -56,7 +57,8 @@ const SubHome = () => {
                     ref={card2Ref}>
                     <Card
                         title="Continue as Guest"
-                        buttonText="Explore"
+                        // buttonText="Explore"
+                        button={{ text: "Explore", variant: "primary", size: "md" }}
                         list={guestListItems}
                         type="guest"
                     />

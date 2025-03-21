@@ -11,6 +11,7 @@ import FacebookLogo from "@/public/icons/fblogo";
 import InstagramLogo from "@/public/icons/instalogo";
 import LinkedinLogo from "@/public/icons/linkedinlogo";
 import YoutubeLogo from "@/public/icons/youtubelogo";
+import ActionButton from "../ui/actionbtn";
 
 const Footer = () => {
     const logoRef = useRef<HTMLImageElement | null>(null);
@@ -31,7 +32,7 @@ const Footer = () => {
     const isSocialsMobileVisible = useIsVisible(socialsMobileRef);
     const buttonRef = useRef<HTMLDivElement | null>(null);
     const isButtonVisible = useIsVisible(buttonRef);
-    const mobileBtn = useRef<HTMLButtonElement | null>(null);
+    const mobileBtn = useRef<HTMLDivElement | null>(null);
     const isMobileBtnVisible = useIsVisible(mobileBtn);
     const lowerFooter = useRef<HTMLDivElement | null>(null);
     const isLowerFooterVisible = useIsVisible(lowerFooter);
@@ -60,11 +61,16 @@ const Footer = () => {
                         <span>since 1934</span>
                     </div>
                 </div>
-                <button className={`block md:hidden w-full bg-white/10 text-pear py-2 px-4 rounded-md shadow-md font-bold cursor-pointer
+                {/* <button className={`block md:hidden w-full bg-white/10 text-pear py-2 px-4 rounded-md shadow-md font-bold cursor-pointer
                     ${isMobileBtnVisible ? "animate-fade animate-once animate-ease-linear delay-500" : "opacity-0"}`}
                     ref={mobileBtn}>
                     Become a member
-                </button>
+                </button> */}
+                <div className={`md:hidden block w-full
+                    ${isMobileBtnVisible ? "animate-fade animate-once animate-ease-linear delay-500" : "opacity-0"}`}
+                    ref={mobileBtn}>
+                    <ActionButton text="Become a member" variant="secondary" size="md" />
+                </div>
                 <div className="flex flex-col gap-4 justify-around w-max">
                     <h5 className={`uppercase text-white md:border-b-2 border-b border-b-white/30 py-1 text-left font-bold md:text-lg text-base
                         ${isContactTitleVisible ? "animate-fade-down animate-once animate-ease-linear" : "opacity-0"}`}
@@ -129,12 +135,13 @@ const Footer = () => {
                         className={`group ${isButtonVisible ? "animate-fade-left animate-once animate-ease-linear delay-700" : "opacity-0"}`}
                         ref={buttonRef}
                     >
-                        <button
+                        {/* <button
                             className={`md:block hidden w-full bg-white/10 text-pear py-2 px-4 rounded-md shadow-md font-bold cursor-pointer transition-all duration-300
                             group-hover:bg-pear group-hover:text-gray-900`}
                         >
                             Become a member
-                        </button>
+                        </button> */}
+                        <ActionButton text="Become a member" variant="secondary" size="md" />
                     </div>
                 </div>
 

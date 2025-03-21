@@ -6,12 +6,12 @@ import ActionButton from "./actionbtn";
 
 const Card = ({
     title,
-    buttonText,
+    button,
     list,
     type
 }: {
     title: string,
-    buttonText: string,
+    button: ActionButtonProps
     list: { title: string, whichIcon: "greenAllowed" | "grayDisabled" }[],
     type: "member" | "guest"
 }) => {
@@ -28,7 +28,7 @@ const Card = ({
 
     return (
         <>
-            <div className={`h-full rounded-2xl shadow-2xl md:p-8 p-6 flex flex-col justify-between gap-8 items-center md:w-96 w-full
+            <div className={`h-full rounded-2xl shadow-2xl md:p-8 p-6 flex flex-col justify-between gap-8 items-center w-96
             ${isMember ? "bg-[linear-gradient(to_right,rgba(205,220,59,0.8),rgba(205,220,59,0.2)),url('../public/images/membershipcards.svg')] bg-no-repeat bg-right-bottom" : "bg-[linear-gradient(to_right,rgba(30,41,57,1),rgba(205,220,59,0.3)),url('../public/images/court3.png')] bg-no-repeat bg-right-bottom"}`}>
                 {/* Symbol at the top */}
                 <div className={`flex justify-center items-center w-12 h-12 rounded-full
@@ -64,7 +64,7 @@ const Card = ({
                 <div className={`flex justify-center w-2/3
                     ${isButtonVisible ? "animate-fade-up animate-once animate-ease-in delay-300" : "opacity-0"}`}
                     ref={buttonRef}>
-                    <ActionButton text={buttonText} />
+                    <ActionButton {...button} />
                 </div>
             </div>
         </>

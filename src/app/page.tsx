@@ -1,37 +1,40 @@
-"use client";
+'use client';
+import { useRef } from "react";
+import { useIsVisible } from "@/utils/useIsVisible";
+import SubHome from "@/components/common/subhome";
+import HeroSection from "@/components/common/heroSection";
+import WideSection from "@/components/common/wideSection";
+import ServicesSection from "@/components/common/servicesSection";
 
-import HomeBanner from "@/components/common/homeBanner";
-import Layout from "@/layouts/homeLayout";
-import BookingType from "@/components/booking/bookingType";
-import prisma from "@/lib/prisma";
-import { useEffect } from "react";
+const NewHome = () => {
+    const titleRef = useRef<HTMLHeadingElement | null>(null);
+    const isTitleVisible = useIsVisible(titleRef);
 
-const url = process.env.NEXT_PUBLIC_BASE_API_URL;
-console.log(url);
+    return (
+        <>
+            <div className="w-full h-auto flex flex-col">
+                <HeroSection />
+                <div className="flex flex-col gap-8">
+                    <div className={`${isTitleVisible ? "animate-fade-left animate-once animate-ease-linear delay-500" : "opacity-0"}`} ref={titleRef}>
+                        <h3 className={`text-gray-800 font-semibold md:text-2xl text-xl text-center font-poppins w-max mx-auto bg-pear px-4 -skew-x-12`}
+                        >
+                            Book your tennis session today
+                        </h3>
+                    </div>
+                    <SubHome />
+                </div>
+            </div>
+            <WideSection />
+            <ServicesSection />
+            {/* <Timetable /> */}
+        </>
+    );
+};
 
-export default function Home() {
+export default NewHome;
 
-	// Example fetch in a component
-	async function fetchBookings() {
-		const response = await fetch(`api/bookings`);
-		const data = await response.json();
-		console.log(data); // List of bookings
-	}
-
-	useEffect(() => {
-		fetchBookings();
-	}, []);
-
-	return (
-		<Layout>
-			<HomeBanner />
-			<div
-				className="md:h-screen flex justify-center items-center"
-				id="start-booking">
-				<BookingType />
-			</div>
-		</Layout>
-	);
-}
-
-// #CDDC3B
+/*
+bg - gray - 900
+text - gray-30
+lghter text - gray-400
+*/
