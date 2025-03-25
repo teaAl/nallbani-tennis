@@ -12,6 +12,7 @@ import InstagramLogo from "@/public/icons/instalogo";
 import LinkedinLogo from "@/public/icons/linkedinlogo";
 import YoutubeLogo from "@/public/icons/youtubelogo";
 import ActionButton from "../ui/actionbtn";
+import WhatsappIcon from "@/public/icons/whatsappIcon";
 
 const Footer = () => {
     const logoRef = useRef<HTMLImageElement | null>(null);
@@ -38,7 +39,11 @@ const Footer = () => {
     const isLowerFooterVisible = useIsVisible(lowerFooter);
 
     return (
-        <footer className=" text-sm text-pear text-center bg-[linear-gradient(to_right,rgba(16,24,40,0.9),rgba(16,24,40,0.9)),url('../public/images/parallax-4.jpg')] bg-fixed bg-bottom bg-no-repeat">
+        <footer className=" text-sm text-pear text-center bg-[linear-gradient(to_right,rgba(16,24,40,0.9),rgba(16,24,40,0.9)),url('../public/images/parallax-4.jpg')] bg-fixed bg-bottom bg-no-repeat relative">
+            <div className="hidden md:flex flex-row gap-2 items-center justify-start bg-gradient-to-r from-foreground/30 to-pear/40 w-max py-1 px-2 rounded-r-3xl absolute top-2 left-0">
+                <WhatsappIcon size="25" fill="#cddc3b" />
+                <span className=" text-foreground text-md font-poppins">Chat on Whatsapp</span>
+            </div>
             <div className="flex md:w-3/4 w-full flex-row flex-wrap justify-between gap-6 md:items-center items-start md:mx-auto md:p-10 p-6">
                 <div className="flex flex-col gap-2 items-center md:w-max w-full">
                     <div className="hidden md:block">
@@ -61,11 +66,6 @@ const Footer = () => {
                         <span>since 1934</span>
                     </div>
                 </div>
-                {/* <button className={`block md:hidden w-full bg-white/10 text-pear py-2 px-4 rounded-md shadow-md font-bold cursor-pointer
-                    ${isMobileBtnVisible ? "animate-fade animate-once animate-ease-linear delay-500" : "opacity-0"}`}
-                    ref={mobileBtn}>
-                    Become a member
-                </button> */}
                 <div className={`md:hidden block w-full
                     ${isMobileBtnVisible ? "animate-fade animate-once animate-ease-linear delay-500" : "opacity-0"}`}
                     ref={mobileBtn}>
@@ -135,12 +135,6 @@ const Footer = () => {
                         className={`group ${isButtonVisible ? "animate-fade-left animate-once animate-ease-linear delay-700" : "opacity-0"}`}
                         ref={buttonRef}
                     >
-                        {/* <button
-                            className={`md:block hidden w-full bg-white/10 text-pear py-2 px-4 rounded-md shadow-md font-bold cursor-pointer transition-all duration-300
-                            group-hover:bg-pear group-hover:text-gray-900`}
-                        >
-                            Become a member
-                        </button> */}
                         <ActionButton text="Become a member" variant="secondary" size="md" />
                     </div>
                 </div>

@@ -15,6 +15,7 @@ import InstagramLogo from "@/public/icons/instalogo";
 import LinkedinLogo from "@/public/icons/linkedinlogo";
 import YoutubeLogo from "@/public/icons/youtubelogo";
 import { useGlobalState } from "@/context/globalStateContext";
+import WhatsappIcon from "@/public/icons/whatsappIcon";
 
 const links = [
     {
@@ -121,8 +122,6 @@ const NavigationNew = () => {
             {/* MOBILE MENU */}
             <div className="md:hidden absolute top-10  w-max bg-gradient-to-tl from-pear to-gray-800 rounded-r-2xl px-2 flex flex-col gap-4 py-2 justify-between items-center z-50 shadow-2xl">
                 <Bars3Icon className="w-7 h-7 text-gray-900/80" onClick={() => setHamburgerMenuOpen(true)} />
-                {/* <UserCircleIcon className="w-7 h-7 text-gray-900/80" /> */}
-                {/* <Image src={logonb} width={40} height={40} alt="" /> */}
             </div>
             <div className={`${hamburgerMenuOpen ? "absolute top-0 left-0 w-full h-screen bg-gray-900/95 z-50 overflow-hidden animate-fade-right animate-once animate-ease-in" : "w-0 opacity-0 -z-50 animate-fade-left animate-once animate-ease-in"}`}>
                 <div className={`absolute top-0 left-0 w-3/4 h-screen bg-linear-to-br from-gray-800 to-gray-900 shadow-2xl items-center ${hamburgerMenuOpen ? "flex flex-col justify-between gap-10 p-6" : "gap-0 p-0 opacity-0"}`}>
@@ -160,6 +159,10 @@ const NavigationNew = () => {
                         </nav>
                     </div>
                     <div className="flex flex-col w-full gap-14">
+                        <div className="flex flex-row gap-2 items-center justify-start bg-gradient-to-r from-foreground/30 to-pear/40 w-max py-2 px-4 rounded-r-3xl">
+                            <WhatsappIcon size="25" fill="#cddc3b" />
+                            <span className=" text-foreground text-lg font-poppins">Chat on Whatsapp</span>
+                        </div>
                         <div className="flex justify-start">
                             <Image src={logonb} width={150} height={150} alt="" className="" />
                         </div>
