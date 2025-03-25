@@ -33,7 +33,10 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                     <html lang="en">
                         <body className={`${poppins.variable} ${nunito.variable} antialiased`}>
                             <main className="flex flex-col min-h-screen h-full w-full overflow-x-hidden">
+
+                                {/* <div className="absolute top-0 md:flex w-full"> */}
                                 <NavigationNew />
+                                {/* </div> */}
                                 <div className="flex-grow overflow-auto h-screen flex flex-col gap-10">
                                     {children}
                                     <div className="w-full  z-30">

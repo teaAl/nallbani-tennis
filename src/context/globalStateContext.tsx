@@ -32,6 +32,8 @@ interface GlobalStateContextProps {
 	setExperience: React.Dispatch<
 		React.SetStateAction<"never" | "0-3" | "3-6" | "6-9" | "9-12" | "12+" | null>
 	>;
+	hamburgerMenuOpen: boolean;
+	setHamburgerMenuOpen: React.Dispatch<React.SetStateAction<boolean>>;
 	/* END -- THESE WILL CHANGE DB MODELS AS WEL -- ENDL */
 	/* START -- THIS IS WHERE THE NEW THEME STARTS */
 	user: "guest" | "member" | "admin" | null;
@@ -66,6 +68,7 @@ export const GlobalStateProvider = ({ children }: { children: ReactNode }) => {
 	const [user, setUser] = useState<"guest" | "member" | "admin" | null>(
 		null
 	);
+	const [hamburgerMenuOpen, setHamburgerMenuOpen] = useState(false);
 	/* END -- THIS IS WHERE THE NEW THEME STARTS */
 
 	const updateSteps = (index: number) => {
@@ -179,6 +182,8 @@ export const GlobalStateProvider = ({ children }: { children: ReactNode }) => {
 				/* START -- THIS IS WHERE THE NEW THEME STARTS */
 				user,
 				setUser,
+				hamburgerMenuOpen,
+				setHamburgerMenuOpen,
 				/* END -- THIS IS WHERE THE NEW THEME STARTS */
 			}}>
 			{children}
