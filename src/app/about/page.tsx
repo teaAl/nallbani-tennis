@@ -92,14 +92,14 @@ const AboutPage: React.FC = () => {
 	return (
 		<div className="flex flex-col gap-0">
 			{/* Banner */}
-			<div className="h-full bg-gradient-to-r from-pear via-gray-800 to-gray-800">
+			{/* <div className="h-full bg-gradient-to-r from-pear via-gray-800 to-gray-800">
 				<div className={`p-6
 					${isBannerVisible ? "animate-fade animate-once animate-ease-linear" : "opacity-0"}`}
 					ref={bannerRef}
-				>
-					<GeneralBanner title="About Us" />
-				</div>
-			</div>
+				> */}
+			<GeneralBanner title="About Us" />
+			{/* </div> */}
+			{/* </div> */}
 			{/* Section 1 */}
 			<div className="w-full flex md:flex-row flex-col justify-center items-center gap-10 p-6 bg-gradient-to-br from-gray-900 to-gray-800">
 				<div className="flex flex-col gap-4 md:w-1/2 w-full h-full justify-around ">
@@ -159,10 +159,8 @@ const AboutPage: React.FC = () => {
 					/>
 				</div>
 			</div>
-
 			{/* Section 2 */}
 			<MilestonesSection />
-
 			{/* Section 3 */}
 			<div className="w-full flex md:flex-row flex-col justify-center items-center gap-10 p-6 bg-gradient-to-tr from-gray-900 to-gray-800">
 				<div className="md:block hidden">
