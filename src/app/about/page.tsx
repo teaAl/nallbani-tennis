@@ -6,16 +6,9 @@ import GeneralBanner from "@/components/common/generalBanner";
 import Image from "next/image";
 import saliNallbani from "@/public/images/saliNallbani.jpeg";
 import toni from "@/public/images/toni.jpeg";
-import pose1 from "@/public/icons/pose1.svg";
-import pose2 from "@/public/icons/pose2.svg";
-import pose3 from "@/public/icons/pose3.svg";
-import pose4 from "@/public/icons/pose4.svg";
 import MilestonesSection from "@/components/about-us/milestones";
 
 const AboutPage: React.FC = () => {
-	const bannerRef = useRef<HTMLDivElement | null>(null);
-	const isBannerVisible = useIsVisible(bannerRef);
-
 	const title1Ref = useRef<HTMLHeadingElement | null>(null);
 	const isTitle1Visible = useIsVisible(title1Ref);
 	const image1Ref = useRef<HTMLImageElement | null>(null);
@@ -30,45 +23,6 @@ const AboutPage: React.FC = () => {
 	const isParagraph1Visible = useIsVisible(paragraph1Ref);
 	const paragraph2Ref = useRef<HTMLParagraphElement | null>(null);
 	const isParagraph2Visible = useIsVisible(paragraph2Ref);
-
-	// const title2Ref = useRef<HTMLHeadingElement | null>(null);
-	// const isTitle2Visible = useIsVisible(title2Ref);
-
-	// const step1titleRef = useRef<HTMLHeadingElement | null>(null);
-	// const isStep1TitleVisible = useIsVisible(step1titleRef);
-	// const step1paragraphRef = useRef<HTMLParagraphElement | null>(null);
-	// const isStep1ParagraphVisible = useIsVisible(step1paragraphRef);
-	// const step1ImageRef = useRef<HTMLImageElement | null>(null);
-	// const isStep1ImageVisible = useIsVisible(step1ImageRef);
-	// const step1PlaceholderRef = useRef<HTMLDivElement | null>(null);
-	// const isStep1PlaceholderVisible = useIsVisible(step1PlaceholderRef);
-
-	// const step2titleRef = useRef<HTMLHeadingElement | null>(null);
-	// const isStep2TitleVisible = useIsVisible(step2titleRef);
-	// const step2paragraphRef = useRef<HTMLParagraphElement | null>(null);
-	// const isStep2ParagraphVisible = useIsVisible(step2paragraphRef);
-	// const step2ImageRef = useRef<HTMLImageElement | null>(null);
-	// const isStep2ImageVisible = useIsVisible(step2ImageRef);
-	// const step2PlaceholderRef = useRef<HTMLDivElement | null>(null);
-	// const isStep2PlaceholderVisible = useIsVisible(step2PlaceholderRef);
-
-	// const step3titleRef = useRef<HTMLHeadingElement | null>(null);
-	// const isStep3TitleVisible = useIsVisible(step3titleRef);
-	// const step3paragraphRef = useRef<HTMLParagraphElement | null>(null);
-	// const isStep3ParagraphVisible = useIsVisible(step3paragraphRef);
-	// const step3ImageRef = useRef<HTMLImageElement | null>(null);
-	// const isStep3ImageVisible = useIsVisible(step3ImageRef);
-	// const step3PlaceholderRef = useRef<HTMLDivElement | null>(null);
-	// const isStep3PlaceholderVisible = useIsVisible(step3PlaceholderRef);
-
-	// const step4titleRef = useRef<HTMLHeadingElement | null>(null);
-	// const isStep4TitleVisible = useIsVisible(step4titleRef);
-	// const step4paragraphRef = useRef<HTMLParagraphElement | null>(null);
-	// const isStep4ParagraphVisible = useIsVisible(step4paragraphRef);
-	// const step4ImageRef = useRef<HTMLImageElement | null>(null);
-	// const isStep4ImageVisible = useIsVisible(step4ImageRef);
-	// const step4PlaceholderRef = useRef<HTMLDivElement | null>(null);
-	// const isStep4PlaceholderVisible = useIsVisible(step4PlaceholderRef);
 
 	const title3Ref = useRef<HTMLHeadingElement | null>(null);
 	const isTitle3Visible = useIsVisible(title3Ref);
@@ -91,15 +45,7 @@ const AboutPage: React.FC = () => {
 
 	return (
 		<div className="flex flex-col gap-0">
-			{/* Banner */}
-			{/* <div className="h-full bg-gradient-to-r from-pear via-gray-800 to-gray-800">
-				<div className={`p-6
-					${isBannerVisible ? "animate-fade animate-once animate-ease-linear" : "opacity-0"}`}
-					ref={bannerRef}
-				> */}
 			<GeneralBanner title="About Us" />
-			{/* </div> */}
-			{/* </div> */}
 			{/* Section 1 */}
 			<div className="w-full flex md:flex-row flex-col justify-center items-center gap-10 p-6 bg-gradient-to-br from-gray-900 to-gray-800">
 				<div className="flex flex-col gap-4 md:w-1/2 w-full h-full justify-around ">
@@ -137,7 +83,7 @@ const AboutPage: React.FC = () => {
 						${isParagraph2Visible ? "animate-fade-left animate-once animate-ease-linear" : "opacity-0"}`}
 						ref={paragraph2Ref}
 					>
-						His grandfather, Sali Nallbani, was the first Albanian tennis champion, holding 26 international titles
+						His uncle, Sali Nallbani, was the first Albanian tennis champion, holding 26 international titles
 						along with numerous national championships. His family played a crucial role in popularizing tennis in Albania
 						from 1930 to 1964, a tradition later continued by his uncle, Fatos Nallbani.
 					</p>
@@ -206,8 +152,6 @@ const AboutPage: React.FC = () => {
 						<Image src={toni} alt="Meriton Nallbani"
 							className={`shadow-[-17px_-15px_0px_0px_#cbdc3b] w-full
 							${isImage3MobileVisible ? "animate-fade-left animate-once animate-ease-linear" : "opacity-0"}`}
-							// width={270}
-							// height={270}
 							ref={image3MobileRef}
 						/>
 					</div>
