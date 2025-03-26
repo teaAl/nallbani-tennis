@@ -6,10 +6,9 @@ interface GeneralBannerProps {
 
 const GeneralBanner = ({ title }: GeneralBannerProps) => {
 	return (
-		<div className="h-full text-white text-center grid bg-cover bg-fixed bg-[url(../public/images/moreballs.jpg)]">
-			<div className="col-start-1 row-start-1 bg-gray-800/80 w-full h-full"></div>
-			<div className="col-start-1 row-start-1 mx-auto my-auto flex flex-col gap-8 md:gap-16">
-				<h1 className="cursor-default font-extrabold text-5xl md:text-9xl font-poppins bg-[url(../public/images/net.png)] text-transparent bg-bottom md:bg-right-bottom opacity-90 bg-clip-text webkit-bg-clip-text">
+		<div className="w-full rounded-2xl shadow-[-17px_-15px_0px_0px_#10182840] md:h-[calc(100vh-20rem)] h-[calc(100vh-31rem)] bg-[linear-gradient(to_bottom,rgba(16,24,40,0.7),rgba(16,24,40,1)),url('../public/images/racketballsnet.jpg')] bg-cover /*bg-fixed*/ bg-center ">
+			<div className="flex flex-col w-full h-full justify-center items-center my-auto md:gap-8 gap-4 ">
+				<h1 className={`text-pear font-poppins font-bold md:text-6xl text-4xl`}>
 					{title}
 				</h1>
 			</div>
