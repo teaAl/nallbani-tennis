@@ -4,8 +4,10 @@ import { useRef } from "react";
 import Image from "next/image";
 import logonb from "../../public/images/logo-nt.png";
 import { useIsVisible } from "@/utils/useIsVisible";
+import { useTranslations } from "next-intl";
 
 const HeroSection = () => {
+    const t = useTranslations('HomePage.Hero');
     const titleRef = useRef<HTMLHeadingElement | null>(null);
     const paragraphRef = useRef<HTMLParagraphElement | null>(null);
     const logoMobileRef = useRef<HTMLImageElement | null>(null);
@@ -25,7 +27,9 @@ const HeroSection = () => {
                 <p className={`text-foreground font-nunito font-bold md:text-xl text-lg
                     ${isParagraphVisible ? "animate-fade-up animate-once animate-ease-linear" : "opacity-0"}`}
                     ref={paragraphRef}>
-                    Elevate your <span className="text-pear underline">game</span> with us
+                    {t('subheaderPt1')}
+                    <span className="text-pear underline">{t('subheaderPt2')}</span>
+                    {t('subheaderPt3')}
                 </p>
             </div>
         </div>

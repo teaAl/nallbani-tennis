@@ -1,4 +1,4 @@
-import GeneralBanner from "@/components/common/generalBanner";
+import GeneralBanner from "@/components/home/generalBanner";
 
 const ServicesPage: React.FC = () => {
 

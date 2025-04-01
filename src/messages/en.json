@@ -1,0 +1,113 @@
+{
+    "NavigationMenu": {
+        "home": "Home",
+        "aboutUs": "About Us",
+        "services": "Services",
+        "pricing": "Pricing",
+        "becomeMember": "Become a Member"
+    },
+    "HomePage": {
+        "Hero": {
+            "subheaderPt1": "Elevate your ",
+            "subheaderPt2": "game",
+            "subheaderPt3": " with us"
+        },
+        "Subhero": {
+            "subheader": "Book your tennis session today",
+            "MemberCard": {
+                "title": "Become a Member",
+                "button": "Join Now",
+                "MembershipList": {
+                    "item1": "Individual or in-group training",
+                    "item2": "Tailored course plan and progress tracking",
+                    "item3": "Discounts and priority on bookings"
+                }
+            },
+            "GuestCard": {
+                "title": "Continue as Guest",
+                "button": "Explore",
+                "GuestList": {
+                    "item1": "Book a lesson or a court",
+                    "item2": "No progress tracking",
+                    "item3": "No discount and low priority on bookings"
+                }
+            }
+        },
+        "WideSection": {
+            "title": {
+                "pt1": "Whether you're stepping onto the court for the first time or refining your skills, tennis challenges both ",
+                "mind": "mind",
+                "body": "body"
+            },
+            "text": {
+                "pt1": "It's a sport that teaches ",
+                "discipline": "discipline",
+                "focus": "focus",
+                "perseverance": "perseverance",
+                "pt2": "— values that extend far beyond the court. Even as a hobby, tennis asks for your ",
+                "commitment": "commitment",
+                "because": " because ",
+                "growth": "growth",
+                "pt3": " doesn't come without practice. Every session you book brings you one step closer to ",
+                "mastery": "mastery ",
+                "constistencty": "with consistency",
+                "pt4": " this game can transform into a ",
+                "passion": "lifelong passion",
+                "pt5": " So, why not take that first step today? Whether you're just testing the waters or ready to go all in, ",
+                "tennis": "tennis",
+                "pt6": " is waiting for you."
+            },
+            "and": " and ",
+            "button": "Read more about us"
+        },
+        "ServicesSection": {
+            "subTitle": "SINGLE OR GROUP COURSES",
+            "title": "Courses for any age!",
+            "text": "Whether you want to start learning in group or individual, you are 12 or 50 years old, we always have a spot for you",
+            "button": "Read more ",
+            "ListElement1": {
+                "title": "Beginner level",
+                "subTitle": "Mixed groups"
+            },
+            "ListElement2": {
+                "title": "Intermediate",
+                "subTitle": "Maximum 6 people"
+            },
+            "ListElement3": {
+                "title": "Advanced skills",
+                "subTitle": "Private lesson"
+            }
+        }
+    },
+    "AboutPage": {
+        "bannerTitle": "About Us",
+        "Section1": {
+            "title": "How Tennis Nallbani was born",
+            "p1": "Tennis Nallbani was founded in 2014 by a highly experienced tennis coach with a deep-rooted passion for the sport. Co-founder Toni Nallbani comes from a family with a strong tennis legacy.",
+            "p2": "His uncle, Sali Nallbani, was the first Albanian tennis champion, holding 26 international titles along with numerous national championships. His family played a crucial role in popularizing tennis in Albania from 1930 to 1964, a tradition later continued by his uncle, Fatos Nallbani."
+        },
+        "Section2": {
+            "title": "Milestones and Growth",
+            "p17": "Toni achieved his first major successes as a coach when his students won several junior and adult tournaments",
+            "p22": "He shifted his focus exclusively to children's tennis by coaching at the American School of Tirana (TIS), aiming to cultivate young talent",
+            "p24": "Tennis Nallbani makes a strong comeback, resuming training for all age groups at Petro Nini Luarasi School, thanks to the support of passionate tennis enthusiasts",
+            "p25": "With fresh ideas and a clear vision, Tennis Nallbani is set to further expand and popularize the sport in Tirana and Albania. The passion for tennis continues to grow, inspiring future generations"
+        },
+        "Section3": {
+            "title": "Coach Toni",
+            "p1": "Toni grew up and developed his skills as a player at Tirana Club, where he became a multi-time Albanian champion in the U14-U16 categories and a finalist in several competitions. In 2014, he seized the opportunity to work as a professional coach at Tirana Club, initially training close friends and later expanding his activities over the years.",
+            "p2": "While pursuing his career as a part-time tennis coach, Toni also completed his university studies in Architecture. After graduation, he worked as an architect for several years, continuing to coach tennis on the side. His passion for the sport never faded, and he constantly gained experience from fellow players and coaches.",
+            "p3": "In 2014, he earned his ITF coaching license and also worked as an international referee for Tennis Europe events in Tirana. Through these years, Toni faced a pivotal life decision and realized that tennis was his true calling. His mission became clear: to promote the sport and develop new generations of junior and adult players in Tirana and across Albania."
+        }
+    },
+    "Footer": {
+        "contactUs": "contact us",
+        "followUs": "follow us",
+        "tnc": "Terms & Conditions",
+        "pp": "Privacy Policy",
+        "rights": " 2025 Nallbani Tennis. All rights reserved.",
+        "since": "since ",
+        "chatwhap": "Chat on Whatsapp",
+        "button": "Become a Member"
+    }
+}

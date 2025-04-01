@@ -5,8 +5,11 @@ import pose1 from "@/public/icons/pose1.svg";
 import pose2 from "@/public/icons/pose2.svg";
 import pose3 from "@/public/icons/pose3.svg";
 import pose4 from "@/public/icons/pose4.svg";
+import { useTranslations } from 'next-intl';
 
 const MilestonesSection = () => {
+    const t = useTranslations('AboutPage.Section2');
+
     const title2Ref = useRef<HTMLHeadingElement | null>(null);
     const isTitle2Visible = useIsVisible(title2Ref);
 
@@ -54,7 +57,7 @@ const MilestonesSection = () => {
 							${isTitle2Visible ? "animate-fade-left animate-once animate-ease-linear" : "opacity-0"}`}
                         ref={title2Ref}
                     >
-                        Milestones and Growth
+                        {t('title')}
                     </h3>
                 </div>
                 <div className="/flex /flex-col /justify-between grid grid-cols-1 md:grid-cols-4 md:h-80 h-screen gap-10">
@@ -78,7 +81,7 @@ const MilestonesSection = () => {
                                         2025
                                     </span>
                                 </div>
-                                <p className="font-poppins text-sm text-foreground">With fresh ideas and a clear vision, Tennis Nallbani is set to further expand and popularize the sport in Tirana and Albania. The passion for tennis continues to grow, inspiring future generations</p>
+                                <p className="font-poppins text-sm text-foreground">{t('p25')}</p>
                             </div>
                         </div>
                     </div>
@@ -104,15 +107,8 @@ const MilestonesSection = () => {
                                         2024
                                     </span>
                                 </div>
-                                <p className="font-poppins text-sm text-foreground">Tennis Nallbani makes a strong comeback, resuming training for all age groups at Petro Nini Luarasi School, thanks to the support of passionate tennis enthusiasts</p>
+                                <p className="font-poppins text-sm text-foreground">{t('p24')}</p>
                             </div>
-                            {/* Alternative design */}
-                            {/* <div className="absolute bottom-0 -right-2 w-3/5 p-4 bg-pear">
-									<div className="relative w-full flex flex-row justify-end">
-										<span className="absolute -top-12 text-pear font-poppins text-2xl">2024</span>
-									</div>
-									<p className="font-poppins text-sm text-gray-900">Tennis Nallbani makes a strong comeback, resuming training for all age groups at Petro Nini Luarasi School, thanks to the support of passionate tennis enthusiasts</p>
-								</div> */}
                         </div>
                     </div>
                     <div className="flex flex-col justify-end order-2 md:order-3">
@@ -137,7 +133,7 @@ const MilestonesSection = () => {
                                         2022
                                     </span>
                                 </div>
-                                <p className="font-poppins text-sm text-foreground">He shifted his focus exclusively to children’s tennis by coaching at the American School of Tirana (TIS), aiming to cultivate young talent</p>
+                                <p className="font-poppins text-sm text-foreground">{t('p22')}</p>
                             </div>
                         </div>
                     </div>
@@ -166,15 +162,8 @@ const MilestonesSection = () => {
                                         2017
                                     </span>
                                 </div>
-                                <p className="font-poppins text-sm text-foreground">Toni achieved his first major successes as a coach when his students won several junior and adult tournaments</p>
+                                <p className="font-poppins text-sm text-foreground">{t('p17')}</p>
                             </div>
-                            {/* Alternative design */}
-                            {/* <div className="absolute bottom-0 -right-2 w-3/5 p-4 border border-pear/30 bg-gray-800/40 /bg-pear">
-									<div className="relative w-full flex flex-row justify-end">
-										<span className="absolute -top-12 text-pear font-poppins text-2xl">2017</span>
-									</div>
-									<p className="font-poppins text-sm text-foreground /text-gray-900">Toni achieved his first major successes as a coach when his students won several junior and adult tournaments</p>
-								</div> */}
                         </div>
                     </div>
                 </div>

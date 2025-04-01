@@ -1,0 +1,113 @@
+{
+    "NavigationMenu": {
+        "home": "Kreu",
+        "aboutUs": "Rreth Nesh",
+        "services": "Serviset tona",
+        "pricing": "Çmimet",
+        "becomeMember": "Bëhu Anëtar"
+    },
+    "HomePage": {
+        "Hero": {
+            "subheaderPt1": "Lartëso ",
+            "subheaderPt2": "lojën",
+            "subheaderPt3": " tënde me ne"
+        },
+        "Subhero": {
+            "subheader": "Rezervo seancën tënde të tenisit sot",
+            "MemberCard": {
+                "title": "Bëhu Anëtar",
+                "MembershipList": {
+                    "item1": "Trajnim individual ose në grup",
+                    "item2": "Plan i personalizuar dhe ndjekje të progresit",
+                    "item3": "Zbritje dhe prioritet në rezervime"
+                },
+                "button": "Bashkohu tani"
+            },
+            "GuestCard": {
+                "title": "Vazhdo si Mysafir",
+                "GuestList": {
+                    "item1": "Rezervo një leksion ose një fushë",
+                    "item2": "Pa ndjekje te progresit",
+                    "item3": "Pa zbritje dhe me prioritet të ulët në rezervime"
+                },
+                "button": "Eksploro"
+            }
+        },
+        "WideSection": {
+            "title": {
+                "pt1": "Qoftë se po hyn për herë të parë në fushë apo po përmirëson aftësitë e tua, tenisi sfidon si ",
+                "mind": "mendjen",
+                "body": "trupin"
+            },
+            "text": {
+                "pt1": "Është një sport që mëson ",
+                "discipline": "disiplinë",
+                "focus": "përqendrim",
+                "perseverance": "këmbëngulje",
+                "pt2": "— vlera që shtrihen përtej fushës së tenisit. Edhe si një hobi, tenisi kërkon ",
+                "commitment": "përkushtim",
+                "because": " sepse ",
+                "growth": "rritja",
+                "pt3": " nuk vjen pa praktikë. Çdo seancë që praktikohesh të afron një hap më pranë ",
+                "mastery": "perfeksionit",
+                "constistencty": "me qëndrueshmëri",
+                "pt4": " ky sport mund të shndërrohet në një ",
+                "passion": "pasion të përjetshëm",
+                "pt5": " Pra, pse të mos e bësh hapin e parë sot? Qoftë se po e provon për herë të parë apo je gati të përkushtohesh plotësisht, ",
+                "tennis": "tenisi",
+                "pt6": " po të pret."
+            },
+            "and": " dhe ",
+            "button": "Meso më shumë rreth nesh"
+        },
+        "ServicesSection": {
+            "subTitle": "KURSE INDIVIDUALE OSE NË GRUP",
+            "title": "Kurse për çdo moshë!",
+            "text": "Qoftë se dëshironi të filloni të mësoni në grup ose individualisht, jeni 12 apo 50 vjeç, gjithmonë kemi një vend për ju",
+            "button": "Lexo më shumë",
+            "ListElement1": {
+                "title": "Niveli fillestar",
+                "subTitle": "Grupet e përziera"
+            },
+            "ListElement2": {
+                "title": "Niveli mesatar",
+                "subTitle": "Maksimumi 6 persona"
+            },
+            "ListElement3": {
+                "title": "Nivel i avancuar",
+                "subTitle": "Mësim privat"
+            }
+        }
+    },
+    "AboutPage": {
+        "bannerTitle": "Rreth Nesh",
+        "Section1": {
+            "title": "Si lindi Tenisi Nallbani",
+            "p1": "Tenisi Nallbani u themelua në vitin 2014 nga një trajner tenisi me përvojë të madhe dhe pasion të thellë për sportin. Bashkëthemeluesi Toni Nallbani vjen nga një familje me një trashëgimi të fortë në tenis.",
+            "p2": "Xhaxhai i tij, Sali Nallbani, ishte kampioni i parë shqiptar i tenisit, duke fituar 26 tituj ndërkombëtarë së bashku me shumë kampionate kombëtare. Familja e tij luajti një rol vendimtar në popullarizimin e tenisit në Shqipëri nga viti 1930 deri në 1964, një traditë që më vonë u vazhdua nga xhaxhai i tij, Fatos Nallbani."
+        },
+        "Section2": {
+            "title": "Arritjet dhe Sukseset",
+            "p17": "Toni arriti sukseset e tij të para të mëdha si trajner kur studentët e tij fituan disa turne për të rinj dhe të rritur.",
+            "p22": "Ai e përqendroi vëmendjen e tij ekskluzivisht në tenisin për fëmijë duke trajnuar në Shkollën Amerikane të Tiranës (TIS), me qëllim kultivimin e talenteve të reja.",
+            "p24": "Tenisi Nallbani bën një rikthim të fuqishëm, duke rifilluar trajnimin për të gjitha grupmoshat në Shkollën Petro Nini Luarasi, falë mbështetjes së entuziastëve të pasionuar të tenisit.",
+            "p25": "Me ide të reja dhe një vizion të qartë, Tenisi Nallbani synon të zgjerohet më tej dhe të popullarizojë sportin në Tiranë dhe në Shqipëri. Pasioni për tenisin vazhdon të rritet, duke frymëzuar brezat e ardhshëm."
+        },
+        "Section3": {
+            "title": "Trajner Toni",
+            "p1": "Toni u rrit dhe zhvilloi aftësitë e tij si lojtar në Klubin e Tiranës, ku ai u bë kampion shumë herë në kategoritë U14-U16 dhe finalist në disa gara. Në vitin 2014, ai shfrytëzoi mundësinë për të punuar si trajner profesionist në Klubin e Tiranës, duke trajnuar fillimisht miqtë e ngushtë dhe më pas duke zgjeruar aktivitetet e tij gjatë viteve.",
+            "p2": "Ndërsa ndiqte karrierën e tij si trajner tenisi me kohë të pjesshme, Toni gjithashtu përfundoi studimet universitare në Arkitekturë. Pas diplomimit, ai punoi si arkitekt për disa vite, duke vazhduar të trajnojë tenis në kohën e lirë. Pasioni i tij për sportin nuk u zbeh kurrë dhe ai vazhdimisht fitoi përvojë nga lojtarë dhe trajnerë të tjerë.",
+            "p3": "Në vitin 2014, ai mori licencën e tij të trajnimit nga ITF dhe gjithashtu punoi si arbitër ndërkombëtar për ngjarjet e Tennis Europe në Tiranë. Gjatë këtyre viteve, Toni u përball me një vendim të rëndësishëm në jetë dhe kuptoi se tenisi ishte thirrja e tij e vërtetë. Misioni i tij u bë i qartë: të promovojë sportin dhe të zhvillojë breza të rinj dhe lojtarë të rritur në Tiranë dhe në të gjithë Shqipërinë."
+        }
+    },
+    "Footer": {
+        "contactUs": "na kontaktoni",
+        "followUs": "na ndiqni",
+        "tnc": "Kushtet dhe Rregullat",
+        "pp": "Politika e Privatësisë",
+        "rights": " 2025 Nallbani Tennis. Të gjitha të drejtat e rezervuara.",
+        "since": "që prej ",
+        "chatwhap": "Bisedo në Whatsapp",
+        "button": "Bëhu Anëtar"
+    }
+}

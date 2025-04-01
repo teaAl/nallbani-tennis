@@ -1,5 +1,5 @@
 import React from "react";
-import GeneralBanner from "@/components/common/generalBanner";
+import GeneralBanner from "@/components/home/generalBanner";
 import Layout from "@/layouts/homeLayout";
 
 const ContactUsPage: React.FC = () => {

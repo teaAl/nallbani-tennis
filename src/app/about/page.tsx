@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useRef } from "react";
@@ -7,8 +8,11 @@ import Image from "next/image";
 import saliNallbani from "@/public/images/saliNallbani.jpeg";
 import toni from "@/public/images/toni.jpeg";
 import MilestonesSection from "@/components/about-us/milestones";
+import { useTranslations } from "next-intl";
 
 const AboutPage: React.FC = () => {
+	const t = useTranslations('AboutPage');
+
 	const title1Ref = useRef<HTMLHeadingElement | null>(null);
 	const isTitle1Visible = useIsVisible(title1Ref);
 	const image1Ref = useRef<HTMLImageElement | null>(null);
@@ -45,7 +49,7 @@ const AboutPage: React.FC = () => {
 
 	return (
 		<div className="flex flex-col gap-0">
-			<GeneralBanner title="About Us" />
+			<GeneralBanner title={t('bannerTitle')} />
 			{/* Section 1 */}
 			<div className="w-full flex md:flex-row flex-col justify-center items-center gap-10 p-6 bg-gradient-to-br from-gray-900 to-gray-800">
 				<div className="flex flex-col gap-4 md:w-1/2 w-full h-full justify-around ">
@@ -53,15 +57,13 @@ const AboutPage: React.FC = () => {
 						${isTitle1Visible ? "animate-fade-left animate-once animate-ease-linear" : "opacity-0"}`}
 						ref={title1Ref}
 					>
-						How Tennis Nallbani was born
+						{t('Section1.title')}
 					</h3>
 					<p className={`text-foreground font-poppins font-light
 						${isParagraph1Visible ? "animate-fade-left animate-once animate-ease-linear" : "opacity-0"}`}
 						ref={paragraph1Ref}
 					>
-						Tennis Nallbani was founded in 2014 by a highly experienced
-						tennis coach with a deep-rooted passion for the sport. Co-founder Toni Nallbani comes from a family with a strong
-						tennis legacy.
+						{t('Section1.p1')}
 					</p>
 
 					<div className="block md:hidden px-2">
@@ -83,9 +85,8 @@ const AboutPage: React.FC = () => {
 						${isParagraph2Visible ? "animate-fade-left animate-once animate-ease-linear" : "opacity-0"}`}
 						ref={paragraph2Ref}
 					>
-						His uncle, Sali Nallbani, was the first Albanian tennis champion, holding 26 international titles
-						along with numerous national championships. His family played a crucial role in popularizing tennis in Albania
-						from 1930 to 1964, a tradition later continued by his uncle, Fatos Nallbani.
+						{t('Section1.p2')}
+
 					</p>
 				</div>
 				<div className="md:block hidden">
@@ -129,17 +130,15 @@ const AboutPage: React.FC = () => {
 						${isTitle3Visible ? "animate-fade-right animate-once animate-ease-linear" : "opacity-0"}`}
 						ref={title3Ref}
 					>
-						Coach Toni
+						{t('Section3.title')}
 					</h3>
 
 					<p className={`text-foreground font-poppins font-light
 						${isParagraph3Visible ? "animate-fade-right animate-once animate-ease-linear" : "opacity-0"}`}
 						ref={paragraph3Ref}
 					>
-						Toni grew up and developed his skills as a player at Tirana Club, where he became a multi-time Albanian
-						champion in the U14-U16 categories and a finalist in several competitions. In 2014, he seized the
-						opportunity to work as a professional coach at Tirana Club, initially training close friends and later
-						expanding his activities over the years.
+						{t('Section3.p1')}
+
 					</p>
 
 					<div className="block md:hidden px-2">
@@ -159,17 +158,14 @@ const AboutPage: React.FC = () => {
 						${isParagraph4Visible ? "animate-fade-right animate-once animate-ease-linear" : "opacity-0"}`}
 						ref={paragraph4Ref}
 					>
-						While pursuing his career as a part-time tennis coach, Toni also completed his university studies in Architecture.
-						After graduation, he worked as an architect for several years, continuing to coach tennis on the side.
-						His passion for the sport never faded, and he constantly gained experience from fellow players and coaches.
+						{t('Section3.p2')}
+
 					</p>
 					<p className={`text-foreground font-poppins font-light
 						${isParagraph5Visible ? "animate-fade-right animate-once animate-ease-linear" : "opacity-0"}`}
 						ref={paragraph5Ref}
 					>
-						In 2014, he earned his ITF coaching license and also worked as an international referee for Tennis Europe events in Tirana.
-						Through these years, Toni faced a pivotal life decision and realized that tennis was his true calling. His mission became clear:
-						to promote the sport and develop new generations of junior and adult players in Tirana and across Albania.
+						{t('Section3.p3')}
 					</p>
 				</div>
 

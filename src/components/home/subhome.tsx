@@ -3,38 +3,41 @@
 import { useRef } from "react";
 import { useIsVisible } from "@/utils/useIsVisible";
 import Card from "../ui/card";
+import { useTranslations } from "next-intl";
 
 const SubHome = () => {
+    const t = useTranslations('HomePage.Subhero');
     const card1Ref = useRef<HTMLHeadingElement | null>(null);
     const card2Ref = useRef<HTMLHeadingElement | null>(null);
     const isCard1Visible = useIsVisible(card1Ref);
     const isCard2Visible = useIsVisible(card2Ref);
 
-    const membershipListItems: { title: string, whichIcon: "greenAllowed" | "grayDisabled" }[] = [
+    const membershipListItems: { title: string; whichIcon: "greenAllowed" | "grayDisabled" }[] = [
         {
-            title: "Individual or in-group training",
-            whichIcon: "greenAllowed"
-        },
-        {
-            title: "Tailored course plan and progress tracking",
+            title: t("MemberCard.MembershipList.item1"),
             whichIcon: "greenAllowed",
         },
         {
-            title: "Priority on bookings and discounts",
+            title: t("MemberCard.MembershipList.item2"),
+            whichIcon: "greenAllowed",
+        },
+        {
+            title: t("MemberCard.MembershipList.item3"),
             whichIcon: "greenAllowed",
         },
     ];
-    const guestListItems: { title: string, whichIcon: "greenAllowed" | "grayDisabled" }[] = [
+
+    const guestListItems: { title: string; whichIcon: "greenAllowed" | "grayDisabled" }[] = [
         {
-            title: "Book a lesson or a court",
+            title: t("GuestCard.GuestList.item1"),
             whichIcon: "greenAllowed",
         },
         {
-            title: "No progress tracking",
-            whichIcon: "grayDisabled" as "grayDisabled",
+            title: t("GuestCard.GuestList.item2"),
+            whichIcon: "grayDisabled",
         },
         {
-            title: "No discount and low priority on bookings",
+            title: t("GuestCard.GuestList.item3"),
             whichIcon: "grayDisabled",
         },
     ];
@@ -46,9 +49,8 @@ const SubHome = () => {
                 <div className={`${isCard1Visible ? "animate-fade-up animate-once animate-ease-in delay-500" : "opacity-0"}`}
                     ref={card1Ref}>
                     <Card
-                        title="Become a Member"
-                        // buttonText="Join Now"
-                        button={{ text: "Join Now", variant: "primary", size: "md" }}
+                        title={t('MemberCard.title')}
+                        button={{ text: t('MemberCard.button'), variant: "primary", size: "md" }}
                         list={membershipListItems}
                         type="member"
                     />
@@ -56,30 +58,13 @@ const SubHome = () => {
                 <div className={`${isCard2Visible ? "animate-fade-up animate-once animate-ease-in delay-400" : "opacity-0"}`}
                     ref={card2Ref}>
                     <Card
-                        title="Continue as Guest"
-                        // buttonText="Explore"
-                        button={{ text: "Explore", variant: "primary", size: "md" }}
+                        title={t('GuestCard.title')}
+                        button={{ text: t('GuestCard.button'), variant: "primary", size: "md" }}
                         list={guestListItems}
                         type="guest"
                     />
                 </div>
             </div>
-            {/* Mobile View */}
-            {/* <div className="flex flex-col gap-4 md:hidden justify-center items-center mx-auto">
-                <Card
-                    title="Become a Member"
-                    buttonText="Join Now"
-                    list={guestListItems}
-                    type="member"
-                />
-
-                <Card
-                    title="Continue as Guest"
-                    buttonText="Explore"
-                    list={guestListItems}
-                    type="guest"
-                />
-            </div> */}
         </>
     );
 };

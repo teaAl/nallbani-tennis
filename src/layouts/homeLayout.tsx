@@ -1,5 +1,5 @@
 import React from "react";
-import NavigationMenu from "@/components/common/navigationMenu";
+import NavigationMenu from "@/components/common/navbar/navigationMenu";
 import Footer from "@/components/common/footer";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {

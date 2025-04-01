@@ -13,8 +13,10 @@ import LinkedinLogo from "@/public/icons/linkedinlogo";
 import YoutubeLogo from "@/public/icons/youtubelogo";
 import ActionButton from "../ui/actionbtn";
 import WhatsappIcon from "@/public/icons/whatsappIcon";
+import { useTranslations } from "next-intl";
 
 const Footer = () => {
+    const t = useTranslations('Footer');
     const logoRef = useRef<HTMLImageElement | null>(null);
     const isLogoVisible = useIsVisible(logoRef);
     const logoRefMobile = useRef<HTMLImageElement | null>(null);
@@ -42,7 +44,7 @@ const Footer = () => {
         <footer className=" text-sm text-pear text-center bg-[linear-gradient(to_right,rgba(16,24,40,0.9),rgba(16,24,40,0.9)),url('../public/images/parallax-4.jpg')] bg-fixed bg-bottom bg-no-repeat relative">
             <div className="hidden md:flex flex-row gap-2 items-center justify-start bg-gradient-to-r from-foreground/30 to-pear/40 w-max py-1 px-2 rounded-r-3xl absolute top-2 left-0">
                 <WhatsappIcon size="25" fill="#cddc3b" />
-                <span className=" text-foreground text-md font-poppins">Chat on Whatsapp</span>
+                <span className=" text-foreground text-md font-poppins">{t('chatwhap')}</span>
             </div>
             <div className="flex md:w-3/4 w-full flex-row flex-wrap justify-between gap-6 md:items-center items-start md:mx-auto md:p-10 p-6">
                 <div className="flex flex-col gap-2 items-center md:w-max w-full">
@@ -63,20 +65,20 @@ const Footer = () => {
                         ref={logoTitle}
                     >
                         <p className="font-poppins font-light text-lg tracking-widest">Nallbani <span className="text-white">Tennis</span></p>
-                        <span>since 1934</span>
+                        <span>{t('since')} 1934</span>
                     </div>
                 </div>
                 <div className={`md:hidden block w-full
                     ${isMobileBtnVisible ? "animate-fade animate-once animate-ease-linear delay-500" : "opacity-0"}`}
                     ref={mobileBtn}>
-                    <ActionButton text="Become a member" variant="secondary" size="md" />
+                    <ActionButton text={t('button')} variant="secondary" size="md" />
                 </div>
                 <div className="flex flex-col gap-4 justify-around w-max">
                     <h5 className={`uppercase text-white md:border-b-2 border-b border-b-white/30 py-1 text-left font-bold md:text-lg text-base
                         ${isContactTitleVisible ? "animate-fade-down animate-once animate-ease-linear" : "opacity-0"}`}
                         ref={contactTitle}
                     >
-                        contact us
+                        {t('contactUs')}
                     </h5>
                     <div className={`flex flex-col gap-4
                         ${isContactInfoVisible ? "animate-fade-up animate-once animate-ease-linear" : "opacity-0"}`}
@@ -120,7 +122,7 @@ const Footer = () => {
                         ${isSocialsTitleVisible ? "animate-fade-down animate-once animate-ease-linear" : "opacity-0"}`}
                         ref={socialsTitle}
                     >
-                        follow us
+                        {t('followUs')}
                     </h5>
                     <div className={`flex flex-row gap-2 items-center md:justify-around justify-around
                         ${isSocialsVisible ? "animate-fade-left animate-once animate-ease-linear delay-300" : "opacity-0"}`}
@@ -135,7 +137,7 @@ const Footer = () => {
                         className={`group ${isButtonVisible ? "animate-fade-left animate-once animate-ease-linear delay-700" : "opacity-0"}`}
                         ref={buttonRef}
                     >
-                        <ActionButton text="Become a member" variant="secondary" size="md" />
+                        <ActionButton text={t('button')} variant="secondary" size="md" />
                     </div>
                 </div>
 
@@ -144,15 +146,15 @@ const Footer = () => {
                 ${isLowerFooterVisible ? "animate-fade animate-once animate-ease-linear" : "opacity-0"}`}
                 ref={lowerFooter}>
                 <span className=" text-pear/90">
-                    &copy; 2025 Nallbani Tennis. All rights reserved.
+                    &copy; {t('rights')}
                 </span>
                 <div className="flex flex-row gap-2 md:gap-4 text-pear/90">
                     <span>
-                        Terms & Conditions
+                        {t('tnc')}
                     </span>
                     <span>|</span>
                     <span>
-                        Privacy Policy
+                        {t('pp')}
                     </span>
                 </div>
             </div>

@@ -1,11 +1,18 @@
-import "./globals.css";
+import './globals.css'
+// import "../../globals.css";
 import type { Metadata } from "next";
 import { Poppins, Nunito } from "next/font/google";
+// import { notFound } from 'next/navigation';
 import Footer from "@/components/common/footer";
-import NavigationNew from "@/components/common/navigationMenu";
+import NavigationMenu from "@/components/common/navbar/navigationMenu";
 import { GlobalStateProvider } from "@/context/globalStateContext";
 import BookingLayout from "@/layouts/bookingLayout";
 import React from "react";
+import { NextIntlClientProvider } from "next-intl";
+import { getLocale, getMessages } from 'next-intl/server';
+// import nextI18NextConfig from "../../next-i18next.config.js";
+// import { appWithTranslation } from "next-i18next";
+// import type { AppProps } from "next/app";
 
 const poppins = Poppins({
     subsets: ["latin"],
@@ -25,25 +32,28 @@ export const metadata: Metadata = {
 };
 
 
-const Layout = ({ children }: { children: React.ReactNode }) => {
+export default async function Layout({ children }: { children: React.ReactNode }) {
+    const messages = getMessages();
+    const locale = await getLocale();
+    console.log('locale on rootlayout > ', locale);
+
     return (
         <>
             <GlobalStateProvider>
                 <BookingLayout>
-                    <html lang="en">
+                    <html lang={locale}>
                         <body className={`${poppins.variable} ${nunito.variable} antialiased`}>
-                            <main className="flex flex-col min-h-screen h-full w-full overflow-x-hidden">
-
-                                {/* <div className="absolute top-0 md:flex w-full"> */}
-                                <NavigationNew />
-                                {/* </div> */}
-                                <div className="flex-grow overflow-auto h-screen flex flex-col gap-10">
-                                    {children}
-                                    <div className="w-full  z-30">
-                                        <Footer />
+                            <NextIntlClientProvider /*messages={messages}*/>
+                                <main className="flex flex-col min-h-screen h-full w-full overflow-x-hidden">
+                                    <NavigationMenu />
+                                    <div className="flex-grow overflow-auto h-screen flex flex-col gap-10">
+                                        {children}
+                                        <div className="w-full  z-30">
+                                            <Footer />
+                                        </div>
                                     </div>
-                                </div>
-                            </main>
+                                </main>
+                            </NextIntlClientProvider>
                         </body>
                     </html>
                 </BookingLayout>
@@ -51,5 +61,3 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         </>
     );
 };
-
-export default Layout;
