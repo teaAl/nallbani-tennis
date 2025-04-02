@@ -1,6 +1,6 @@
 import React from "react";
 import Layout from "@/layouts/homeLayout";
-import GeneralBanner from "@/components/home/generalBanner";
+import GeneralBanner from "@/components/common/generalBanner";
 
 const HowItWorksPage: React.FC = () => {
 	return (
