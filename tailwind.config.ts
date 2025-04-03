@@ -29,6 +29,9 @@ const config: Config = {
         poppins: "var(--font-poppins)",
         nunito: "var(--font-nunito)",
       },
+      backgroundImage: {
+        login: "url('/images/parallax-4.jpg')", //linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+      },
       keyframes: {
         pulse: {
           "0%, 100%": {

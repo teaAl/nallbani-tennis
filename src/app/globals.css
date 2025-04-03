@@ -38,6 +38,10 @@
   }
 }
 
+.login {
+  @apply bg-["url(../public/images/ballsbasket.png)"] bg-cover bg-center bg-no-repeat;
+}
+
 body {
   @apply bg-gray-900 font-nunito;
 }
