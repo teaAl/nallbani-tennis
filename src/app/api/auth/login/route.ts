@@ -41,7 +41,7 @@ export async function POST(request: Request) {
         }
 
         // create a JWT token
-        const secret = process.env.AUTH_SECRET || 'fallback-secret';
+        const secret = process.env.NEXTAUTH_SECRET || 'fallback-secret';
         const token = jwt.sign(
             { id: user.id, email: user.email },
             secret,
