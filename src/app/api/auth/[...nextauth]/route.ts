@@ -7,7 +7,7 @@ const handler = NextAuth(authOptions);
 
 // Export the required GET and POST functions
 // Export the required GET and POST functions
-export { handler as GET, handler as POST, authOptions };
+export { handler as GET, handler as POST };
 
 // import { NextAuthOptions, DefaultSession } from "next-auth";
 // import { PrismaAdapter } from "@next-auth/prisma-adapter";
