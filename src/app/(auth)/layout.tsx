@@ -5,6 +5,7 @@ import { GlobalStateProvider } from "@/context/globalStateContext";
 import React from "react";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale } from 'next-intl/server';
+import AuthProvider from '@/context/authProvider';
 
 const poppins = Poppins({
     subsets: ["latin"],
@@ -34,11 +35,13 @@ export default async function Layout({ children }: { children: React.ReactNode }
                 <html lang={locale}>
                     <body className={`${poppins.variable} ${nunito.variable} antialiased`}>
                         <NextIntlClientProvider /*messages={messages}*/>
+                        <AuthProvider>
                             <main className="flex flex-col min-h-screen h-full w-full overflow-x-hidden">
                                 <div className="flex-grow overflow-auto h-screen flex flex-col gap-10">
                                     {children}
                                 </div>
                             </main>
+                        </AuthProvider>
                         </NextIntlClientProvider>
                     </body>
                 </html>

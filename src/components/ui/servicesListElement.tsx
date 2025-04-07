@@ -1,8 +1,8 @@
 'use client';
 import { useRef } from "react";
 import { useIsVisible } from "@/utils/useIsVisible";
-import BegginerBallIcon from "@/public/icons/beginnerBall";
-import PricetagIcon from "@/public/icons/pricetag";
+import BegginerBallIcon from "../../../public/icons/beginnerBall";
+import PricetagIcon from "../../../public/icons/pricetag";
 
 const ListElement = ({ mainColor, accentColor, ballSize, pricetagSize, title, subTitle, price }: {
     mainColor: string,

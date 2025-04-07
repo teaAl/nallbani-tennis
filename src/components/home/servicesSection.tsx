@@ -3,7 +3,7 @@
 import { useRef } from "react";
 import { useIsVisible } from "@/utils/useIsVisible";
 import Image from "next/image";
-import tennisgirl from "../../public/images/tennisgirl.png";
+import tennisgirl from "../../../public/images/tennisgirl.png";
 import ListElement from "../ui/servicesListElement";
 import { useTranslations } from "next-intl";
 

@@ -1,5 +1,5 @@
 import React from "react";
-import CheckSVG from "@/public/icons/checkIcon";
+import CheckSVG from "../../../public/icons/checkIcon";
 import { CalendarDateRangeIcon, CreditCardIcon, CheckBadgeIcon } from "@heroicons/react/24/solid";
 
 type StepProps = {

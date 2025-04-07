@@ -3,16 +3,16 @@
 import { useRef } from "react";
 import { useIsVisible } from "@/utils/useIsVisible";
 import Image from "next/image";
-import logonb from "../../public/images/logo-nt.png";
-import PhoneIcon from "@/public/icons/phone";
-import EnvelopeIcon from "@/public/icons/envelope";
-import LocationIcon from "@/public/icons/location";
-import FacebookLogo from "@/public/icons/fblogo";
-import InstagramLogo from "@/public/icons/instalogo";
-import LinkedinLogo from "@/public/icons/linkedinlogo";
-import YoutubeLogo from "@/public/icons/youtubelogo";
+import logonb from "../../../public/images/logo-nt.png";
+import PhoneIcon from "../../../public/icons/phone";
+import EnvelopeIcon from "../../../public/icons/envelope";
+import LocationIcon from "../../../public/icons/location";
+import FacebookLogo from "../../../public/icons/fblogo";
+import InstagramLogo from "../../../public/icons/instalogo";
+import LinkedinLogo from "../../../public/icons/linkedinlogo";
+import YoutubeLogo from "../../../public/icons/youtubelogo";
 import ActionButton from "../ui/actionbtn";
-import WhatsappIcon from "@/public/icons/whatsappIcon";
+import WhatsappIcon from "../../../public/icons/whatsappIcon";
 import { useTranslations } from "next-intl";
 
 const Footer = () => {
@@ -41,7 +41,7 @@ const Footer = () => {
     const isLowerFooterVisible = useIsVisible(lowerFooter);
 
     return (
-        <footer className=" text-sm text-pear text-center bg-[linear-gradient(to_right,rgba(16,24,40,0.9),rgba(16,24,40,0.9)),url('../public/images/parallax-4.jpg')] bg-fixed bg-bottom bg-no-repeat relative">
+        <footer className=" text-sm text-pear text-center bg-[linear-gradient(to_right,rgba(16,24,40,0.9),rgba(16,24,40,0.9)),url('/images/parallax-4.jpg')] bg-fixed bg-bottom bg-no-repeat relative">
             <div className="hidden md:flex flex-row gap-2 items-center justify-start bg-gradient-to-r from-foreground/30 to-pear/40 w-max py-1 px-2 rounded-r-3xl absolute top-2 left-0">
                 <WhatsappIcon size="25" fill="#cddc3b" />
                 <span className=" text-foreground text-md font-poppins">{t('chatwhap')}</span>

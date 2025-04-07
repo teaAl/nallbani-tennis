@@ -1,6 +1,6 @@
 import { useGlobalState } from "@/context/globalStateContext";
 import { UserCircleIcon, UsersIcon, UserGroupIcon, UserIcon, EnvelopeIcon, PhoneIcon, ClockIcon } from "@heroicons/react/24/outline";
-import TennisRacket from "@/public/icons/tennisRacket";
+import TennisRacket from "../../../public/icons/tennisRacket";
 import { useRouter, usePathname } from "next/navigation";
 import { useEffect } from "react";
 

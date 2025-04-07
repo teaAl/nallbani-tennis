@@ -10,6 +10,8 @@ import BookingLayout from "@/layouts/bookingLayout";
 import React from "react";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages } from 'next-intl/server';
+import AuthProvider from '@/context/authProvider';
+
 // import nextI18NextConfig from "../../next-i18next.config.js";
 // import { appWithTranslation } from "next-i18next";
 // import type { AppProps } from "next/app";
@@ -44,6 +46,7 @@ export default async function Layout({ children }: { children: React.ReactNode }
                     <html lang={locale}>
                         <body className={`${poppins.variable} ${nunito.variable} antialiased`}>
                             <NextIntlClientProvider /*messages={messages}*/>
+                            <AuthProvider>
                                 <main className="flex flex-col min-h-screen h-full w-full overflow-x-hidden">
                                     <NavigationMenu />
                                     <div className="flex-grow overflow-auto h-screen flex flex-col gap-10">
@@ -53,6 +56,7 @@ export default async function Layout({ children }: { children: React.ReactNode }
                                         </div>
                                     </div>
                                 </main>
+                            </AuthProvider>
                             </NextIntlClientProvider>
                         </body>
                     </html>

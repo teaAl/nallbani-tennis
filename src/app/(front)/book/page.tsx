@@ -95,7 +95,7 @@ const Book = () => {
 						</div>
 					</div>
 				</div>
-				<div className="col-span-4 flex w-full items-center justify-around md:bg-gray-900/90 md:bg-blend-overlay md:bg-cover md:bg-bottom md:bg-no-repeat md:bg-[url(../public/images/tennisbg.png)]">
+				<div className="col-span-4 flex w-full items-center justify-around md:bg-gray-900/90 md:bg-blend-overlay md:bg-cover md:bg-bottom md:bg-no-repeat md:bg-[url(/images/tennisbg.png)]">
 					{ActiveStepContent && <ActiveStepContent />}
 				</div>
 			</div>

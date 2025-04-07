@@ -1,10 +1,10 @@
 import Image from 'next/image';
 import { useRef } from 'react';
 import { useIsVisible } from '@/utils/useIsVisible';
-import pose1 from "@/public/icons/pose1.svg";
-import pose2 from "@/public/icons/pose2.svg";
-import pose3 from "@/public/icons/pose3.svg";
-import pose4 from "@/public/icons/pose4.svg";
+import pose1 from "../../../public/icons/pose1.svg";
+import pose2 from "../../../public/icons/pose2.svg";
+import pose3 from "../../../public/icons/pose3.svg";
+import pose4 from "../../../public/icons/pose4.svg";
 import { useTranslations } from 'next-intl';
 
 const MilestonesSection = () => {
@@ -50,7 +50,7 @@ const MilestonesSection = () => {
     const isStep4PlaceholderVisible = useIsVisible(step4PlaceholderRef);
 
     return (
-        <div className="bg-gray-900 text-foreground w-full bg-[linear-gradient(to_bottom,rgba(16,24,40,0.7),rgba(16,24,40,1)),url('../public/images/stonesgray.svg')] bg-contain bg-right bg-no-repeat">
+        <div className="bg-gray-900 text-foreground w-full bg-[linear-gradient(to_bottom,rgba(16,24,40,0.7),rgba(16,24,40,1)),url('/images/stonesgray.svg')] bg-contain bg-right bg-no-repeat">
             <div className="flex flex-col gap-4 p-6">
                 <div className="w-full flex flex-row justify-end">
                     <h3 className={`text-gray-900 bg-pear font-semibold md:text-2xl text-xl text-center font-poppins w-max

@@ -10,13 +10,6 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // background: "var(--background)",
-        // foreground: "var(--foreground)",
-        // pear: "var(--pear)",
-        // olive: "var(--olive)",
-        // coolgray: "var(--coolgray)",
-        // violet: "var(--violet)",
-        // lazurite: "var(--lazurite)",
         background: '#0a0a0a', //181818
         foreground: '#afafaf',
         pear: '#cddc3b',
@@ -28,9 +21,6 @@ const config: Config = {
       fontFamily: {
         poppins: "var(--font-poppins)",
         nunito: "var(--font-nunito)",
-      },
-      backgroundImage: {
-        login: "url('/images/parallax-4.jpg')", //linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
       },
       keyframes: {
         pulse: {

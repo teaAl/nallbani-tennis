@@ -5,8 +5,8 @@ import React, { useRef } from "react";
 import { useIsVisible } from "@/utils/useIsVisible";
 import GeneralBanner from "@/components/common/generalBanner";
 import Image from "next/image";
-import saliNallbani from "@/public/images/saliNallbani.jpeg";
-import toni from "@/public/images/toni.jpeg";
+import saliNallbani from "../../../../public/images/saliNallbani.jpeg";
+import toni from "../../../../public/images/toni.jpeg";
 import MilestonesSection from "@/components/about-us/milestones";
 import { useTranslations } from "next-intl";
 

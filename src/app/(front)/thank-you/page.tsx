@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import HomeLayout from "@/layouts/homeLayout";
 import withBookingConfirmation from "@/components/hoc/withBookingConfirmation";
 import Lottie from "lottie-react";
-import tennisgame from "@/public/animations/tennisgame.json";
+import tennisgame from "../../../../public/animations/tennisgame.json";
 
 const ThankYouPage: React.FC = () => {
 	const router = useRouter();

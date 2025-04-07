@@ -1,8 +1,8 @@
 'use client';
 
 import { usePathname, useRouter } from "next/navigation";
-import EnIcon from "@/public/icons/en";
-import AlIcon from "@/public/icons/al";
+import EnIcon from "../../../../public/icons/en";
+import AlIcon from "../../../../public/icons/al";
 import { useEffect, useState } from "react";
 import { useGlobalState } from "@/context/globalStateContext";
 

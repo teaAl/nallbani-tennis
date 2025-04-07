@@ -2,18 +2,18 @@
 
 import { useEffect, useState, useRef } from "react";
 import { useIsVisible } from "@/utils/useIsVisible";
-import logonb from "../../../public/images/logo-nt.png";
+import logonb from "../../../../public/images/logo-nt.png";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import ActionButton from "../../ui/actionbtn";
 import { Bars3Icon } from "@heroicons/react/24/outline";
-import FacebookLogo from "@/public/icons/fblogo";
-import InstagramLogo from "@/public/icons/instalogo";
-import LinkedinLogo from "@/public/icons/linkedinlogo";
-import YoutubeLogo from "@/public/icons/youtubelogo";
+import FacebookLogo from "../../../../public/icons/fblogo";
+import InstagramLogo from "../../../../public/icons/instalogo";
+import LinkedinLogo from "../../../../public/icons/linkedinlogo";
+import YoutubeLogo from "../../../../public/icons/youtubelogo";
 import { useGlobalState } from "@/context/globalStateContext";
-import WhatsappIcon from "@/public/icons/whatsappIcon";
+import WhatsappIcon from "../../../../public/icons/whatsappIcon";
 import { useNavigationLinks } from "@/components/common/navbar/navlinks";
 
 import { useTranslations } from "next-intl";

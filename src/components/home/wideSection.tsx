@@ -15,7 +15,7 @@ const WideSection = () => {
     const isButtonVisible = useIsVisible(buttonRef);
 
     return (
-        <div className="w-full h-full text-gray-30 flex flex-col gap-8 justify-center items-center p-6 md:p-10 shadow-2xl bg-[linear-gradient(to_right,rgba(16,24,40,0.9),rgba(16,24,40,0.9)),url('../public/images/parallax-4.jpg')] bg-fixed bg-bottom bg-no-repeat">
+        <div className="w-full h-full text-gray-30 flex flex-col gap-8 justify-center items-center p-6 md:p-10 shadow-2xl bg-[linear-gradient(to_right,rgba(16,24,40,0.9),rgba(16,24,40,0.9)),url('/images/parallax-4.jpg')] bg-fixed bg-bottom bg-no-repeat">
             <div className="flex flex-col gap-4 md:w-4/6">
                 <h4
                     className={`text-left text-foreground font-nunito text-2xl 

@@ -6,8 +6,15 @@ import HeroSection from "@/components/home/heroSection";
 import WideSection from "@/components/home/wideSection";
 import ServicesSection from "@/components/home/servicesSection";
 import { useTranslations } from "next-intl";
+// import { auth } from "@/lib/auth";
+// import { redirect } from "next/navigation";
 
 const NewHome = () => {
+    // const session = auth;
+    // if (!session) {
+    //     redirect('/login');
+    // }
+
     const t = useTranslations('HomePage.Subhero');
 
     const titleRef = useRef<HTMLHeadingElement | null>(null);

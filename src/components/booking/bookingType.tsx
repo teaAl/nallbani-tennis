@@ -2,8 +2,8 @@
 
 import React from "react";
 import Lottie from "lottie-react";
-import singlePlayer from "@/public/animations/singleplayer.json";
-import multiPlayer from "@/public/animations/multiplayer.json";
+import singlePlayer from "../../../public/animations/singleplayer.json";
+import multiPlayer from "../../../public/animations/multiplayer.json";
 import { useGlobalState } from "@/context/globalStateContext";
 import { useRouter } from "next/navigation";
 

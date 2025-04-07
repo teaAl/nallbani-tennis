@@ -1,7 +1,7 @@
 import React from "react";
 import { useGlobalState } from "@/context/globalStateContext";
 import Step from "./step";
-import RoundedTriangleIcon from "@/public/icons/roundedTriangleIcon";
+import RoundedTriangleIcon from "../../../public/icons/roundedTriangleIcon";
 
 
 const Stepper = () => {
