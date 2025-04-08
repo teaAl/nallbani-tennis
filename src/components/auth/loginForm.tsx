@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function LoginForm() {
   const router = useRouter();
@@ -40,14 +41,15 @@ export default function LoginForm() {
 
   return (
     <div className={`flex flex-col items-center justify-center h-screen bg-[linear-gradient(to_bottom_left,rgba(16,24,40,0.9),rgba(16,24,40,1)),url('/images/ballsbasket.png')] bg-cover bg-no-repeat bg-bottom`}  >
-    <div className='w-1/3 flex flex-col items-center justify-center gap-10'>
-    <h1 className="text-pear text-4xl font-poppins font-bold text-shadow-2xs">Welcome to Nallbani Tennis Club!</h1>
+        <Image src="/images/logo-nt.png" alt="Logo" width={100} height={100} className="absolute top-5 left-5" />
+        <div className='w-1/3 flex flex-col items-center justify-center gap-10'>
+            <h1 className="text-pear text-4xl font-poppins font-bold text-shadow-2xs">Welcome to Nallbani Tennis Club!</h1>
       
-      {error && (
-        <div className="mb-4 p-3 bg-red-100 text-red-700 rounded">
-          {error}
-        </div>
-      )}
+        {error && (
+            <div className="mb-4 p-3 bg-red-100 text-red-700 rounded">
+            {error}
+            </div>
+        )}
       
       <form onSubmit={handleSubmit} className='w-full'>
         <div className="mb-4 w-full">
@@ -96,6 +98,21 @@ export default function LoginForm() {
         </p>
       </div>
     </div>
+    <div className='absolute bottom-0 w-full bg-gray-800'>
+        <div className='flex flex-row justify-between px-4 py-2 font-nunito text-sm '>
+            <span className=" text-pear/90">
+                    {/* &copy; {t('rights')} */}
+                    &copy; 2025 Nallbani Tennis Club
+            </span>
+            <span className=" text-pear/90">
+                    {/* &copy; {t('rights')} */}
+                    &copy; 2025 Nallbani Tennis Club
+            </span>
+        </div>
+    </div>
+    {/* <div className="absolute bottom-5 right-5">
+        <Image src="/images/tennisball.png" alt="Tennis Ball" width={70} height={70} className="animate-bounce" />
+    </div> */}
     </div>
   );
 }

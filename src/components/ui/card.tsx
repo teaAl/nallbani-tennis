@@ -8,12 +8,12 @@ const Card = ({
     title,
     button,
     list,
-    type
+    type,
 }: {
     title: string,
     button: ActionButtonProps
     list: { title: string, whichIcon: "greenAllowed" | "grayDisabled" }[],
-    type: "member" | "guest"
+    type: "member" | "guest",
 }) => {
     const isMember = type === "member";
 

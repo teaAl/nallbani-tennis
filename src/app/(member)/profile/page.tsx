@@ -13,9 +13,11 @@ export default async function MemberPage() {
   }
   
   return (
-    <div className="container mx-auto py-8">
-      <h1 className="text-2xl font-bold mb-6">Welcome, { session.user.email}</h1>
+    <>
+      <h1 className="text-2xl font-bold mb-6 bg-white">header</h1>
+    {/* <div className="container mx-auto"> */}
       <MemberContent user={session.user} />
-    </div>
+    {/* </div> */}
+    </>
   );
 }

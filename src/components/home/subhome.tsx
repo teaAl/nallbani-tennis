@@ -4,8 +4,10 @@ import { useRef } from "react";
 import { useIsVisible } from "@/utils/useIsVisible";
 import Card from "../ui/card";
 import { useTranslations } from "next-intl";
+import { useRouter } from "next/navigation";
 
 const SubHome = () => {
+    const router = useRouter();
     const t = useTranslations('HomePage.Subhero');
     const card1Ref = useRef<HTMLHeadingElement | null>(null);
     const card2Ref = useRef<HTMLHeadingElement | null>(null);
@@ -42,6 +44,15 @@ const SubHome = () => {
         },
     ];
 
+    const becomeMember = () => {
+        router.replace("/login");
+        // btn text : session logged in ? "View your profile" : "Become a member"
+    };
+
+    const continueAsGuest = () => {
+        router.replace("/login");
+    };
+
     return (
         <>
             {/* Desktop View */}
@@ -50,7 +61,7 @@ const SubHome = () => {
                     ref={card1Ref}>
                     <Card
                         title={t('MemberCard.title')}
-                        button={{ text: t('MemberCard.button'), variant: "primary", size: "md" }}
+                        button={{ text: t('MemberCard.button'), variant: "primary", size: "md", onClick: () => {router.replace("/login")} }}
                         list={membershipListItems}
                         type="member"
                     />
