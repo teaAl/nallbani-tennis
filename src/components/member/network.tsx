@@ -8,6 +8,7 @@ import { Input } from "../ui/input"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs"
 import { Badge } from "../ui/badge"
 import { Star, Search, UserPlus, Calendar, MessageSquare } from "lucide-react"
+import ActionButton from "../ui/actionbtn"
 
 export default function NetworkSection() {
   // This would come from your API in a real implementation
@@ -127,7 +128,7 @@ export default function NetworkSection() {
                       </div>
                     </div>
 
-                    <div className="border-t  py-3 flex justify-between">
+                    <div className="border-t border-t-gray-900/50 py-3 flex justify-between">
                       <button className="inline-flex text-sm text-pear/80 hover:text-pear/100 transition-colors font-light items-center justify-center rounded-md  cursor-pointer">
                       <MessageSquare className="h-3 w-4 mr-2" />
                         Message
@@ -146,7 +147,7 @@ export default function NetworkSection() {
 
         <TabsContent value="suggestions" className="mt-4">
           {suggestions.length === 0 ? (
-            <div className="text-center py-10 text-gray-500">No suggestions available</div>
+            <div className="text-center py-10 text-foreground">No suggestions available</div>
           ) : (
             <div className="space-y-4">
               {suggestions.map((suggestion) => (
@@ -161,19 +162,19 @@ export default function NetworkSection() {
                       <div className="flex-1">
                         <div className="flex items-start justify-between">
                           <div>
-                            <h3 className="font-medium">{suggestion.name}</h3>
-                            <div className="text-sm text-gray-500">
-                              <span>{suggestion.level}</span>
+                            <h3 className="font-medium text-foreground">{suggestion.name}</h3>
+                            <div className="text-sm ">
+                              <span className="text-pear/60">{suggestion.level}</span>
                             </div>
-                            <div className="text-sm text-gray-500 mt-1">
+                            <div className="text-sm text-foreground/60 mt-1">
                               {suggestion.mutualConnections} mutual connection
                               {suggestion.mutualConnections !== 1 ? "s" : ""}
                             </div>
                           </div>
-                          <Button size="sm">
+                          <button className="inline-flex text-sm text-pear px-2 py-1 bg-gray-900 font-light items-center justify-center rounded-md hover:bg-gray-900/80 transition-colors cursor-pointer">
                             <UserPlus className="h-4 w-4 mr-2" />
                             Connect
-                          </Button>
+                          </button>
                         </div>
                       </div>
                     </div>
@@ -182,7 +183,7 @@ export default function NetworkSection() {
               ))}
 
               <div className="text-center pt-2">
-                <Button variant="link">View More Suggestions</Button>
+                <Button variant="link" className="text-pear cursor-pointer">View More Suggestions</Button>
               </div>
             </div>
           )}
@@ -191,50 +192,51 @@ export default function NetworkSection() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Upcoming Club Events</CardTitle>
-          <CardDescription>Connect with other players at these events</CardDescription>
+          <CardTitle className="text-pear">Upcoming Club Events</CardTitle>
+          <CardDescription className="text-foreground/60">Connect with other players at these events</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
             <div className="flex items-start">
-              <div className="bg-green-100 text-green-800 p-2 rounded-md mr-4 text-center min-w-[60px]">
+              <div className="bg-pear/30 text-pear p-2 rounded-md mr-4 text-center min-w-[60px]">
                 <div className="text-sm font-semibold">NOV</div>
                 <div className="text-xl font-bold">25</div>
               </div>
               <div>
-                <h4 className="font-medium">Club Tournament</h4>
-                <p className="text-sm text-gray-500">Singles and doubles matches for all levels</p>
+                <h4 className="font-medium text-foreground">Club Tournament</h4>
+                <p className="text-sm text-foreground/60">Singles and doubles matches for all levels</p>
                 <div className="flex items-center mt-2">
-                  <Badge variant="outline" className="mr-2">
+                  <Badge variant="primary" className="mr-2">
                     Tournament
                   </Badge>
-                  <span className="text-sm text-gray-500">12 members attending</span>
+                  <span className="text-sm text-pear/60">12 members attending</span>
                 </div>
               </div>
             </div>
 
             <div className="flex items-start">
-              <div className="bg-blue-100 text-blue-800 p-2 rounded-md mr-4 text-center min-w-[60px]">
+              <div className="bg-foreground/30 text-gray-800 p-2 rounded-md mr-4 text-center min-w-[60px]">
                 <div className="text-sm font-semibold">DEC</div>
                 <div className="text-xl font-bold">10</div>
               </div>
               <div>
-                <h4 className="font-medium">Tennis Social</h4>
-                <p className="text-sm text-gray-500">Meet and play with other club members</p>
+                <h4 className="font-medium text-foreground">Tennis Social</h4>
+                <p className="text-sm text-foreground/60">Meet and play with other club members</p>
                 <div className="flex items-center mt-2">
-                  <Badge variant="outline" className="mr-2">
+                  <Badge variant="primary" className="mr-2">
                     Social
                   </Badge>
-                  <span className="text-sm text-gray-500">8 members attending</span>
+                  <span className="text-sm text-pear/60">8 members attending</span>
                 </div>
               </div>
             </div>
           </div>
         </CardContent>
         <CardFooter>
-          <Button variant="outline" className="w-full">
-            View All Events
-          </Button>
+          {/* TODO: Make this button fullwidth */}
+          <div className="inline-flex items-center justify-center w-full">
+            <ActionButton variant="secondary" size="sm" text="View All Events"  />
+          </div>
         </CardFooter>
       </Card>
     </div>

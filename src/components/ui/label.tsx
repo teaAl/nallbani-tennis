@@ -8,7 +8,7 @@ type LabelProps = {
 
 export function Label({ htmlFor, children, className = "" }: LabelProps) {
   return (
-    <label htmlFor={htmlFor} className={`text-sm font-medium text-gray-700 ${className}`}>
+    <label htmlFor={htmlFor} className={`text-sm font-medium ${className}`}>
       {children}
     </label>
   )

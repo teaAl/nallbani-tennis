@@ -35,7 +35,7 @@ export function Textarea({
       disabled={disabled}
       required={required}
       rows={rows}
-      className={`flex w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 disabled:cursor-not-allowed disabled:opacity-50 ${className}`}
+      className={`flex w-full rounded-md border border-foreground/30 bg-gray-800 px-3 py-2 text-sm text-foreground placeholder:text-foreground/40 focus:outline-none focus:border-pear/40 disabled:cursor-not-allowed disabled:opacity-50 transition-all duration-200 ${className}`}
     />
   )
 }

@@ -14,10 +14,9 @@ export default async function MemberPage() {
   
   return (
     <>
-      <h1 className="text-2xl font-bold mb-6 bg-white">header</h1>
-    {/* <div className="container mx-auto"> */}
+    <div className="container mx-auto flex items-center justify-center h-full">
       <MemberContent user={session.user} />
-    {/* </div> */}
+    </div>
     </>
   );
 }
