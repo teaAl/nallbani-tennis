@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import prisma  from "@/lib/prisma";
 import jwt from "jsonwebtoken";
+// import { redirect } from "next/dist/server/api-utils";
 
 export async function POST(request: Request) {
   try {
@@ -58,7 +59,8 @@ export async function POST(request: Request) {
 
     return NextResponse.json({
       user: userWithoutPassword,
-      token
+      token,
+      redirect: "/profile"
     }, { status: 201 });
   } catch (error) {
     console.error("Registration error:", error);

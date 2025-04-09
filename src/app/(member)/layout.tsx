@@ -8,6 +8,8 @@ import Footer from '@/components/common/footer';
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale } from 'next-intl/server';
 import AuthProvider from '@/context/authProvider';
+import { authOptions } from '@/lib/authOpts';
+import { getServerSession } from 'next-auth';
 
 const poppins = Poppins({
     subsets: ["latin"],
@@ -28,6 +30,8 @@ export const metadata: Metadata = {
 
 
 export default async function Layout({ children }: { children: React.ReactNode }) {
+    const session = await getServerSession(authOptions);
+    console.log('session on memberlayout > ', session);
     const locale = await getLocale();
     console.log('locale on rootlayout > ', locale);
 
@@ -39,15 +43,12 @@ export default async function Layout({ children }: { children: React.ReactNode }
                         <NextIntlClientProvider /*messages={messages}*/>
                         {/* <AuthProvider> */}
                             <main className="flex flex-col min-h-screen h-full w-full overflow-x-hidden">
-                                {/* <h1 className="text-2xl font-bold bg-white">header</h1> */}
                                 <div className="flex-grow overflow-auto h-screen flex flex-col gap-10">
-                                <NavigationMenu />
+                                <NavigationMenu session={session}/>
                                     {children}
                                 <Footer />
                                 </div>
-                                {/* <h1 className="text-2xl font-bold bg-white">footer</h1> */}
                             </main>
-                        {/* </AuthProvider> */}
                         </NextIntlClientProvider>
                     </body>
                 </html>

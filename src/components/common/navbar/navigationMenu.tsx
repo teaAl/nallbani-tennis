@@ -5,7 +5,7 @@ import { useIsVisible } from "@/utils/useIsVisible";
 import logonb from "../../../../public/images/logo-nt.png";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import ActionButton from "../../ui/actionbtn";
 import { Bars3Icon } from "@heroicons/react/24/outline";
 import FacebookLogo from "../../../../public/icons/fblogo";
@@ -15,15 +15,19 @@ import YoutubeLogo from "../../../../public/icons/youtubelogo";
 import { useGlobalState } from "@/context/globalStateContext";
 import WhatsappIcon from "../../../../public/icons/whatsappIcon";
 import { useNavigationLinks } from "@/components/common/navbar/navlinks";
-
 import { useTranslations } from "next-intl";
 import LanguageSwitcher from "./languageSwitcher";
+import { Session } from "next-auth";
+import { User2, UserCircle, UserCircle2Icon } from "lucide-react";
 
-const NavigationMenu = () => {
+const NavigationMenu = ({session}: {session: null | Session}) => {
+    const router = useRouter();
+    console.log('session on navmenu > ', session);
+    const type : 'member' | "guest" | "admin" = session !== null ? "member" : "guest"
     const t = useTranslations("NavigationMenu");
     const ft = useTranslations("Footer");
     const pathName = usePathname();
-    const navigationLinks = useNavigationLinks();
+    const navigationLinks = useNavigationLinks({ type });
     const { hamburgerMenuOpen, setHamburgerMenuOpen } = useGlobalState();
     const [user, setUser] = useState<"admin" | "member" | "guest" | null>(null);
     const navRef = useRef<HTMLDivElement | null>(null);
@@ -45,7 +49,8 @@ const NavigationMenu = () => {
     return (
         <>
             {/* DESKTOP MENU */}
-            <div className={`hidden md:flex flex-row justify-between items-center px-4 py-2 w-full bg-gray-900 relative z-20
+            <div className={`hidden md:flex flex-row justify-between items-center px-4 py-2 w-full relative z-20
+                ${session !== null ? "bg-gray-800" : "bg-gray-900"}
                 ${isNavVisible ? "animate-fade animate-once animate-ease-in" : "opacity-90"}`}
                 ref={navRef}
             >
@@ -66,9 +71,14 @@ const NavigationMenu = () => {
                         );
                     })}
                 </div>
-                <div className="flex flex-row gap-5">
-                    <ActionButton text={t('becomeMember')} variant="secondary" size="md" />
+                <div className="flex flex-row gap-10">
                     <LanguageSwitcher />
+                    {session === null ? <ActionButton text={t('becomeMember')} variant="secondary" size="md" /> : 
+                    <button className="flex flex-row gap-3 items-end justify-center cursor-pointer text-foreground/80 hover:text-pear transition-colors" onClick={() => router.push("/profile")}>
+                        {/* TODO: create a tennis icon placeholder female and male if no avatar available. */}
+                    <UserCircle2Icon className="w-7 h-7" />
+                    <span className="font-nunito text-base">John Doe</span>
+                </button>}
                 </div>
             </div>
 

@@ -79,5 +79,9 @@ export const authOptions: NextAuthOptions = {
       }
       return session;
     },
+    // async redirect({ url, baseUrl }) {
+    //   // Redirect to /profile after login
+    //   return "/profile";
+    // },
   },
 };
