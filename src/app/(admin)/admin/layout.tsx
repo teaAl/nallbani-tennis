@@ -1,15 +1,14 @@
-import "../globals.css";
+import "../../globals.css";
+import type React from "react";
 import type { Metadata } from "next";
 import { Poppins, Nunito } from "next/font/google";
+import { Sidebar } from "@/components/admin/sidebar";
+import { AdminHeader } from "@/components/admin/admin-header";
+import { Toaster } from "@/components/ui/toaster";
 import { GlobalStateProvider } from "@/context/globalStateContext";
-import React from "react";
-import NavigationMenu from "@/components/common/navbar/navigationMenu";
-import Footer from "@/components/common/footer";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale } from "next-intl/server";
-import AuthProvider from "@/context/authProvider";
-import { authOptions } from "@/lib/authOpts";
-import { getServerSession } from "next-auth";
+import { AdminViewProvider } from "@/context/adminProvider";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -28,36 +27,35 @@ export const metadata: Metadata = {
   description: "Elevate your game with us",
 };
 
-export default async function Layout({
+export default async function AdminLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const session = await getServerSession(authOptions);
-  console.log("session on memberlayout > ", session);
   const locale = await getLocale();
-  console.log("locale on rootlayout > ", locale);
 
   return (
-    <>
-      <GlobalStateProvider>
+    <GlobalStateProvider>
+      <AdminViewProvider>
         <html lang={locale}>
           <body
             className={`${poppins.variable} ${nunito.variable} antialiased`}
           >
             <NextIntlClientProvider /*messages={messages}*/>
-              {/* <AuthProvider> */}
-              <main className="flex flex-col min-h-screen h-full w-full overflow-x-hidden">
-                <div className="flex-grow overflow-auto h-screen flex flex-col gap-10">
-                  <NavigationMenu session={session} />
-                  {children}
-                  <Footer />
+              <div className="flex h-screen overflow-hidden">
+                <Sidebar />
+                <div className="flex flex-col flex-1 overflow-hidden">
+                  <AdminHeader />
+                  <main className="flex-1 overflow-y-auto p-6 bg-gray-50">
+                    {children}
+                  </main>
+                  <Toaster />
                 </div>
-              </main>
+              </div>
             </NextIntlClientProvider>
           </body>
         </html>
-      </GlobalStateProvider>
-    </>
+      </AdminViewProvider>
+    </GlobalStateProvider>
   );
 }
