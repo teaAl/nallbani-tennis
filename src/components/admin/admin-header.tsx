@@ -1,36 +1,45 @@
-"use client"
+"use client";
 
-import { Bell, User } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { CustomDropdown, DropdownItem, DropdownLabel, DropdownSeparator } from "@/components/ui/dropdown-menu"
-import { useRouter } from "next/navigation"
+import { Bell, User } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  CustomDropdown,
+  DropdownItem,
+  DropdownLabel,
+  DropdownSeparator,
+} from "@/components/ui/dropdown-menu";
+import { useRouter } from "next/navigation";
 
 export function AdminHeader() {
-  const router = useRouter()
+  const router = useRouter();
 
   return (
-    <header className="bg-white border-b border-gray-200 h-16 flex items-center px-6">
+    <header className="bg-pana/90 shadow-md h-16 flex items-center px-6">
       <div className="flex-1"></div>
       <div className="flex items-center gap-4">
-        <Button variant="default" size="sm">
-          <Bell className="h-5 w-5" />
-        </Button>
-        <CustomDropdown
+        <button>
+          <Bell className="h-5 w-5 text-gray-800 cursor-pointer" />
+        </button>
+        {/* <CustomDropdown
           align="right"
           trigger={
-            <Button variant="default" size="sm">
+            <button>
               <User className="h-5 w-5" />
-            </Button>
+            </button>
           }
         >
           <DropdownLabel>Coach Account</DropdownLabel>
           <DropdownSeparator />
-          <DropdownItem onClick={() => router.push("/profile")}>Profile</DropdownItem>
-          <DropdownItem onClick={() => router.push("/settings")}>Settings</DropdownItem>
+          <DropdownItem onClick={() => router.push("/profile")}>
+            Profile
+          </DropdownItem>
+          <DropdownItem onClick={() => router.push("/settings")}>
+            Settings
+          </DropdownItem>
           <DropdownSeparator />
           <DropdownItem>Logout</DropdownItem>
-        </CustomDropdown>
+        </CustomDropdown> */}
       </div>
     </header>
-  )
+  );
 }

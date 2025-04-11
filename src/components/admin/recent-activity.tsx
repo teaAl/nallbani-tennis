@@ -1,7 +1,12 @@
-"use client"
+"use client";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/memberCard"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/memberCard";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export function RecentActivity() {
   // In a real app, this data would come from your API
@@ -36,19 +41,22 @@ export function RecentActivity() {
       action: "created a new Beginner Kids group",
       time: "Yesterday",
     },
-  ]
+  ];
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Recent Activity</CardTitle>
+    <Card className="bg-gray-900">
+      <CardHeader className="bg-gray-900 rounded-t-md border-b border-b-foreground/30">
+        <CardTitle className="text-foreground">Recent Activity</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
           {activities.map((activity) => (
             <div key={activity.id} className="flex items-center space-x-4">
               <Avatar>
-                <AvatarImage src={activity.user.image} alt={activity.user.name} />
+                <AvatarImage
+                  src={activity.user.image}
+                  alt={activity.user.name}
+                />
                 <AvatarFallback>
                   {activity.user.name
                     .split(" ")
@@ -57,15 +65,18 @@ export function RecentActivity() {
                 </AvatarFallback>
               </Avatar>
               <div className="flex-1 space-y-1">
-                <p className="text-sm font-medium leading-none">
-                  <span className="font-semibold">{activity.user.name}</span> {activity.action}
+                <p className="text-sm font-medium leading-none ">
+                  <span className="font-semibold text-foreground/70">
+                    {activity.user.name}
+                  </span>{" "}
+                  <span className="text-foreground">{activity.action}</span>
                 </p>
-                <p className="text-sm text-gray-500">{activity.time}</p>
+                <p className="text-sm text-pear/70">{activity.time}</p>
               </div>
             </div>
           ))}
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }

@@ -13,6 +13,7 @@ const config: Config = {
         background: '#0a0a0a', //181818
         foreground: '#afafaf',
         pear: '#cddc3b',
+        pana: '#fff0db',
         olive: '#648767', //5f845d
         coolgray: '#A7A5C6',
         violet: '#827191',

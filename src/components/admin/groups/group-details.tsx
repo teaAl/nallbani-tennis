@@ -1,11 +1,11 @@
-"use client"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/memberCard"
-import { Badge } from "@/components/ui/badge"
-import { Pencil } from "lucide-react"
+"use client";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/memberCard";
+import { Badge } from "@/components/ui/badge";
+import { Pencil } from "lucide-react";
 
 interface GroupDetailsProps {
-  id: string
+  id: string;
 }
 
 export function GroupDetails({ id }: GroupDetailsProps) {
@@ -19,9 +19,10 @@ export function GroupDetails({ id }: GroupDetailsProps) {
     schedule: "Tue, Thu 6:00 PM",
     description:
       "This group focuses on improving technique and match play for intermediate adult players. We work on consistency, shot selection, and strategy.",
-    goals: "Develop consistent topspin groundstrokes, improve serve accuracy, and learn effective doubles strategies.",
+    goals:
+      "Develop consistent topspin groundstrokes, improve serve accuracy, and learn effective doubles strategies.",
     createdAt: "Jan 15, 2023",
-  }
+  };
 
   return (
     <Card>
@@ -64,5 +65,9 @@ export function GroupDetails({ id }: GroupDetailsProps) {
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }
+/* 
+TODO:
+- create goals and progress journey for groups
+ */

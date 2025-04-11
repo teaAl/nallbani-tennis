@@ -1,16 +1,22 @@
-import type React from "react"
+import type React from "react";
 
 export function Badge({
   children,
   className = "",
   variant = "default",
-}: { children: React.ReactNode; className?: string; variant?: "default" | "outline" | "secondary" | "primary" }) {
+}: {
+  children: React.ReactNode;
+  className?: string;
+  variant?: "default" | "outline" | "secondary" | "primary" | "pear" | "dark";
+}) {
   const variantClasses = {
     default: "bg-gray-100 text-gray-800",
     outline: "border border-gray-200 text-gray-800",
     secondary: "bg-gray-800 text-white",
     primary: "bg-pear text-gray-900",
-  }
+    pear: "bg-pear text-gray-900",
+    dark: "bg-gray-800 text-foreground",
+  };
 
   return (
     <span
@@ -18,5 +24,5 @@ export function Badge({
     >
       {children}
     </span>
-  )
+  );
 }
