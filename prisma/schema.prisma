@@ -7,33 +7,418 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Bookings {
-  id           Int           @id @default(autoincrement())
-  bookingType  BookingType
-  bookingDate  DateTime
-  bookingTime  DateTime
-  hasEquipment Boolean
-  username     String
-  useremail    String
-  userphone    String
-  status       BookingStatus
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
+// model Bookings {
+//   id           Int           @id @default(autoincrement())
+//   bookingType  BookingType
+//   bookingDate  DateTime
+//   bookingTime  DateTime
+//   hasEquipment Boolean
+//   username     String
+//   useremail    String
+//   userphone    String
+//   status       BookingStatus
+//   createdAt    DateTime      @default(now())
+//   updatedAt    DateTime      @updatedAt
+// }
+
+// model Users {
+//   id       Int    @id @default(autoincrement())
+//   email    String @unique
+//   password String
+// }
+
+// enum BookingType {
+//   individual
+//   group
+// }
+
+// enum BookingStatus {
+//   approved
+//   pending
+//   rejected
+// }
+
+// User model - for all types of users in the system
+model User {
+  id            String       @id @default(cuid())
+  name          String
+  email         String       @unique
+  emailVerified DateTime?
+  password      String?
+  avatar        String?
+  role          UserRole[] //@default([STUDENT])
+  status        MemberStatus @default(PENDING)
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+
+  // User profile data
+  phoneNumber String?
+  dateOfBirth DateTime?
+  address     String?
+  bio         String?
+
+  // Relations
+  bookings        Booking[] // Bookings made by the user
+  groups          GroupMember[] // Groups the user is a member of
+  lessonsAttended LessonAttendee[] // Lessons the user attends (if student)
+  subscriptions   UserPackage[] // Packages the user has purchased
+  progress        UserProgress? // User's progress tracking
+  achievements    UserAchievement[] // User's earned achievements
+
+  // Parent-child relationship
+  parentId String?
+  parent   User?   @relation("ParentToChild", fields: [parentId], references: [id])
+  children User[]  @relation("ParentToChild")
+
+  @@map("users")
 }
 
-model Users {
-  id       Int    @id @default(autoincrement())
-  email    String @unique
-  password String
+enum UserRole {
+  STUDENT
+  PARENT
+  MEMBER
 }
 
-enum BookingType {
-  individual
-  group
+enum MemberStatus {
+  ACTIVE
+  INACTIVE
+  PENDING
+}
+
+// Separate model for coaches and admins
+model Staff {
+  id            String    @id @default(cuid())
+  name          String
+  email         String    @unique
+  emailVerified DateTime?
+  password      String?
+  image         String?
+  role          StaffRole @default(COACH)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  // Staff profile data
+  phoneNumber String?
+  specialties String? // e.g., "Junior Training, Advanced Singles"
+  experience  Int? // Years of experience
+  bio         String?
+  active      Boolean @default(true)
+
+  // Relations
+  lessonsCoach    Lesson[] // Lessons the staff teaches
+  groupsLeading   Group[] // Groups led by this coach
+  progressUpdates ProgressUpdate[] // Progress updates made by this coach
+
+  @@map("staff")
+}
+
+enum StaffRole {
+  ADMIN
+  COACH
+}
+
+// Tennis courts in the facility
+model Court {
+  id     String    @id @default(cuid())
+  name   String // e.g., "Court 1", "Main Court"
+  type   CourtType @default(HARD)
+  indoor Boolean   @default(false)
+  active Boolean   @default(true)
+
+  // Relations
+  bookings Booking[]
+  lessons  Lesson[]
+
+  @@map("courts")
+}
+
+enum CourtType {
+  CLAY
+  HARD
+  GRASS
+  CARPET
+}
+
+// Lesson model for all types of tennis lessons
+model Lesson {
+  id          String     @id @default(cuid())
+  title       String
+  description String?
+  startTime   DateTime
+  endTime     DateTime
+  type        LessonType
+  level       SkillLevel
+  maxCapacity Int
+  // price       Decimal   @db.Decimal(10, 2)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  canceled    Boolean    @default(false)
+
+  // Relations
+  coachId         String
+  coach           Staff            @relation(fields: [coachId], references: [id])
+  courtId         String?
+  court           Court?           @relation(fields: [courtId], references: [id])
+  attendees       LessonAttendee[]
+  groupId         String?
+  group           Group?           @relation(fields: [groupId], references: [id])
+  progressUpdates ProgressUpdate[] // Progress updates made during this lesson
+
+  @@map("lessons")
+}
+
+enum LessonType {
+  PRIVATE
+  GROUP
+  CAMP
+}
+
+enum SkillLevel {
+  BEGINNER
+  INTERMEDIATE
+  ADVANCED
+  PROFESSIONAL
+}
+
+// Junction table for many-to-many relation between Lessons and Users (students)
+model LessonAttendee {
+  id        String   @id @default(cuid())
+  lessonId  String
+  lesson    Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  attended  Boolean  @default(false)
+  notes     String?
+  createdAt DateTime @default(now())
+
+  @@unique([lessonId, userId])
+  @@map("lesson_attendees")
+}
+
+// Groups model for recurring tennis groups/classes
+model Group {
+  id          String      @id @default(cuid())
+  name        String
+  description String?
+  level       SkillLevel
+  dayOfWeek   DayOfWeek[]
+  startTime   String // Format: HH:MM (24-hour)
+  endTime     String // Format: HH:MM (24-hour)
+  startDate   DateTime
+  endDate     DateTime?
+  price       Decimal?    @db.Decimal(10, 2)
+  maxCapacity Int
+  active      Boolean     @default(true)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  // Relations
+  coachId  String
+  coach    Staff         @relation(fields: [coachId], references: [id])
+  members  GroupMember[]
+  lessons  Lesson[] // Individual lesson instances of this group
+  packages Package[] // Added the reverse relation - Packages associated with this group
+
+  @@map("groups")
+}
+
+enum DayOfWeek {
+  MONDAY
+  TUESDAY
+  WEDNESDAY
+  THURSDAY
+  FRIDAY
+  SATURDAY
+  SUNDAY
+}
+
+// Junction table for many-to-many relation between Groups and Users
+model GroupMember {
+  id       String   @id @default(cuid())
+  groupId  String
+  group    Group    @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  userId   String
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  joinedAt DateTime @default(now())
+  active   Boolean  @default(true)
+
+  @@unique([groupId, userId])
+  @@map("group_members")
+}
+
+// Booking model for court reservations
+model Booking {
+  id            String        @id @default(cuid())
+  startTime     DateTime
+  endTime       DateTime
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  status        BookingStatus @default(PENDING)
+  price         Decimal?      @db.Decimal(10, 2)
+  paymentStatus PaymentStatus @default(UNPAID)
+  notes         String?
+
+  // Relations
+  userId  String
+  user    User   @relation(fields: [userId], references: [id])
+  courtId String
+  court   Court  @relation(fields: [courtId], references: [id])
+
+  @@map("bookings")
 }
 
 enum BookingStatus {
-  approved
-  pending
-  rejected
+  PENDING
+  CONFIRMED
+  CANCELED
+  COMPLETED
+}
+
+enum PaymentStatus {
+  UNPAID
+  PARTIAL
+  PAID
+  REFUNDED
+}
+
+// Package model (replacing subscription plans)
+model Package {
+  id          String     @id @default(cuid())
+  name        String
+  description String?
+  price       Decimal    @db.Decimal(10, 2)
+  duration    Int // Duration in days
+  lessonCount Int // Number of lessons included
+  level       SkillLevel
+  benefits    String?
+  active      Boolean    @default(true)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  // Relations
+  userPackages UserPackage[] // Users who have purchased this package
+  groupId      String? // Optional group association for group-specific packages
+  group        Group?        @relation(fields: [groupId], references: [id])
+
+  @@map("packages")
+}
+
+// User package subscriptions
+model UserPackage {
+  id               String        @id @default(cuid())
+  userId           String
+  user             User          @relation(fields: [userId], references: [id])
+  packageId        String
+  package          Package       @relation(fields: [packageId], references: [id])
+  startDate        DateTime
+  endDate          DateTime
+  lessonsRemaining Int
+  status           PackageStatus
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+
+  @@map("user_packages")
+}
+
+enum PackageStatus {
+  ACTIVE
+  EXPIRED
+  CANCELED
+}
+
+// Achievement types that can be earned
+model Achievement {
+  id          String   @id @default(cuid())
+  name        String
+  description String
+  category    String // e.g., "Consistency", "Skill", "Attendance"
+  icon        String? // Icon reference
+  pointValue  Int // Points awarded for this achievement
+  createdAt   DateTime @default(now())
+
+  // Relations
+  userAchievements UserAchievement[]
+
+  @@map("achievements")
+}
+
+// Junction table for users and their earned achievements
+model UserAchievement {
+  id            String      @id @default(cuid())
+  userId        String
+  user          User        @relation(fields: [userId], references: [id])
+  achievementId String
+  achievement   Achievement @relation(fields: [achievementId], references: [id])
+  awardedAt     DateTime    @default(now())
+  notes         String?
+
+  @@unique([userId, achievementId])
+  @@map("user_achievements")
+}
+
+// User progress tracking
+model UserProgress {
+  id     String @id @default(cuid())
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Overall progress percentage in current level
+  overallProgress Decimal @default(0) @db.Decimal(5, 2)
+
+  // Skill-specific progress percentages
+  forehandProgress Decimal @default(0) @db.Decimal(5, 2)
+  backhandProgress Decimal @default(0) @db.Decimal(5, 2)
+  serveProgress    Decimal @default(0) @db.Decimal(5, 2)
+  volleyProgress   Decimal @default(0) @db.Decimal(5, 2)
+  footworkProgress Decimal @default(0) @db.Decimal(5, 2)
+
+  // Streak tracking
+  currentStreak        Int @default(0) // Current consecutive lessons attended
+  longestStreak        Int @default(0) // Longest streak of consecutive lessons
+  totalLessonsAttended Int @default(0) // Total number of lessons attended
+
+  lastUpdated DateTime @default(now())
+
+  // Relations
+  progressUpdates ProgressUpdate[] // Individual progress updates
+
+  @@map("user_progress")
+}
+
+// Individual progress updates made by coaches
+model ProgressUpdate {
+  id             String       @id @default(cuid())
+  userProgressId String
+  userProgress   UserProgress @relation(fields: [userProgressId], references: [id], onDelete: Cascade)
+
+  // The coach who made the update
+  coachId String
+  coach   Staff  @relation(fields: [coachId], references: [id])
+
+  // Optional lesson association
+  lessonId String?
+  lesson   Lesson? @relation(fields: [lessonId], references: [id])
+
+  // Progress updates for specific skills (null means no change)
+  forehandUpdate Decimal? @db.Decimal(5, 2)
+  backhandUpdate Decimal? @db.Decimal(5, 2)
+  serveUpdate    Decimal? @db.Decimal(5, 2)
+  volleyUpdate   Decimal? @db.Decimal(5, 2)
+  footworkUpdate Decimal? @db.Decimal(5, 2)
+
+  notes     String?
+  createdAt DateTime @default(now())
+
+  @@map("progress_updates")
+}
+
+// Store system settings
+model Setting {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("settings")
 }
