@@ -1,9 +1,13 @@
-import { GroupDetails } from "@/components/admin/groups/group-details"
-import { GroupMembers } from "@/components/admin/groups/group-members"
-import { GroupLessons } from "@/components/admin/groups/group-lessons"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { GroupDetails } from "@/components/admin/groups/group-details";
+import { GroupMembers } from "@/components/admin/groups/group-members";
+import { GroupLessons } from "@/components/admin/groups/group-lessons";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-export default function GroupPage({ params }: { params: { id: string } }) {
+interface GroupPageProps {
+  params: { id: string };
+}
+
+export default function GroupPage({ params }: GroupPageProps) {
   return (
     <div className="space-y-6">
       <GroupDetails id={params.id} />
@@ -28,5 +32,5 @@ export default function GroupPage({ params }: { params: { id: string } }) {
         </TabsContent>
       </Tabs>
     </div>
-  )
+  );
 }
