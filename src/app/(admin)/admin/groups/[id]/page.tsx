@@ -9,7 +9,7 @@ async function fetchGroupById(id: string) {
 
   // Return mocked group data
   return {
-    id,
+    id: "22",
     name: "Intermediate Adults",
     level: "Intermediate",
     members: 6,
