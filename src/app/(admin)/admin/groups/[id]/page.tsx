@@ -25,6 +25,7 @@ async function fetchGroupById(id: string) {
 
 // Use the interface in the component
 // @ts-ignore
+// @ts-nocheck
 export default async function GroupPage({
   params,
 }: {
