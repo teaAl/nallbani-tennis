@@ -24,6 +24,7 @@ async function fetchGroupById(id: string) {
 }
 
 // Use the interface in the component
+// @ts-ignore
 export default async function GroupPage({
   params,
 }: {
