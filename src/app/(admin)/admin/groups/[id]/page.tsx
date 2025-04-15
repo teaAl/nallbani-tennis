@@ -4,10 +4,10 @@ import { GroupLessons } from "@/components/admin/groups/group-lessons";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 // Use the interface in the component
-export default async function GroupPage({ id }: { id: string }) {
+export default function GroupPage({ params }: { params: { id: string } }) {
   return (
     <div className="space-y-6">
-      <GroupDetails id={id} />
+      <GroupDetails id={params.id} />
       <Tabs defaultValue="members">
         <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="members">Members</TabsTrigger>
@@ -15,10 +15,10 @@ export default async function GroupPage({ id }: { id: string }) {
           <TabsTrigger value="goals">Goals & Progress</TabsTrigger>
         </TabsList>
         <TabsContent value="members" className="mt-6">
-          <GroupMembers groupId={id} />
+          <GroupMembers groupId={params.id} />
         </TabsContent>
         <TabsContent value="lessons" className="mt-6">
-          <GroupLessons groupId={id} />
+          <GroupLessons groupId={params.id} />
         </TabsContent>
         <TabsContent value="goals" className="mt-6">
           <div className="bg-white p-6 rounded-lg shadow">
