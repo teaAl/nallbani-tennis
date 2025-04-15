@@ -3,11 +3,15 @@ import { MemberLessons } from "@/components/admin/members/lessons";
 import { MemberGroups } from "@/components/admin/members/groups";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-/* @next-codemod-ignore */
-export default function MemberPage({ params }: { params: { id: string } }) {
+export default async function MemberPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
   return (
     <div className="space-y-6">
-      <MemberProfile id={params.id} />
+      <MemberProfile id={id} />
 
       <Tabs defaultValue="lessons">
         <TabsList className="grid w-full grid-cols-3">
@@ -16,10 +20,10 @@ export default function MemberPage({ params }: { params: { id: string } }) {
           <TabsTrigger value="progress">Progress</TabsTrigger>
         </TabsList>
         <TabsContent value="lessons" className="mt-6">
-          <MemberLessons memberId={params.id} />
+          <MemberLessons memberId={id} />
         </TabsContent>
         <TabsContent value="groups" className="mt-6">
-          <MemberGroups memberId={params.id} />
+          <MemberGroups memberId={id} />
         </TabsContent>
         <TabsContent value="progress" className="mt-6">
           <div className="bg-white p-6 rounded-lg shadow">
@@ -31,3 +35,7 @@ export default function MemberPage({ params }: { params: { id: string } }) {
     </div>
   );
 }
+
+// export default async function MemberPage() {
+//   return <div> Member Page</div>;
+// }

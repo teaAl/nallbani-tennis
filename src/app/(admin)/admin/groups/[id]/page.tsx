@@ -3,12 +3,15 @@ import { GroupMembers } from "@/components/admin/groups/group-members";
 import { GroupLessons } from "@/components/admin/groups/group-lessons";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-// Use the interface in the component
-/* @next-codemod-ignore */
-export default function GroupPage({ params }: { params: { id: string } }) {
+export default async function GroupPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
   return (
     <div className="space-y-6">
-      <GroupDetails id={params.id} />
+      <GroupDetails id={id} />
       <Tabs defaultValue="members">
         <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="members">Members</TabsTrigger>
@@ -16,10 +19,10 @@ export default function GroupPage({ params }: { params: { id: string } }) {
           <TabsTrigger value="goals">Goals & Progress</TabsTrigger>
         </TabsList>
         <TabsContent value="members" className="mt-6">
-          <GroupMembers groupId={params.id} />
+          <GroupMembers groupId={id} />
         </TabsContent>
         <TabsContent value="lessons" className="mt-6">
-          <GroupLessons groupId={params.id} />
+          <GroupLessons groupId={id} />
         </TabsContent>
         <TabsContent value="goals" className="mt-6">
           <div className="bg-white p-6 rounded-lg shadow">
@@ -31,3 +34,7 @@ export default function GroupPage({ params }: { params: { id: string } }) {
     </div>
   );
 }
+
+// export default async function GroupPage() {
+//   return <div> Group Page</div>;
+// }
