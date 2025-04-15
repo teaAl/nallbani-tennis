@@ -10,7 +10,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { CustomDropdown, DropdownItem } from "@/components/ui/dropdown-menu";
 import { MoreHorizontal, Search } from "lucide-react";

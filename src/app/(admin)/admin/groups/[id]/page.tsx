@@ -2,40 +2,29 @@ import { GroupDetails } from "@/components/admin/groups/group-details";
 import { GroupMembers } from "@/components/admin/groups/group-members";
 import { GroupLessons } from "@/components/admin/groups/group-lessons";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import type { InferGetServerSidePropsType, GetServerSideProps } from "next";
 
-async function fetchGroupById(id: string) {
-  // Simulate network delay
-  await new Promise((resolve) => setTimeout(resolve, 500));
+type Repo = {
+  name: string;
+  stargazers_count: number;
+  id: string;
+};
 
-  // Return mocked group data
+export const getServerSideProps = (async () => {
+  const res = await fetch("https://fake-json-api.mock.beeceptor.com/users");
+  const repo: Repo = await res.json();
   return {
-    id: "22",
-    name: "Intermediate Adults",
-    level: "Intermediate",
-    members: 6,
-    maxMembers: 8,
-    schedule: "Tue, Thu 6:00 PM",
-    description:
-      "This group focuses on improving technique and match play for intermediate adult players. We work on consistency, shot selection, and strategy.",
-    goals:
-      "Develop consistent topspin groundstrokes, improve serve accuracy, and learn effective doubles strategies.",
-    createdAt: "Jan 15, 2023",
+    props: { repo },
   };
-}
+}) satisfies GetServerSideProps<{ repo: Repo }>;
 
 // Use the interface in the component
-// @ts-ignore
-// @ts-nocheck
 export default async function GroupPage({
-  params,
-}: {
-  params: { id: string };
-}) {
-  const group = await fetchGroupById(params.id);
-
+  repo,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
   return (
     <div className="space-y-6">
-      <GroupDetails id={group.id} />
+      <GroupDetails id={repo.id} />
       <Tabs defaultValue="members">
         <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="members">Members</TabsTrigger>
@@ -43,10 +32,10 @@ export default async function GroupPage({
           <TabsTrigger value="goals">Goals & Progress</TabsTrigger>
         </TabsList>
         <TabsContent value="members" className="mt-6">
-          <GroupMembers groupId={group.id} />
+          <GroupMembers groupId={repo.id} />
         </TabsContent>
         <TabsContent value="lessons" className="mt-6">
-          <GroupLessons groupId={group.id} />
+          <GroupLessons groupId={repo.id} />
         </TabsContent>
         <TabsContent value="goals" className="mt-6">
           <div className="bg-white p-6 rounded-lg shadow">

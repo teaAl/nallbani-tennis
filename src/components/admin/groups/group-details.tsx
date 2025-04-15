@@ -3,15 +3,29 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/memberCard";
 import { Badge } from "@/components/ui/badge";
 import { Pencil } from "lucide-react";
+import { useState, useEffect } from "react";
 
 interface GroupDetailsProps {
   id: string;
 }
 
-export function GroupDetails({ id }: GroupDetailsProps) {
-  // In a real app, this data would come from your API based on the id
-  const group = {
-    id,
+// In a real app, this data would come from your API
+const groups = [
+  {
+    id: "1",
+    name: "Beginner Kids",
+    level: "Beginner",
+    members: 8,
+    maxMembers: 10,
+    schedule: "Mon, Wed 4:00 PM",
+    description:
+      "This group focuses on improving technique and match play for intermediate adult players. We work on consistency, shot selection, and strategy.",
+    goals:
+      "Develop consistent topspin groundstrokes, improve serve accuracy, and learn effective doubles strategies.",
+    createdAt: "Jan 15, 2023",
+  },
+  {
+    id: "2",
     name: "Intermediate Adults",
     level: "Intermediate",
     members: 6,
@@ -22,7 +36,66 @@ export function GroupDetails({ id }: GroupDetailsProps) {
     goals:
       "Develop consistent topspin groundstrokes, improve serve accuracy, and learn effective doubles strategies.",
     createdAt: "Jan 15, 2023",
-  };
+  },
+  {
+    id: "3",
+    name: "Advanced Teens",
+    level: "Advanced",
+    members: 4,
+    maxMembers: 6,
+    schedule: "Fri 5:00 PM, Sat 10:00 AM",
+    description:
+      "This group focuses on improving technique and match play for intermediate adult players. We work on consistency, shot selection, and strategy.",
+    goals:
+      "Develop consistent topspin groundstrokes, improve serve accuracy, and learn effective doubles strategies.",
+    createdAt: "Jan 15, 2023",
+  },
+  {
+    id: "4",
+    name: "Senior Beginners",
+    level: "Beginner",
+    members: 5,
+    maxMembers: 8,
+    schedule: "Mon, Wed 10:00 AM",
+    description:
+      "This group focuses on improving technique and match play for intermediate adult players. We work on consistency, shot selection, and strategy.",
+    goals:
+      "Develop consistent topspin groundstrokes, improve serve accuracy, and learn effective doubles strategies.",
+    createdAt: "Jan 15, 2023",
+  },
+];
+
+export function GroupDetails({ id }: GroupDetailsProps) {
+  const [group, setGroup] = useState<{
+    id: string;
+    name: string;
+    level: string;
+    members: number;
+    maxMembers: number;
+    schedule: string;
+    description: string;
+    goals: string;
+    createdAt: string;
+  } | null>(null);
+
+  useEffect(() => {
+    // async function fetchGroup() {
+    //   const res = await fetch(`/api/groups/${id}`);
+    //   const data = await res.json();
+    //   setGroup(data);
+    // }
+
+    // fetchGroup();
+    groups.map((group) => {
+      if (group.id === id) {
+        setGroup(group);
+      }
+    });
+  }, [id]);
+
+  if (!group) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <Card>
