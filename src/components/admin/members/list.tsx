@@ -1,85 +1,37 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Badge } from "@/components/ui/badge"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { CustomDropdown, DropdownItem } from "@/components/ui/dropdown-menu"
-import { MoreHorizontal, Search } from "lucide-react"
+import { useState } from "react";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { CustomDropdown, DropdownItem } from "@/components/ui/dropdown-menu";
+import { MoreHorizontal, Search } from "lucide-react";
+import { members } from "./data"; // In a real app, this data would come from your API
+import Link from "next/link";
 
-interface MembersListProps {
-  onViewMember?: (id: string) => void
-}
+// interface MembersListProps {
+//   onViewMember?: (id: string) => void;
+// }
 
-export function MembersList({ onViewMember }: MembersListProps) {
-  const [searchQuery, setSearchQuery] = useState("")
-
-  // In a real app, this data would come from your API
-  const members = [
-    {
-      id: "1",
-      name: "Sarah Johnson",
-      email: "sarah@example.com",
-      phone: "+1 (555) 456-7890",
-      level: "Intermediate",
-      joinedOn: "Mar 15, 2023",
-      image: "",
-    },
-    {
-      id: "2",
-      name: "Michael Brown",
-      email: "michael@example.com",
-      phone: "+1 (555) 567-8901",
-      level: "Advanced",
-      joinedOn: "Apr 2, 2023",
-      image: "",
-    },
-    {
-      id: "3",
-      name: "Emma Wilson",
-      email: "emma@example.com",
-      phone: "+1 (555) 678-9012",
-      level: "Beginner",
-      joinedOn: "Apr 20, 2023",
-      image: "",
-    },
-    {
-      id: "4",
-      name: "Alex Kim",
-      email: "alex@example.com",
-      phone: "+1 (555) 123-4567",
-      level: "Intermediate",
-      joinedOn: "Jan 20, 2023",
-      image: "",
-    },
-    {
-      id: "5",
-      name: "Maria Lopez",
-      email: "maria@example.com",
-      phone: "+1 (555) 234-5678",
-      level: "Beginner",
-      joinedOn: "Feb 5, 2023",
-      image: "",
-    },
-    {
-      id: "6",
-      name: "John Davis",
-      email: "john@example.com",
-      phone: "+1 (555) 345-6789",
-      level: "Advanced",
-      joinedOn: "Feb 10, 2023",
-      image: "",
-    },
-  ]
+// export function MembersList({ onViewMember }: MembersListProps) {
+export function MembersList() {
+  const [searchQuery, setSearchQuery] = useState("");
 
   const filteredMembers = members.filter(
     (member) =>
       member.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       member.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      member.level.toLowerCase().includes(searchQuery.toLowerCase()),
-  )
+      member.level.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <div className="space-y-4">
@@ -120,8 +72,10 @@ export function MembersList({ onViewMember }: MembersListProps) {
                           .join("")}
                       </AvatarFallback>
                     </Avatar>
-                    <button className="font-medium hover:underline text-left" onClick={() => onViewMember?.(member.id)}>
-                      {member.name}
+                    <button className="font-medium hover:underline text-left">
+                      <Link href={`/admin/members/${member.id}`}>
+                        {member.name}
+                      </Link>
                     </button>
                   </div>
                 </TableCell>
@@ -145,10 +99,16 @@ export function MembersList({ onViewMember }: MembersListProps) {
                       </Button>
                     }
                   >
-                    <DropdownItem onClick={() => onViewMember?.(member.id)}>View Profile</DropdownItem>
+                    <DropdownItem>
+                      <Link href={`/admin/members/${member.id}`}>
+                        View Profile
+                      </Link>
+                    </DropdownItem>
                     <DropdownItem>Edit Member</DropdownItem>
                     <DropdownItem>Schedule Lesson</DropdownItem>
-                    <DropdownItem className="text-red-600">Deactivate Member</DropdownItem>
+                    <DropdownItem className="text-red-600">
+                      Deactivate Member
+                    </DropdownItem>
                   </CustomDropdown>
                 </TableCell>
               </TableRow>
@@ -157,5 +117,5 @@ export function MembersList({ onViewMember }: MembersListProps) {
         </Table>
       </div>
     </div>
-  )
+  );
 }

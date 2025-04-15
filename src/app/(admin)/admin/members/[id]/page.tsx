@@ -1,8 +1,9 @@
-import { MemberProfile } from "@/components/admin/members/profile"
-import { MemberLessons } from "@/components/admin/members/lessons"
-import { MemberGroups } from "@/components/admin/members/groups"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { MemberProfile } from "@/components/admin/members/profile";
+import { MemberLessons } from "@/components/admin/members/lessons";
+import { MemberGroups } from "@/components/admin/members/groups";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
+/* @next-codemod-ignore */
 export default function MemberPage({ params }: { params: { id: string } }) {
   return (
     <div className="space-y-6">
@@ -28,5 +29,5 @@ export default function MemberPage({ params }: { params: { id: string } }) {
         </TabsContent>
       </Tabs>
     </div>
-  )
+  );
 }

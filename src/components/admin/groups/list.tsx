@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import {
   Table,
   TableBody,
@@ -13,50 +14,15 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { CustomDropdown, DropdownItem } from "@/components/ui/dropdown-menu";
 import { MoreHorizontal, Search } from "lucide-react";
+import { groups } from "./data"; // In a real app, this data would come from your API
 
-interface GroupsListProps {
-  onViewGroup?: (id: string) => void;
-}
+// interface GroupsListProps {
+//   onViewGroup?: (id: string) => void;
+// }
 
-export function GroupsList({ onViewGroup }: GroupsListProps) {
+// export function GroupsList({ onViewGroup }: GroupsListProps) {
+export function GroupsList() {
   const [searchQuery, setSearchQuery] = useState("");
-
-  // In a real app, this data would come from your API
-  const groups = [
-    {
-      id: "1",
-      name: "Beginner Kids",
-      level: "Beginner",
-      members: 8,
-      maxMembers: 10,
-      schedule: "Mon, Wed 4:00 PM",
-    },
-    {
-      id: "2",
-      name: "Intermediate Adults",
-      level: "Intermediate",
-      members: 6,
-      maxMembers: 8,
-      schedule: "Tue, Thu 6:00 PM",
-    },
-    {
-      id: "3",
-      name: "Advanced Teens",
-      level: "Advanced",
-      members: 4,
-      maxMembers: 6,
-      schedule: "Fri 5:00 PM, Sat 10:00 AM",
-    },
-    {
-      id: "4",
-      name: "Senior Beginners",
-      level: "Beginner",
-      members: 5,
-      maxMembers: 8,
-      schedule: "Mon, Wed 10:00 AM",
-    },
-  ];
-
   const filteredGroups = groups.filter(
     (group) =>
       group.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -92,11 +58,8 @@ export function GroupsList({ onViewGroup }: GroupsListProps) {
             {filteredGroups.map((group) => (
               <TableRow key={group.id}>
                 <TableCell className="font-medium">
-                  <button
-                    className="hover:underline text-left cursor-pointer font-semibold text-gray-900"
-                    onClick={() => onViewGroup?.(group.id)}
-                  >
-                    {group.name}
+                  <button className="hover:underline text-left cursor-pointer font-semibold text-gray-900">
+                    <Link href={`/admin/groups/${group.id}`}>{group.name}</Link>
                   </button>
                 </TableCell>
                 <TableCell>
@@ -116,8 +79,10 @@ export function GroupsList({ onViewGroup }: GroupsListProps) {
                       </button>
                     }
                   >
-                    <DropdownItem onClick={() => onViewGroup?.(group.id)}>
-                      View Details
+                    <DropdownItem>
+                      <Link href={`/admin/groups/${group.id}`}>
+                        View Details
+                      </Link>
                     </DropdownItem>
                     <DropdownItem>Edit Group</DropdownItem>
                     <DropdownItem className="text-red-600">

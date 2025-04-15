@@ -1,6 +1,7 @@
-import { GroupsList } from "@/components/admin/groups/list";
-import { Button } from "@/components/ui/button";
+import React from "react";
 import { Plus } from "lucide-react";
+import { GroupsList } from "../../../../components/admin/groups/list";
+import { Button } from "../../../../components/ui/button";
 
 export default function GroupsPage() {
   return (

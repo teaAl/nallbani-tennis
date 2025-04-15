@@ -4,66 +4,67 @@ import { Card, CardContent } from "@/components/ui/memberCard";
 import { Badge } from "@/components/ui/badge";
 import { Pencil } from "lucide-react";
 import { useState, useEffect } from "react";
+import { groups } from "./data";
 
 interface GroupDetailsProps {
   id: string;
 }
 
 // In a real app, this data would come from your API
-const groups = [
-  {
-    id: "1",
-    name: "Beginner Kids",
-    level: "Beginner",
-    members: 8,
-    maxMembers: 10,
-    schedule: "Mon, Wed 4:00 PM",
-    description:
-      "This group focuses on improving technique and match play for intermediate adult players. We work on consistency, shot selection, and strategy.",
-    goals:
-      "Develop consistent topspin groundstrokes, improve serve accuracy, and learn effective doubles strategies.",
-    createdAt: "Jan 15, 2023",
-  },
-  {
-    id: "2",
-    name: "Intermediate Adults",
-    level: "Intermediate",
-    members: 6,
-    maxMembers: 8,
-    schedule: "Tue, Thu 6:00 PM",
-    description:
-      "This group focuses on improving technique and match play for intermediate adult players. We work on consistency, shot selection, and strategy.",
-    goals:
-      "Develop consistent topspin groundstrokes, improve serve accuracy, and learn effective doubles strategies.",
-    createdAt: "Jan 15, 2023",
-  },
-  {
-    id: "3",
-    name: "Advanced Teens",
-    level: "Advanced",
-    members: 4,
-    maxMembers: 6,
-    schedule: "Fri 5:00 PM, Sat 10:00 AM",
-    description:
-      "This group focuses on improving technique and match play for intermediate adult players. We work on consistency, shot selection, and strategy.",
-    goals:
-      "Develop consistent topspin groundstrokes, improve serve accuracy, and learn effective doubles strategies.",
-    createdAt: "Jan 15, 2023",
-  },
-  {
-    id: "4",
-    name: "Senior Beginners",
-    level: "Beginner",
-    members: 5,
-    maxMembers: 8,
-    schedule: "Mon, Wed 10:00 AM",
-    description:
-      "This group focuses on improving technique and match play for intermediate adult players. We work on consistency, shot selection, and strategy.",
-    goals:
-      "Develop consistent topspin groundstrokes, improve serve accuracy, and learn effective doubles strategies.",
-    createdAt: "Jan 15, 2023",
-  },
-];
+// const groups = [
+//   {
+//     id: "1",
+//     name: "Beginner Kids",
+//     level: "Beginner",
+//     members: 8,
+//     maxMembers: 10,
+//     schedule: "Mon, Wed 4:00 PM",
+//     description:
+//       "This group focuses on improving technique and match play for intermediate adult players. We work on consistency, shot selection, and strategy.",
+//     goals:
+//       "Develop consistent topspin groundstrokes, improve serve accuracy, and learn effective doubles strategies.",
+//     createdAt: "Jan 15, 2023",
+//   },
+//   {
+//     id: "2",
+//     name: "Intermediate Adults",
+//     level: "Intermediate",
+//     members: 6,
+//     maxMembers: 8,
+//     schedule: "Tue, Thu 6:00 PM",
+//     description:
+//       "This group focuses on improving technique and match play for intermediate adult players. We work on consistency, shot selection, and strategy.",
+//     goals:
+//       "Develop consistent topspin groundstrokes, improve serve accuracy, and learn effective doubles strategies.",
+//     createdAt: "Jan 15, 2023",
+//   },
+//   {
+//     id: "3",
+//     name: "Advanced Teens",
+//     level: "Advanced",
+//     members: 4,
+//     maxMembers: 6,
+//     schedule: "Fri 5:00 PM, Sat 10:00 AM",
+//     description:
+//       "This group focuses on improving technique and match play for intermediate adult players. We work on consistency, shot selection, and strategy.",
+//     goals:
+//       "Develop consistent topspin groundstrokes, improve serve accuracy, and learn effective doubles strategies.",
+//     createdAt: "Jan 15, 2023",
+//   },
+//   {
+//     id: "4",
+//     name: "Senior Beginners",
+//     level: "Beginner",
+//     members: 5,
+//     maxMembers: 8,
+//     schedule: "Mon, Wed 10:00 AM",
+//     description:
+//       "This group focuses on improving technique and match play for intermediate adult players. We work on consistency, shot selection, and strategy.",
+//     goals:
+//       "Develop consistent topspin groundstrokes, improve serve accuracy, and learn effective doubles strategies.",
+//     createdAt: "Jan 15, 2023",
+//   },
+// ];
 
 export function GroupDetails({ id }: GroupDetailsProps) {
   const [group, setGroup] = useState<{

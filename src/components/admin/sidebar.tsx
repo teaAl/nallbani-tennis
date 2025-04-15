@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { cn } from "@/lib/cn";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import {
   Calendar,
   Users,
@@ -12,42 +14,69 @@ import {
   X,
   PowerCircle,
 } from "lucide-react";
-import { useAdminView } from "@/context/adminProvider";
 
 export function Sidebar() {
-  const { currentView, setView } = useAdminView();
+  const pathname = usePathname();
   const [collapsed, setCollapsed] = useState(false);
+
+  // const navItems = [
+  //   {
+  //     name: "Dashboard",
+  //     view: "dashboard",
+  //     icon: BarChart,
+  //   },
+  //   {
+  //     name: "Groups",
+  //     view: "groups",
+  //     icon: Users,
+  //   },
+  //   {
+  //     name: "Lessons",
+  //     view: "lessons",
+  //     icon: Calendar,
+  //   },
+  //   {
+  //     name: "Members",
+  //     view: "members",
+  //     icon: UserCircle,
+  //   },
+  //   {
+  //     name: "Court Availability",
+  //     view: "court-availability",
+  //     icon: Clock,
+  //   },
+  //   {
+  //     name: "Profile",
+  //     view: "admin-profile",
+  //     icon: UserCircle,
+  //   },
+  // ];
 
   const navItems = [
     {
-      name: "Dashboard",
-      view: "dashboard",
+      title: "Dashboard",
+      href: "/admin/dashboard",
       icon: BarChart,
     },
     {
-      name: "Groups",
-      view: "groups",
+      title: "Groups",
+      href: "/admin/groups",
       icon: Users,
     },
     {
-      name: "Lessons",
-      view: "lessons",
+      title: "Lessons",
+      href: "/admin/lessons",
       icon: Calendar,
     },
     {
-      name: "Members",
-      view: "members",
+      title: "Members",
+      href: "/admin/members",
       icon: UserCircle,
     },
     {
-      name: "Court Availability",
-      view: "court-availability",
+      title: "Court Availability",
+      href: "/admin/court-availability",
       icon: Clock,
-    },
-    {
-      name: "Profile",
-      view: "admin-profile",
-      icon: UserCircle,
     },
   ];
 
@@ -68,7 +97,7 @@ export function Sidebar() {
         </button>
       </div>
       <nav className="flex-1 py-4 text-foreground">
-        <ul className="space-y-1 px-2">
+        {/* <ul className="space-y-1 px-2">
           {navItems.map((item) => (
             <li key={item.view}>
               <button
@@ -86,7 +115,22 @@ export function Sidebar() {
               </button>
             </li>
           ))}
-        </ul>
+        </ul> */}
+
+        {navItems.map((item) => (
+          <Link
+            key={item.href}
+            href={item.href}
+            className={`flex w-full items-center py-2 px-3 rounded-md transition-colors cursor-pointer",
+                  ${
+                    pathname === item.href ? "bg-gray-800" : "hover:bg-gray-800"
+                  },
+                  ${collapsed ? "justify-center" : ""}`}
+          >
+            <item.icon className="h-5 w-5" />
+            {!collapsed && <span className="ml-3">{item.title}</span>}
+          </Link>
+        ))}
       </nav>
       <div className="p-4 border-t border-foreground/30">
         <button
@@ -106,4 +150,5 @@ export function Sidebar() {
 /*
 TODO:
 - create admin profile view - consider the commented out code in the admin-header.tsx --> nallbani-tennis/src/components/admin/admin-header.tsx
+- add services/packages section and connect it to the (front) group, services page.
 */
