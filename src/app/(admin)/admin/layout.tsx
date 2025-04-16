@@ -8,6 +8,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { GlobalStateProvider } from "@/context/globalStateContext";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale } from "next-intl/server";
+import { AdminStateProvider } from "@/context/adminProvider";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -35,22 +36,26 @@ export default async function AdminLayout({
 
   return (
     <GlobalStateProvider>
-      <html lang={locale}>
-        <body className={`${poppins.variable} ${nunito.variable} antialiased`}>
-          <NextIntlClientProvider /*messages={messages}*/>
-            <div className="flex h-screen overflow-hidden">
-              <Sidebar />
-              <div className="flex flex-col flex-1 overflow-hidden">
-                <AdminHeader />
-                <main className="flex-1 overflow-y-auto p-6 bg-pana">
-                  {children}
-                </main>
-                <Toaster />
+      <AdminStateProvider>
+        <html lang={locale}>
+          <body
+            className={`${poppins.variable} ${nunito.variable} antialiased`}
+          >
+            <NextIntlClientProvider /*messages={messages}*/>
+              <div className="flex h-screen overflow-hidden">
+                <Sidebar />
+                <div className="flex flex-col flex-1 overflow-hidden">
+                  <AdminHeader />
+                  <main className="flex-1 overflow-y-auto p-6 bg-pana">
+                    {children}
+                  </main>
+                  <Toaster />
+                </div>
               </div>
-            </div>
-          </NextIntlClientProvider>
-        </body>
-      </html>
+            </NextIntlClientProvider>
+          </body>
+        </html>
+      </AdminStateProvider>
     </GlobalStateProvider>
   );
 }

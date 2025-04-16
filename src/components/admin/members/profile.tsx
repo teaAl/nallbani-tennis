@@ -1,39 +1,78 @@
-"use client"
+"use client";
 
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/memberCard"
-import { Badge } from "@/components/ui/badge"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Pencil, Calendar } from "lucide-react"
-import Link from "next/link"
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/memberCard";
+import { Badge } from "@/components/ui/badge";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Pencil, Calendar } from "lucide-react";
+import Link from "next/link";
+import { formatDate } from "@/utils/formatDate";
+import { useAdminState } from "@/context/adminProvider";
+import { useEffect, useState } from "react";
+import { Modal } from "@/components/ui/modal";
 
 interface MemberProfileProps {
-  id: string
+  id: string;
 }
 
 export function MemberProfile({ id }: MemberProfileProps) {
-  // In a real app, this data would come from your API based on the id
-  const member = {
-    id,
-    name: "Sarah Johnson",
-    email: "sarah@example.com",
-    phone: "+1 (555) 456-7890",
-    level: "Intermediate",
-    joinedOn: "Mar 15, 2023",
-    image: "",
-    address: "123 Tennis Court Lane, Tennis City, TC 12345",
-    emergencyContact: "John Johnson, +1 (555) 123-4567",
-    notes: "Prefers evening lessons. Working on improving backhand technique.",
-  }
+  const [user, setUser] = useState<UserNT | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [newStatus, setNewStatus] = useState(user?.status);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await fetch(`/api/users/${id}`);
+        if (!response.ok) {
+          throw new Error("Failed to fetch user");
+        }
+        const data = await response.json();
+        setUser(data.user);
+      } catch (error) {
+        console.error("Error fetching user:", error);
+      }
+    };
+
+    fetchUser();
+    console.log("user on profile comp > ", user);
+  }, [id]);
+
+  const handleStatusChange = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch("/api/users/update-status", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userId: id, status: newStatus }),
+      });
+
+      if (!response.ok) {
+        console.error("Failed to update status > ", response);
+        throw new Error("Failed to update status");
+      }
+
+      const data = await response.json();
+      setUser((prev) => (prev ? { ...prev, status: data.user.status } : null));
+      setIsModalOpen(false); // Close the modal
+    } catch (error) {
+      console.error("Error updating status:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <Card>
       <CardContent className="pt-6">
         <div className="flex flex-col md:flex-row md:items-start gap-6">
           <Avatar className="h-24 w-24">
-            <AvatarImage src={member.image} alt={member.name} />
+            <AvatarImage src={user?.avatar || ""} alt={user?.name} />
             <AvatarFallback className="text-3xl">
-              {member.name
+              {user?.name
                 .split(" ")
                 .map((n) => n[0])
                 .join("")}
@@ -44,10 +83,12 @@ export function MemberProfile({ id }: MemberProfileProps) {
             <div className="flex items-start justify-between">
               <div>
                 <div className="flex items-center gap-2">
-                  <h2 className="text-2xl font-bold">{member.name}</h2>
-                  <Badge variant="outline">{member.level}</Badge>
+                  <h2 className="text-2xl font-bold">{user?.name}</h2>
+                  <Badge variant="outline">{user?.level}</Badge>
                 </div>
-                <p className="text-gray-500 mt-1">Member since {member.joinedOn}</p>
+                <p className="text-gray-500 mt-1">
+                  Member since {formatDate(formatDate(user?.createdAt || ""))}
+                </p>
               </div>
               <div className="flex gap-2">
                 <Link href={`/lessons/new?member=${id}`}>
@@ -56,41 +97,78 @@ export function MemberProfile({ id }: MemberProfileProps) {
                     Schedule Lesson
                   </Button>
                 </Link>
-                <Button variant="outline" size="sm">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setIsModalOpen(true)}
+                >
                   <Pencil className="h-4 w-4 mr-2" />
-                  Edit Profile
+                  Change status
                 </Button>
               </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
               <div>
-                <h3 className="font-medium text-gray-500">Contact Information</h3>
+                <h3 className="font-medium text-gray-500">
+                  Contact Information
+                </h3>
                 <div className="mt-2 space-y-2">
                   <p>
-                    <span className="font-medium">Email:</span> {member.email}
+                    <span className="font-medium">Email:</span> {user?.email}
                   </p>
                   <p>
-                    <span className="font-medium">Phone:</span> {member.phone}
+                    <span className="font-medium">Phone:</span>{" "}
+                    {user?.phoneNumber}
                   </p>
                   <p>
-                    <span className="font-medium">Address:</span> {member.address}
+                    <span className="font-medium">Address:</span>{" "}
+                    {user?.address}
                   </p>
                 </div>
               </div>
-              <div>
+              {/* <div>
                 <h3 className="font-medium text-gray-500">Emergency Contact</h3>
                 <p className="mt-2">{member.emergencyContact}</p>
-              </div>
+              </div> */}
             </div>
 
             <div className="mt-6">
               <h3 className="font-medium text-gray-500">Notes</h3>
-              <p className="mt-2">{member.notes}</p>
+              <p className="mt-2">{user?.bio}</p>
             </div>
           </div>
         </div>
       </CardContent>
+
+      {/* Modal for changing status */}
+      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+        <h2 className="text-lg font-bold mb-4">Change Status</h2>
+        <select
+          value={newStatus}
+          onChange={(e) => setNewStatus(e.target.value as MemberStatus)}
+          className="w-full border rounded-md p-2 mb-4 border-pear focus:outline-pear"
+        >
+          <option value="PENDING">PENDING</option>
+          <option value="ACTIVE">ACTIVE</option>
+          <option value="INACTIVE">INACTIVE</option>
+        </select>
+        <div className="flex justify-end gap-2">
+          <button
+            onClick={() => setIsModalOpen(false)}
+            className="bg-yellow-50 hover:bg-yellow-100 text-gray-800 px-4 py-2 rounded-md cursor-pointer transition-colors duration-200"
+          >
+            Cancel
+          </button>
+          <button
+            className="bg-pear hover:bg-pear/80 text-gray-800 px-4 py-2 rounded-md cursor-pointer transition-colors duration-200"
+            onClick={handleStatusChange}
+            disabled={loading}
+          >
+            {loading ? "Updating..." : "Update"}
+          </button>
+        </div>
+      </Modal>
     </Card>
-  )
+  );
 }

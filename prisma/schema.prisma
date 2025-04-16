@@ -22,6 +22,7 @@ model User {
   dateOfBirth     DateTime?
   address         String?
   bio             String?
+  level           SkillLevel?
   parentId        String?
   bookings        Booking[]
   groups          GroupMember[]

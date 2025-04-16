@@ -6,8 +6,16 @@ export const GET = async () => {
     const users = await prisma.user.findMany({
       select: {
         id: true,
+        name: true,
         email: true,
+        emailVerified: true,
         // password: true,
+        avatar: true,
+        role: true,
+        status: true,
+        createdAt: true,
+        phoneNumber: true,
+        level: true,
       },
     });
 
