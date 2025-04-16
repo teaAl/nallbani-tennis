@@ -34,7 +34,3 @@ export default async function GroupPage({
     </div>
   );
 }
-
-// export default async function GroupPage() {
-//   return <div> Group Page</div>;
-// }

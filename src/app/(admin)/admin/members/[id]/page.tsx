@@ -35,7 +35,3 @@ export default async function MemberPage({
     </div>
   );
 }
-
-// export default async function MemberPage() {
-//   return <div> Member Page</div>;
-// }
