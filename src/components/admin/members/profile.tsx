@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/memberCard";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Pencil, Calendar } from "lucide-react";
+import { Pencil, Calendar, UserCog } from "lucide-react";
 import Link from "next/link";
 import { formatDate } from "@/utils/formatDate";
 import { useAdminState } from "@/context/adminProvider";
@@ -15,10 +15,18 @@ interface MemberProfileProps {
   id: string;
 }
 
+enum UserRole {
+  STUDENT = "STUDENT",
+  PARENT = "PARENT",
+  MEMBER = "MEMBER",
+}
+
 export function MemberProfile({ id }: MemberProfileProps) {
   const [user, setUser] = useState<UserNT | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isStatusModalOpen, setIsStatusModalOpen] = useState(false);
   const [newStatus, setNewStatus] = useState(user?.status);
+  const [isRoleModalOpen, setIsRoleModalOpen] = useState(false);
+  const [userRoles, setUserRoles] = useState<UserRole[]>([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -36,7 +44,6 @@ export function MemberProfile({ id }: MemberProfileProps) {
     };
 
     fetchUser();
-    console.log("user on profile comp > ", user);
   }, [id]);
 
   const handleStatusChange = async () => {
@@ -57,7 +64,34 @@ export function MemberProfile({ id }: MemberProfileProps) {
 
       const data = await response.json();
       setUser((prev) => (prev ? { ...prev, status: data.user.status } : null));
-      setIsModalOpen(false); // Close the modal
+      setIsStatusModalOpen(false); // Close the modal
+    } catch (error) {
+      console.error("Error updating status:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleRoleChange = async () => {
+    console.log("userRoles > ", userRoles);
+    setLoading(true);
+    try {
+      const response = await fetch("/api/users/update-role", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userId: id, role: userRoles }),
+      });
+
+      if (!response.ok) {
+        console.error("Failed to update status > ", response);
+        throw new Error("Failed to update status");
+      }
+
+      const data = await response.json();
+      setUser((prev) => (prev ? { ...prev, status: data.user.status } : null));
+      setIsRoleModalOpen(false); // Close the modal
     } catch (error) {
       console.error("Error updating status:", error);
     } finally {
@@ -91,16 +125,18 @@ export function MemberProfile({ id }: MemberProfileProps) {
                 </p>
               </div>
               <div className="flex gap-2">
-                <Link href={`/lessons/new?member=${id}`}>
-                  <Button variant="outline" size="sm">
-                    <Calendar className="h-4 w-4 mr-2" />
-                    Schedule Lesson
-                  </Button>
-                </Link>
                 <Button
                   variant="outline"
                   size="sm"
-                  onClick={() => setIsModalOpen(true)}
+                  onClick={() => setIsRoleModalOpen(true)}
+                >
+                  <UserCog className="h-4 w-4 mr-2" />
+                  Change role
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setIsStatusModalOpen(true)}
                 >
                   <Pencil className="h-4 w-4 mr-2" />
                   Change status
@@ -142,7 +178,10 @@ export function MemberProfile({ id }: MemberProfileProps) {
       </CardContent>
 
       {/* Modal for changing status */}
-      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+      <Modal
+        isOpen={isStatusModalOpen}
+        onClose={() => setIsStatusModalOpen(false)}
+      >
         <h2 className="text-lg font-bold mb-4">Change Status</h2>
         <select
           value={newStatus}
@@ -152,10 +191,11 @@ export function MemberProfile({ id }: MemberProfileProps) {
           <option value="PENDING">PENDING</option>
           <option value="ACTIVE">ACTIVE</option>
           <option value="INACTIVE">INACTIVE</option>
+          <option value="UNCOMPLETE">INCOMPLETE</option>
         </select>
         <div className="flex justify-end gap-2">
           <button
-            onClick={() => setIsModalOpen(false)}
+            onClick={() => setIsStatusModalOpen(false)}
             className="bg-yellow-50 hover:bg-yellow-100 text-gray-800 px-4 py-2 rounded-md cursor-pointer transition-colors duration-200"
           >
             Cancel
@@ -163,6 +203,79 @@ export function MemberProfile({ id }: MemberProfileProps) {
           <button
             className="bg-pear hover:bg-pear/80 text-gray-800 px-4 py-2 rounded-md cursor-pointer transition-colors duration-200"
             onClick={handleStatusChange}
+            disabled={loading}
+          >
+            {loading ? "Updating..." : "Update"}
+          </button>
+        </div>
+      </Modal>
+
+      {/* Modal for changing role */}
+      <Modal isOpen={isRoleModalOpen} onClose={() => setIsRoleModalOpen(false)}>
+        <h2 className="text-lg font-bold mb-4">Change Role</h2>
+        <form className="flex flex-col gap-4">
+          <div className="flex items-center gap-2">
+            <input
+              type="checkbox"
+              checked={userRoles.includes(UserRole.STUDENT)}
+              onChange={(e) => {
+                if (e.target.checked) {
+                  setUserRoles((prev) => [...prev, UserRole.STUDENT]);
+                } else {
+                  setUserRoles((prev) =>
+                    prev.filter((role) => role !== UserRole.STUDENT)
+                  );
+                }
+              }}
+              className="mr-2"
+            />
+            <label className="text-sm">STUDENT</label>
+          </div>
+          <div className="flex items-center gap-2">
+            <input
+              type="checkbox"
+              checked={userRoles.includes(UserRole.PARENT)}
+              onChange={(e) => {
+                if (e.target.checked) {
+                  setUserRoles((prev) => [...prev, UserRole.PARENT]);
+                } else {
+                  setUserRoles((prev) =>
+                    prev.filter((role) => role !== UserRole.PARENT)
+                  );
+                }
+              }}
+              className="mr-2"
+            />
+            <label className="text-sm">PARENT</label>
+          </div>
+          <div className="flex items-center gap-2">
+            <input
+              type="checkbox"
+              checked={userRoles.includes(UserRole.MEMBER)}
+              onChange={(e) => {
+                if (e.target.checked) {
+                  setUserRoles((prev) => [...prev, UserRole.MEMBER]);
+                } else {
+                  setUserRoles((prev) =>
+                    prev.filter((role) => role !== UserRole.MEMBER)
+                  );
+                }
+              }}
+              className="mr-2"
+            />
+            <label className="text-sm">MEMBER</label>
+          </div>
+        </form>
+        <div className="flex justify-end gap-2">
+          <button
+            onClick={() => setIsRoleModalOpen(false)}
+            className="bg-yellow-50 hover:bg-yellow-100 text-gray-800 px-4 py-2 rounded-md cursor-pointer transition-colors duration-200"
+          >
+            Cancel
+          </button>
+          <button
+            className="bg-pear hover:bg-pear/80 text-gray-800 px-4 py-2 rounded-md cursor-pointer transition-colors duration-200"
+            onClick={handleRoleChange}
             disabled={loading}
           >
             {loading ? "Updating..." : "Update"}

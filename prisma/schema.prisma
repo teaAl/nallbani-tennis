@@ -8,30 +8,31 @@ datasource db {
 }
 
 model User {
-  id              String            @id @default(cuid())
-  name            String
-  email           String            @unique
-  emailVerified   DateTime?
-  password        String?
-  avatar          String?
-  role            UserRole[]
-  status          MemberStatus      @default(PENDING)
-  createdAt       DateTime          @default(now())
-  updatedAt       DateTime          @updatedAt
-  phoneNumber     String?
-  dateOfBirth     DateTime?
-  address         String?
-  bio             String?
-  level           SkillLevel?
-  parentId        String?
-  bookings        Booking[]
-  groups          GroupMember[]
-  lessonsAttended LessonAttendee[]
-  achievements    UserAchievement[]
-  subscriptions   UserPackage[]
-  progress        UserProgress?
-  parent          User?             @relation("ParentToChild", fields: [parentId], references: [id])
-  children        User[]            @relation("ParentToChild")
+  id               String            @id @default(cuid())
+  name             String
+  email            String            @unique
+  emailVerified    DateTime?
+  password         String?
+  avatar           String?
+  role             UserRole[]
+  status           MemberStatus      @default(PENDING)
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  phoneNumber      String?
+  dateOfBirth      DateTime?
+  notesForCoach    String?
+  bio              String?
+  preferedPlayTime PreferedPlayTime?
+  level            SkillLevel?
+  parentId         String?
+  bookings         Booking[]
+  groups           GroupMember[]
+  lessonsAttended  LessonAttendee[]
+  achievements     UserAchievement[]
+  subscriptions    UserPackage[]
+  progress         UserProgress?
+  parent           User?             @relation("ParentToChild", fields: [parentId], references: [id])
+  children         User[]            @relation("ParentToChild")
 
   @@map("users")
 }
@@ -282,6 +283,16 @@ enum MemberStatus {
   ACTIVE
   INACTIVE
   PENDING
+  UNCOMPLETE
+}
+
+enum PreferedPlayTime {
+  MORNING
+  LATE_MORNING
+  AFTERNOON
+  EVENING
+  NIGHT
+  ANYTIME
 }
 
 enum StaffRole {

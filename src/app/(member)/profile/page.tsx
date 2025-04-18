@@ -17,6 +17,10 @@ export default async function MemberPage() {
     redirect("/pending");
   }
 
+  if (session.user.status === "INCOMPLETE") {
+    redirect("/complete-profile");
+  }
+
   return (
     <>
       <div className="container mx-auto flex items-center justify-center h-full">

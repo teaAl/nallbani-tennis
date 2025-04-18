@@ -17,19 +17,20 @@ interface UserNT {
 }
 
 enum UserRole {
-  STUDENT,
-  PARENT,
-  MEMBER,
+  STUDENT = "STUDENT",
+  PARENT = "PARENT",
+  MEMBER = "MEMBER",
 }
 
 enum MemberStatus {
   ACTIVE = "ACTIVE",
   INACTIVE = "INACTIVE",
   PENDING = "PENDING",
+  INCOMPLETE = "INCOMPLETE",
 }
 
 enum SkillLevel {
-  BEGINNER,
-  INTERMEDIATE,
-  ADVANCED,
+  BEGINNER = "BEGINNER",
+  INTERMEDIATE = "INTERMEDIATE",
+  ADVANCED = "ADVANCED",
 }

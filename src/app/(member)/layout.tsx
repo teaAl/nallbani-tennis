@@ -48,10 +48,12 @@ export default async function Layout({
             <NextIntlClientProvider /*messages={messages}*/>
               {/* <AuthProvider> */}
               <main className="flex flex-col min-h-screen h-full w-full overflow-x-hidden">
-                <div className="flex-grow overflow-auto h-screen flex flex-col gap-10">
-                  <NavigationMenu session={session} />
+                <NavigationMenu session={session} />
+                <div className="flex-grow overflow-auto min-h-screen flex flex-col gap-10">
                   {children}
-                  <Footer />
+                  <div className="w-full  z-30">
+                    <Footer />
+                  </div>
                 </div>
               </main>
             </NextIntlClientProvider>
