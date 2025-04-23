@@ -1,22 +1,32 @@
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import ProfileHeader from "./profileHeader"
-import MembershipCard from "./card"
-import BookingsList from "./bookingsList"
-import ProgressTracker from "./progressTracker"
-import ProfileSettings from "./settings"
-import NetworkSection from "./network"
+"use client";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import ProfileHeader from "./profileHeader";
+import MembershipCard from "./card";
+import BookingsList from "./bookingsList";
+import ProgressTracker from "./progressTracker";
+import ProfileSettings from "./settings";
+import NetworkSection from "./network";
+import { useUser } from "@/services/hooks/getUser";
+import { formatDate } from "@/utils/formatDate";
+import { useUsers } from "@/services/hooks/getUsers";
+import { useGlobalState } from "@/context/globalStateContext";
+import { useEffect } from "react";
 
-export default function ProfilePage({user}: {user: any}) {
+export default function ProfilePage({ user }: { user: any }) {
+  const id = user.id;
+  const { user: fetchedUser, loading, error } = useUser(id);
+  const { users } = useUsers();
+
   return (
     <div className="container mx-auto">
-      <ProfileHeader
-        name="John Doe"
-        // email="john.doe@example.com"
-        email={user.email}
-        joinDate="Member since January 2023"
-        avatarUrl="/placeholder.svg?height=100&width=100"
-      />
-
+      {fetchedUser && (
+        <ProfileHeader
+          name={fetchedUser.name}
+          email={fetchedUser.email}
+          joinDate={formatDate(fetchedUser.createdAt)}
+          avatarUrl={`/images/avatars/${fetchedUser.avatar}.jpg`}
+        />
+      )}
       <Tabs defaultValue="membership" className="mt-8">
         <TabsList className="grid w-full grid-cols-5">
           <TabsTrigger value="membership">Membership</TabsTrigger>
@@ -39,17 +49,16 @@ export default function ProfilePage({user}: {user: any}) {
         </TabsContent>
 
         <TabsContent value="network" className="mt-6">
-          <NetworkSection />
+          <NetworkSection users={users} />
         </TabsContent>
 
         <TabsContent value="settings" className="mt-6">
-          <ProfileSettings />
+          <ProfileSettings user={fetchedUser} />
         </TabsContent>
       </Tabs>
     </div>
-  )
+  );
 }
-
 
 // 'use client';
 
@@ -62,7 +71,7 @@ export default function ProfilePage({user}: {user: any}) {
 
 // export default function MemberContent({ user }: MemberContentProps) {
 //   const [activeTab, setActiveTab] = useState('overview');
-  
+
 //   // Client-side interactivity here
 //   return (
 //     <div>

@@ -19,6 +19,7 @@ import { useTranslations } from "next-intl";
 import LanguageSwitcher from "./languageSwitcher";
 import { Session } from "next-auth";
 import { User2, UserCircle, UserCircle2Icon } from "lucide-react";
+import { useUser } from "@/services/hooks/getUser";
 
 const NavigationMenu = ({ session }: { session: null | Session }) => {
   const router = useRouter();
@@ -29,13 +30,13 @@ const NavigationMenu = ({ session }: { session: null | Session }) => {
   const pathName = usePathname();
   const navigationLinks = useNavigationLinks({ type });
   const { hamburgerMenuOpen, setHamburgerMenuOpen } = useGlobalState();
-  const [user, setUser] = useState<"admin" | "member" | "guest" | null>(null);
   const navRef = useRef<HTMLDivElement | null>(null);
   const isNavVisible = useIsVisible(navRef);
 
-  useEffect(() => {
-    setUser("admin");
-  }, [user]);
+  const id = session?.user.id;
+  const { user, loading, error } = useUser(id as string);
+
+  console.log("user on navmenu > ", user);
 
   // Prevent scrolling when the hamburger menu is open
   useEffect(() => {
@@ -94,8 +95,20 @@ const NavigationMenu = ({ session }: { session: null | Session }) => {
               onClick={() => router.push("/profile")}
             >
               {/* TODO: create a tennis icon placeholder female and male if no avatar available. */}
-              <UserCircle2Icon className="w-7 h-7" />
-              <span className="font-nunito text-base">John Doe</span>
+              {user?.avatar ? (
+                <Image
+                  src={`/images/avatars/${user.avatar}.jpg`}
+                  width={35}
+                  height={35}
+                  className="rounded-full border border-pear"
+                  alt={""}
+                />
+              ) : (
+                <UserCircle2Icon className="w-7 h-7" />
+              )}
+              <span className="font-nunito text-base text-pear font-bold ">
+                {user?.name}
+              </span>
             </button>
           )}
         </div>

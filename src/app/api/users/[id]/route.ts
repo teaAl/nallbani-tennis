@@ -13,18 +13,6 @@ export const GET = async (
       where: {
         id,
       },
-      // select: {
-      //   id: true,
-      //   name: true,
-      //   email: true,
-      //   emailVerified: true,
-      //   avatar: true,
-      //   role: true,
-      //   status: true,
-      //   createdAt: true,
-      //   phoneNumber: true,
-      //   level: true,
-      // },
     });
 
     if (!user) {

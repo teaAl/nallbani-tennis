@@ -16,6 +16,7 @@ declare module "next-auth" {
       email: string | null;
       //   image?: string | null;
       status: string;
+      role: UserRole[];
     } & DefaultSession["user"];
   }
 
@@ -24,6 +25,7 @@ declare module "next-auth" {
    */
   interface User {
     status?: string;
+    role?: UserRole[];
   }
 }
 
@@ -67,6 +69,8 @@ export const authOptions: NextAuthOptions = {
           //   name: user.name,
           //   image: user.image,
           status: user.status || "PENDING",
+          role: user.role as UserRole[],
+          user: user,
         };
       },
     }),
@@ -85,13 +89,34 @@ export const authOptions: NextAuthOptions = {
       if (user) {
         token.id = user.id;
         token.status = user.status || "PENDING";
+        token.role = user.role;
       }
+
+      if (token.id) {
+        const latestUser = await prisma.user.findUnique({
+          where: { id: token.id as string },
+          select: {
+            id: true,
+            status: true,
+            role: true,
+            // Add other fields you need
+          },
+        });
+
+        if (latestUser) {
+          token.status = latestUser.status;
+          token.role = latestUser.role;
+        }
+      }
+
       return token;
     },
+
     async session({ session, token }) {
       if (session.user) {
         session.user.id = token.id as string;
         session.user.status = token.status as string;
+        session.user.role = token.role as UserRole[];
       }
       return session;
     },

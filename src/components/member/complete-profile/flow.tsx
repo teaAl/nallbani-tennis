@@ -1,25 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
 import AvatarStep from "./steps/avatarStep";
 import PersonalInfoStep from "./steps/personalInfo";
 import PreferenceStep from "./steps/prefereceStep";
 import ConfirmationStep from "./steps/confirmationStep";
 import { useCompleteProfileProvider } from "@/context/completeProfileProvider";
-import useAuth from "@/components/auth/useAuth";
 
 const ProfileCompletionFlow = ({ id }: { id: string }) => {
-  const { user } = useAuth({ id });
-  const router = useRouter();
-
-  // If profile is already completed, redirect to dashboard
-  useEffect(() => {
-    if (user?.status === "ACTIVE") {
-      router.push("/profile");
-    }
-  }, [user, router]);
-
   const { nextStep, prevStep, totalSteps, currentStep, profileData } =
     useCompleteProfileProvider();
 

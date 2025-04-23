@@ -1,5 +1,6 @@
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/authOpts";
+import prisma from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import Head from "next/head";
 import ProfileCompletionFlow from "@/components/member/complete-profile/flow";
@@ -11,14 +12,6 @@ export default async function CompleteProfilePage() {
 
   if (!session) {
     redirect("/login");
-  }
-
-  if (session.user.status === "ACTIVE" && !session.user.image) {
-    redirect("/profile");
-  }
-
-  if (session.user.status === "PENDING") {
-    redirect("/pending");
   }
 
   return (

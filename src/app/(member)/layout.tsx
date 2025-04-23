@@ -1,7 +1,10 @@
 import "../globals.css";
 import type { Metadata } from "next";
 import { Poppins, Nunito } from "next/font/google";
-import { GlobalStateProvider } from "@/context/globalStateContext";
+import {
+  GlobalStateProvider,
+  useGlobalState,
+} from "@/context/globalStateContext";
 import React from "react";
 import NavigationMenu from "@/components/common/navbar/navigationMenu";
 import Footer from "@/components/common/footer";

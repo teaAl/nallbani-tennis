@@ -1,11 +1,13 @@
+"use client";
 import { useCompleteProfileProvider } from "@/context/completeProfileProvider";
 import { formatDate } from "@/utils/formatDate";
 import Image from "next/image";
 import { useState } from "react";
-// import useRouter from "next/navigation";
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 const ConfirmationStep = ({ id }: { id: string }) => {
-  // const router = useRouter();
+  const router = useRouter();
   const { profileData } = useCompleteProfileProvider();
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
@@ -36,13 +38,23 @@ const ConfirmationStep = ({ id }: { id: string }) => {
         throw new Error("Failed to update profile");
       }
 
+      // Clear local storage
+      localStorage.removeItem("profileCompleteData");
+
+      // Refresh the session to update the token
+      await fetch("/api/auth/session?update=true");
+
+      const { update } = useSession();
+      await update();
+
       const data = await response.json();
       console.log("Profile updated successfully:", data);
-      // router.refresh();
+      router.refresh();
     } catch (error) {
       console.error("Error updating profile:", error);
     } finally {
       setIsSubmitting(false);
+      // router.push("/profile");
     }
   };
 

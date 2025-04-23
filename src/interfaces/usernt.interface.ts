@@ -14,6 +14,13 @@ interface UserNT {
   address: string | null;
   bio: string | null;
   parentId: string | null;
+  preferedPlayTime: PreferedPlayTime;
+  //TODO: add this to the user model and db
+  notifications: {
+    email: boolean;
+    sms: boolean;
+    app: boolean;
+  };
 }
 
 enum UserRole {
@@ -26,11 +33,21 @@ enum MemberStatus {
   ACTIVE = "ACTIVE",
   INACTIVE = "INACTIVE",
   PENDING = "PENDING",
-  INCOMPLETE = "INCOMPLETE",
+  UNCOMPLETE = "UNCOMPLETE",
 }
 
 enum SkillLevel {
   BEGINNER = "BEGINNER",
   INTERMEDIATE = "INTERMEDIATE",
   ADVANCED = "ADVANCED",
+  PROFESSIONAL = "PROFESSIONAL",
+}
+
+enum PreferedPlayTime {
+  MORNING = "MORNING",
+  LATE_MORNING = "LATE_MORNING",
+  AFTERNOON = "AFTERNOON",
+  EVENING = "EVENING",
+  NIGHT = "NIGHT",
+  ANYTIME = "ANYTIME",
 }

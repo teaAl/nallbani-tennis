@@ -12,10 +12,6 @@ export default async function PendingPage() {
     redirect("/login");
   }
 
-  if (session.user.status === "ACTIVE") {
-    redirect("/profile");
-  }
-
   return (
     <>
       <Head>

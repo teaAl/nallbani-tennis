@@ -1,202 +1,219 @@
 "use client";
 import { stepsData } from "@/constants/bookSteps";
-import React, { createContext, useContext, useState, ReactNode, useEffect } from "react";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  ReactNode,
+  useEffect,
+} from "react";
 
 interface GlobalStateContextProps {
-	lessonType: "individual" | "group" | null;
-	setLessonType: React.Dispatch<
-		React.SetStateAction<"individual" | "group" | null>
-	>;
-	dateBooked: Date | null;
-	setDateBooked: React.Dispatch<React.SetStateAction<Date | null>>;
-	hourBooked: Hours | null;
-	setHourBooked: React.Dispatch<React.SetStateAction<Hours | null>>;
-	contactInfo: { name: string; email: string; phone: string } | null;
-	setContactInfo: React.Dispatch<
-		React.SetStateAction<{ name: string; email: string; phone: string } | null>
-	>;
-	hasEquipment: boolean | null;
-	setHasEquipment: React.Dispatch<React.SetStateAction<boolean | null>>;
-	steps: StepType[];
-	setSteps: React.Dispatch<React.SetStateAction<StepType[]>>;
-	currentStepIndex: number;
-	nextStep: () => void;
-	prevStep: () => void;
-	goToStep: (index: number) => void;
-	saveStateToLocalStorage: (path: string) => void;
-	loadStateFromLocalStorage: (path: string) => void;
-	clearBookingState: () => void;
+  lessonType: "individual" | "group" | null;
+  setLessonType: React.Dispatch<
+    React.SetStateAction<"individual" | "group" | null>
+  >;
+  dateBooked: Date | null;
+  setDateBooked: React.Dispatch<React.SetStateAction<Date | null>>;
+  hourBooked: Hours | null;
+  setHourBooked: React.Dispatch<React.SetStateAction<Hours | null>>;
+  contactInfo: { name: string; email: string; phone: string } | null;
+  setContactInfo: React.Dispatch<
+    React.SetStateAction<{ name: string; email: string; phone: string } | null>
+  >;
+  hasEquipment: boolean | null;
+  setHasEquipment: React.Dispatch<React.SetStateAction<boolean | null>>;
+  steps: StepType[];
+  setSteps: React.Dispatch<React.SetStateAction<StepType[]>>;
+  currentStepIndex: number;
+  nextStep: () => void;
+  prevStep: () => void;
+  goToStep: (index: number) => void;
+  saveStateToLocalStorage: (path: string) => void;
+  loadStateFromLocalStorage: (path: string) => void;
+  clearBookingState: () => void;
 
-	/* START -- THESE WILL CHANGE DB MODELS AS WELL -- START */
-	experience: "never" | "0-3" | "3-6" | "6-9" | "9-12" | "12+" | null;
-	setExperience: React.Dispatch<
-		React.SetStateAction<"never" | "0-3" | "3-6" | "6-9" | "9-12" | "12+" | null>
-	>;
-	hamburgerMenuOpen: boolean;
-	setHamburgerMenuOpen: React.Dispatch<React.SetStateAction<boolean>>;
-	/* END -- THESE WILL CHANGE DB MODELS AS WEL -- ENDL */
-	/* START -- THIS IS WHERE THE NEW THEME STARTS */
-	user: "guest" | "member" | "admin" | null;
-	setUser: React.Dispatch<React.SetStateAction<"guest" | "member" | "admin" | null>>
-	/* END -- THIS IS WHERE THE NEW THEME STARTS */
+  /* START -- THESE WILL CHANGE DB MODELS AS WELL -- START */
+  experience: "never" | "0-3" | "3-6" | "6-9" | "9-12" | "12+" | null;
+  setExperience: React.Dispatch<
+    React.SetStateAction<
+      "never" | "0-3" | "3-6" | "6-9" | "9-12" | "12+" | null
+    >
+  >;
+  hamburgerMenuOpen: boolean;
+  setHamburgerMenuOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  /* END -- THESE WILL CHANGE DB MODELS AS WEL -- ENDL */
+  /* START -- THIS IS WHERE THE NEW THEME STARTS */
+  // user: "guest" | "member" | "admin" | null;
+  // setUser: React.Dispatch<React.SetStateAction<"guest" | "member" | "admin" | null>>
+  /* END -- THIS IS WHERE THE NEW THEME STARTS */
+
+  user: UserNT | null;
+  setUser: React.Dispatch<React.SetStateAction<UserNT | null>>;
 }
 
 const GlobalStateContext = createContext<GlobalStateContextProps | undefined>(
-	undefined
+  undefined
 );
 
 export const GlobalStateProvider = ({ children }: { children: ReactNode }) => {
-	const [lessonType, setLessonType] = useState<"individual" | "group" | null>(
-		null
-	);
-	const [dateBooked, setDateBooked] = useState<Date | null>(null);
-	const [hourBooked, setHourBooked] = useState<Hours | null>(null);
-	const [hasEquipment, setHasEquipment] = useState<boolean | null>(null);
-	const [contactInfo, setContactInfo] = useState<{
-		name: string;
-		email: string;
-		phone: string;
-	} | null>(null);
-	const [steps, setSteps] = useState<StepType[]>([]);
-	const [currentStepIndex, setCurrentStepIndex] = useState(0);
-	/* START -- THESE WILL CHANGE DB MODELS AS WELL -- START */
-	const [experience, setExperience] = useState<"never" | "0-3" | "3-6" | "6-9" | "9-12" | "12+" | null>(
-		null
-	);
-	/* END -- THESE WILL CHANGE DB MODELS AS WEL -- ENDL */
-	/* START -- THIS IS WHERE THE NEW THEME STARTS */
-	const [user, setUser] = useState<"guest" | "member" | "admin" | null>(
-		null
-	);
-	const [hamburgerMenuOpen, setHamburgerMenuOpen] = useState(false);
-	/* END -- THIS IS WHERE THE NEW THEME STARTS */
+  const [lessonType, setLessonType] = useState<"individual" | "group" | null>(
+    null
+  );
+  const [dateBooked, setDateBooked] = useState<Date | null>(null);
+  const [hourBooked, setHourBooked] = useState<Hours | null>(null);
+  const [hasEquipment, setHasEquipment] = useState<boolean | null>(null);
+  const [contactInfo, setContactInfo] = useState<{
+    name: string;
+    email: string;
+    phone: string;
+  } | null>(null);
+  const [steps, setSteps] = useState<StepType[]>([]);
+  const [currentStepIndex, setCurrentStepIndex] = useState(0);
+  /* START -- THESE WILL CHANGE DB MODELS AS WELL -- START */
+  const [experience, setExperience] = useState<
+    "never" | "0-3" | "3-6" | "6-9" | "9-12" | "12+" | null
+  >(null);
+  /* END -- THESE WILL CHANGE DB MODELS AS WEL -- ENDL */
+  /* START -- THIS IS WHERE THE NEW THEME STARTS */
+  // const [user, setUser] = useState<"guest" | "member" | "admin" | null>(
+  // 	null
+  // );
+  const [hamburgerMenuOpen, setHamburgerMenuOpen] = useState(false);
+  /* END -- THIS IS WHERE THE NEW THEME STARTS */
 
-	const updateSteps = (index: number) => {
-		setSteps((prevSteps) =>
-			prevSteps.map((step, i) => ({
-				...step,
-				active: i === index,
-				completed: i < index,
-			}))
-		);
-	};
+  const [user, setUser] = useState<UserNT | null>(null);
 
-	const nextStep = () => {
-		setCurrentStepIndex((prevIndex) => {
-			const newIndex = Math.min(prevIndex + 1, steps.length - 1);
-			updateSteps(newIndex);
-			return newIndex;
-		});
-	};
+  const updateSteps = (index: number) => {
+    setSteps((prevSteps) =>
+      prevSteps.map((step, i) => ({
+        ...step,
+        active: i === index,
+        completed: i < index,
+      }))
+    );
+  };
 
-	const prevStep = () => {
-		setCurrentStepIndex((prevIndex) => {
-			const newIndex = Math.max(prevIndex - 1, 0);
-			updateSteps(newIndex);
-			return newIndex;
-		});
-	};
+  const nextStep = () => {
+    setCurrentStepIndex((prevIndex) => {
+      const newIndex = Math.min(prevIndex + 1, steps.length - 1);
+      updateSteps(newIndex);
+      return newIndex;
+    });
+  };
 
-	const goToStep = (index: number) => {
-		setCurrentStepIndex(index);
-		updateSteps(index);
-	};
+  const prevStep = () => {
+    setCurrentStepIndex((prevIndex) => {
+      const newIndex = Math.max(prevIndex - 1, 0);
+      updateSteps(newIndex);
+      return newIndex;
+    });
+  };
 
-	const saveStateToLocalStorage = (path: string) => {
-		// Only save state if we're on the booking page
-		if (path === "/book") {
-			const state = {
-				lessonType,
-				// Convert Date object to ISO string for proper serialization
-				dateBooked: dateBooked instanceof Date ? dateBooked.toISOString() : null,
-				hourBooked,
-				contactInfo,
-				hasEquipment,
-				steps,
-				currentStepIndex,
-			};
-			localStorage.setItem("bookingState", JSON.stringify(state));
-		}
-	}
+  const goToStep = (index: number) => {
+    setCurrentStepIndex(index);
+    updateSteps(index);
+  };
 
-	// In GlobalStateContext
-	const loadStateFromLocalStorage = (path: string) => {
-		// Skip if not on booking page
-		// if (path !== "/book") return;
+  const saveStateToLocalStorage = (path: string) => {
+    // Only save state if we're on the booking page
+    if (path === "/book") {
+      const state = {
+        lessonType,
+        // Convert Date object to ISO string for proper serialization
+        dateBooked:
+          dateBooked instanceof Date ? dateBooked.toISOString() : null,
+        hourBooked,
+        contactInfo,
+        hasEquipment,
+        steps,
+        currentStepIndex,
+      };
+      localStorage.setItem("bookingState", JSON.stringify(state));
+    }
+  };
 
-		try {
-			const savedState = localStorage.getItem("bookingState");
-			if (!savedState) return;
+  // In GlobalStateContext
+  const loadStateFromLocalStorage = (path: string) => {
+    // Skip if not on booking page
+    // if (path !== "/book") return;
 
-			// Parse stored state
-			const state = JSON.parse(savedState);
+    try {
+      const savedState = localStorage.getItem("bookingState");
+      if (!savedState) return;
 
-			// Create a batch update to avoid multiple renders
-			const updates = () => {
-				if (state.lessonType) setLessonType(state.lessonType);
-				if (state.dateBooked) setDateBooked(new Date(state.dateBooked));
-				if (state.hourBooked) setHourBooked(state.hourBooked);
-				if (state.contactInfo) setContactInfo(state.contactInfo);
-				if (state.hasEquipment !== undefined) setHasEquipment(state.hasEquipment);
-				if (state.steps && state.steps.length > 0) setSteps(state.steps);
-				if (state.currentStepIndex !== undefined) setCurrentStepIndex(state.currentStepIndex);
-			};
+      // Parse stored state
+      const state = JSON.parse(savedState);
 
-			// Execute all state updates at once
-			updates();
-		} catch (error) {
-			console.error("Error loading booking state:", error);
-		}
-	};
+      // Create a batch update to avoid multiple renders
+      const updates = () => {
+        if (state.lessonType) setLessonType(state.lessonType);
+        if (state.dateBooked) setDateBooked(new Date(state.dateBooked));
+        if (state.hourBooked) setHourBooked(state.hourBooked);
+        if (state.contactInfo) setContactInfo(state.contactInfo);
+        if (state.hasEquipment !== undefined)
+          setHasEquipment(state.hasEquipment);
+        if (state.steps && state.steps.length > 0) setSteps(state.steps);
+        if (state.currentStepIndex !== undefined)
+          setCurrentStepIndex(state.currentStepIndex);
+      };
 
-	const clearBookingState = () => {
-		localStorage.removeItem("bookingState");
-	};
+      // Execute all state updates at once
+      updates();
+    } catch (error) {
+      console.error("Error loading booking state:", error);
+    }
+  };
 
-	return (
-		<GlobalStateContext.Provider
-			value={{
-				lessonType,
-				setLessonType,
-				dateBooked,
-				setDateBooked,
-				hourBooked,
-				setHourBooked,
-				hasEquipment,
-				setHasEquipment,
-				contactInfo,
-				setContactInfo,
-				steps,
-				setSteps,
-				currentStepIndex,
-				nextStep,
-				prevStep,
-				goToStep,
-				saveStateToLocalStorage,
-				loadStateFromLocalStorage,
-				clearBookingState,
-				/* START -- THESE WILL CHANGE DB MODELS AS WELL -- START */
-				experience,
-				setExperience,
-				/* END -- THESE WILL CHANGE DB MODELS AS WEL -- ENDL */
-				/* START -- THIS IS WHERE THE NEW THEME STARTS */
-				user,
-				setUser,
-				hamburgerMenuOpen,
-				setHamburgerMenuOpen,
-				/* END -- THIS IS WHERE THE NEW THEME STARTS */
-			}}>
-			{children}
-		</GlobalStateContext.Provider>
-	);
+  const clearBookingState = () => {
+    localStorage.removeItem("bookingState");
+  };
+
+  return (
+    <GlobalStateContext.Provider
+      value={{
+        lessonType,
+        setLessonType,
+        dateBooked,
+        setDateBooked,
+        hourBooked,
+        setHourBooked,
+        hasEquipment,
+        setHasEquipment,
+        contactInfo,
+        setContactInfo,
+        steps,
+        setSteps,
+        currentStepIndex,
+        nextStep,
+        prevStep,
+        goToStep,
+        saveStateToLocalStorage,
+        loadStateFromLocalStorage,
+        clearBookingState,
+        /* START -- THESE WILL CHANGE DB MODELS AS WELL -- START */
+        experience,
+        setExperience,
+        /* END -- THESE WILL CHANGE DB MODELS AS WEL -- ENDL */
+        /* START -- THIS IS WHERE THE NEW THEME STARTS */
+        user,
+        setUser,
+        hamburgerMenuOpen,
+        setHamburgerMenuOpen,
+        /* END -- THIS IS WHERE THE NEW THEME STARTS */
+      }}
+    >
+      {children}
+    </GlobalStateContext.Provider>
+  );
 };
 
 export const useGlobalState = () => {
-	const context = useContext(GlobalStateContext);
-	if (context === undefined) {
-		throw new Error("useGlobalState must be used within a GlobalStateProvider");
-	}
-	return context;
+  const context = useContext(GlobalStateContext);
+  if (context === undefined) {
+    throw new Error("useGlobalState must be used within a GlobalStateProvider");
+  }
+  return context;
 };
 
 /*
