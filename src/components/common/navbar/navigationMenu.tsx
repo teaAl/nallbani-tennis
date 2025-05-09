@@ -20,6 +20,7 @@ import LanguageSwitcher from "./languageSwitcher";
 import { Session } from "next-auth";
 import { User2, UserCircle, UserCircle2Icon } from "lucide-react";
 import { useUser } from "@/services/hooks/getUser";
+import { scrollIntoView } from "@/utils/scrollToView";
 
 const NavigationMenu = ({ session }: { session: null | Session }) => {
   const router = useRouter();
@@ -37,6 +38,14 @@ const NavigationMenu = ({ session }: { session: null | Session }) => {
   const { user, loading, error } = useUser(id as string);
 
   console.log("user on navmenu > ", user);
+
+  const becomeMemberHandler = () => {
+    router.push("/services", { scroll: true });
+    router.prefetch("/services");
+    setTimeout(() => {
+      scrollIntoView("membership-form");
+    }, 300);
+  };
 
   // Prevent scrolling when the hamburger menu is open
   useEffect(() => {
@@ -82,12 +91,12 @@ const NavigationMenu = ({ session }: { session: null | Session }) => {
           })}
         </div>
         <div className="flex flex-row gap-10">
-          <LanguageSwitcher />
           {session === null ? (
             <ActionButton
               text={t("becomeMember")}
               variant="secondary"
               size="md"
+              onClick={() => becomeMemberHandler()}
             />
           ) : (
             <button
@@ -111,6 +120,7 @@ const NavigationMenu = ({ session }: { session: null | Session }) => {
               </span>
             </button>
           )}
+          <LanguageSwitcher />
         </div>
       </div>
 
@@ -192,6 +202,10 @@ const NavigationMenu = ({ session }: { session: null | Session }) => {
                 text={t("becomeMember")}
                 variant="secondary"
                 size="md"
+                onClick={() => {
+                  becomeMemberHandler();
+                  setHamburgerMenuOpen(false);
+                }}
               />
             </div>
 
