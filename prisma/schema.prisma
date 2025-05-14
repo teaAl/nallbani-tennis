@@ -59,14 +59,28 @@ model Staff {
   @@map("staff")
 }
 
+model CourtAvailability {
+  id        String    @id @default(cuid())
+  courtId   String
+  dayOfWeek DayOfWeek
+  startTime String
+  endTime   String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  court     Court     @relation(fields: [courtId], references: [id], onDelete: Cascade)
+
+  @@map("court_availability")
+}
+
 model Court {
-  id       String    @id @default(cuid())
-  name     String
-  type     CourtType @default(HARD)
-  indoor   Boolean   @default(false)
-  active   Boolean   @default(true)
-  bookings Booking[]
-  lessons  Lesson[]
+  id           String              @id @default(cuid())
+  name         String
+  type         CourtType           @default(HARD)
+  indoor       Boolean             @default(false)
+  active       Boolean             @default(true)
+  bookings     Booking[]
+  lessons      Lesson[]
+  availability CourtAvailability[]
 
   @@map("courts")
 }
@@ -88,8 +102,8 @@ model Lesson {
   groupId         String?
   attendees       LessonAttendee[]
   coach           Staff            @relation(fields: [coachId], references: [id])
-  court           Court?           @relation(fields: [courtId], references: [id])
-  group           Group?           @relation(fields: [groupId], references: [id])
+  court           Court?           @relation(fields: [courtId], references: [id], onDelete: Cascade)
+  group           Group?           @relation(fields: [groupId], references: [id], onDelete: Cascade)
   progressUpdates ProgressUpdate[]
 
   @@map("lessons")
@@ -158,8 +172,8 @@ model Booking {
   notes         String?
   userId        String
   courtId       String
-  court         Court         @relation(fields: [courtId], references: [id])
-  user          User          @relation(fields: [userId], references: [id])
+  court         Court         @relation(fields: [courtId], references: [id], onDelete: Cascade)
+  user          User          @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("bookings")
 }

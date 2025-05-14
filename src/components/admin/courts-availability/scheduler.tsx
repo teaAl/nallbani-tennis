@@ -1,17 +1,29 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/memberCard"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Plus, X } from "lucide-react"
+import { useEffect, useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/memberCard";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Plus, X } from "lucide-react";
 
 export function CourtScheduler() {
-  const [selectedDay, setSelectedDay] = useState("monday")
+  const [selectedDay, setSelectedDay] = useState("monday");
 
   // In a real app, this data would come from your API
   const availabilityData = {
@@ -44,7 +56,7 @@ export function CourtScheduler() {
       { id: "14", start: "10:00", end: "14:00", court: "Court 1" },
       { id: "15", start: "10:00", end: "14:00", court: "Court 2" },
     ],
-  }
+  };
 
   const days = [
     { value: "monday", label: "Monday" },
@@ -54,7 +66,7 @@ export function CourtScheduler() {
     { value: "friday", label: "Friday" },
     { value: "saturday", label: "Saturday" },
     { value: "sunday", label: "Sunday" },
-  ]
+  ];
 
   return (
     <Card>
@@ -71,7 +83,9 @@ export function CourtScheduler() {
           {days.map((day) => (
             <TabsContent key={day.value} value={day.value} className="mt-6">
               <div className="flex justify-between items-center mb-4">
-                <h3 className="text-lg font-medium">{day.label} Availability</h3>
+                <h3 className="text-lg font-medium">
+                  {day.label} Availability
+                </h3>
                 <Dialog>
                   <DialogTrigger asChild>
                     <Button className="bg-lime-500 hover:bg-lime-600">
@@ -124,24 +138,36 @@ export function CourtScheduler() {
                       </div>
 
                       <div className="flex justify-end">
-                        <Button className="bg-lime-500 hover:bg-lime-600">Add Time Slot</Button>
+                        <Button className="bg-lime-500 hover:bg-lime-600">
+                          Add Time Slot
+                        </Button>
                       </div>
                     </div>
                   </DialogContent>
                 </Dialog>
               </div>
 
-              {availabilityData[day.value as keyof typeof availabilityData].length > 0 ? (
+              {availabilityData[day.value as keyof typeof availabilityData]
+                .length > 0 ? (
                 <div className="space-y-3">
-                  {availabilityData[day.value as keyof typeof availabilityData].map((slot) => (
-                    <div key={slot.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-md border">
+                  {availabilityData[
+                    day.value as keyof typeof availabilityData
+                  ].map((slot) => (
+                    <div
+                      key={slot.id}
+                      className="flex items-center justify-between p-3 bg-gray-50 rounded-md border"
+                    >
                       <div>
                         <div className="font-medium">{slot.court}</div>
                         <div className="text-sm text-gray-500">
                           {slot.start} - {slot.end}
                         </div>
                       </div>
-                      <Button variant="default" size="sm" className="text-red-500 hover:text-red-700 hover:bg-red-50">
+                      <Button
+                        variant="default"
+                        size="sm"
+                        className="text-red-500 hover:text-red-700 hover:bg-red-50"
+                      >
                         <X className="h-4 w-4" />
                         <span className="sr-only">Remove time slot</span>
                       </Button>
@@ -150,7 +176,8 @@ export function CourtScheduler() {
                 </div>
               ) : (
                 <div className="text-center py-8 text-gray-500">
-                  No available time slots for {day.label}. Add some time slots for members to book.
+                  No available time slots for {day.label}. Add some time slots
+                  for members to book.
                 </div>
               )}
             </TabsContent>
@@ -158,5 +185,5 @@ export function CourtScheduler() {
         </Tabs>
       </CardContent>
     </Card>
-  )
+  );
 }

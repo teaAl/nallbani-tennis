@@ -14,6 +14,7 @@ import {
   X,
   PowerCircle,
 } from "lucide-react";
+import CourtIcon from "../../../public/icons/court";
 
 export function Sidebar() {
   const pathname = usePathname();
@@ -74,7 +75,12 @@ export function Sidebar() {
       icon: UserCircle,
     },
     {
-      title: "Court Availability",
+      title: "Courts",
+      href: "/admin/courts",
+      icon: CourtIcon,
+    },
+    {
+      title: "Courts Availability",
       href: "/admin/court-availability",
       icon: Clock,
     },

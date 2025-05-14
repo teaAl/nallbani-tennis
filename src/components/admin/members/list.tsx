@@ -76,6 +76,7 @@ export function MembersList() {
                               src={member.avatar}
                               alt={member.name}
                             />
+
                             <AvatarFallback>
                               {member.name
                                 .split(" ")
@@ -164,7 +165,10 @@ export function MembersList() {
                     <TableCell>
                       <div className="flex items-center space-x-3">
                         <Avatar>
-                          <AvatarImage src={member.avatar} alt={member.name} />
+                          <AvatarImage
+                            src={`/images/avatars/${member.avatar}.jpg`}
+                            alt={member.name}
+                          />
                           <AvatarFallback>
                             {member.name
                               .split(" ")
