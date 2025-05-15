@@ -4,10 +4,10 @@ import { NextResponse } from "next/server";
 // GET a specific court
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = params;
+    const { id } = await params;
 
     const court = await prisma.court.findUnique({
       where: { id },
@@ -33,10 +33,10 @@ export async function GET(
 // PUT (update) a specific court
 export async function PUT(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = params;
+    const { id } = await params;
     const body = await request.json();
     const { name, indoor, type } = body;
     // Check if the court exists
@@ -71,10 +71,10 @@ export async function PUT(
 // DELETE a specific court availability slot
 export async function DELETE(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = params;
+    const { id } = await params;
 
     const existingCourt = await prisma.court.findUnique({
       where: { id: id },
