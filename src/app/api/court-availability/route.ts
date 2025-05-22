@@ -86,38 +86,3 @@ export async function POST(request: Request) {
     );
   }
 }
-
-// DELETE a specific court availability slot
-export async function DELETE(
-  request: Request,
-  { params }: { params: { id: string } }
-) {
-  try {
-    const { id } = params;
-
-    // Check if the availability exists
-    const existingAvailability = await prisma.courtAvailability.findUnique({
-      where: { id },
-    });
-
-    if (!existingAvailability) {
-      return NextResponse.json(
-        { message: "Court availability not found" },
-        { status: 404 }
-      );
-    }
-
-    // Delete the availability slot
-    await prisma.courtAvailability.delete({
-      where: { id },
-    });
-
-    return NextResponse.json({ message: "Court availability deleted" });
-  } catch (error) {
-    console.error("Error deleting court availability:", error);
-    return NextResponse.json(
-      { message: "Error deleting court availability" },
-      { status: 500 }
-    );
-  }
-}
