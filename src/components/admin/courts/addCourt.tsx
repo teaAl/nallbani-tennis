@@ -45,11 +45,6 @@ export function AddCourts() {
     } finally {
       setIsModalOpen(false);
     }
-
-    console.log("Adding court with name:", courtName);
-    console.log("Court type:", courtType);
-    console.log("Court surface:", courtSurface);
-    debugger;
   };
 
   return (

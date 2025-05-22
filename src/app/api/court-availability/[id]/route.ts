@@ -97,14 +97,14 @@ export async function PUT(
 // DELETE a specific court availability slot
 export async function DELETE(
   request: Request,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: { id: string } }
 ) {
   try {
-    const { id } = await params;
+    const { id } = params;
 
     // Check if the availability exists
     const existingAvailability = await prisma.courtAvailability.findUnique({
-      where: { id },
+      where: { id: id },
     });
 
     if (!existingAvailability) {
@@ -119,10 +119,7 @@ export async function DELETE(
       where: { id },
     });
 
-    return NextResponse.json(
-      { message: "Court availability deleted successfully" },
-      { status: 200 }
-    );
+    return NextResponse.json({ message: "Court availability deleted" });
   } catch (error) {
     console.error("Error deleting court availability:", error);
     return NextResponse.json(

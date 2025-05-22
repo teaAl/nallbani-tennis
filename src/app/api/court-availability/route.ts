@@ -10,7 +10,7 @@ export async function GET(request: Request) {
     const courtId = searchParams.get("courtId");
 
     // Build filters object
-    const filters: any = { active: true };
+    const filters: any = {};
     if (dayOfWeek) filters.dayOfWeek = dayOfWeek;
     if (courtId) filters.courtId = courtId;
 
@@ -29,11 +29,12 @@ export async function GET(request: Request) {
       orderBy: [{ dayOfWeek: "asc" }, { startTime: "asc" }],
     });
 
+    console.log("Fetched court availability slots:", availabilitySlots);
     return NextResponse.json(availabilitySlots);
   } catch (error) {
     console.error("Error fetching court availability:", error);
     return NextResponse.json(
-      { message: "Error fetching court availability" },
+      { message: "Error fetching court availability" + error },
       { status: 500 }
     );
   }
@@ -42,8 +43,11 @@ export async function GET(request: Request) {
 // POST a new court availability slot
 export async function POST(request: Request) {
   try {
+    console.log("Available Prisma models:", Object.keys(prisma));
     const body = await request.json();
-    const { courtId, dayOfWeek, startTime, endTime, isRecurring = true } = body;
+    const { courtId, dayOfWeek, startTime, endTime } = body;
+
+    console.log("POST request body:", body);
 
     // Validate required fields
     if (!courtId || !dayOfWeek || !startTime || !endTime) {
@@ -56,26 +60,63 @@ export async function POST(request: Request) {
     // Create the new availability slot
     const newAvailability = await prisma.courtAvailability.create({
       data: {
-        courtId,
-        dayOfWeek,
-        startTime,
-        endTime,
+        courtId: courtId,
+        dayOfWeek: dayOfWeek,
+        startTime: startTime,
+        endTime: endTime,
       },
-      include: {
-        court: {
-          select: {
-            id: true,
-            name: true,
-          },
-        },
-      },
+      // include: {
+      //   court: {
+      //     select: {
+      //       id: true,
+      //       name: true,
+      //     },
+      //   },
+      // },
     });
+
+    console.log("New availability created:", newAvailability);
 
     return NextResponse.json(newAvailability, { status: 201 });
   } catch (error) {
-    console.error("Error creating court availability:", error);
+    // console.error("Error creating court availability:", error);
     return NextResponse.json(
-      { message: "Error creating court availability" },
+      { message: "Error creating court availability: " + error },
+      { status: 500 }
+    );
+  }
+}
+
+// DELETE a specific court availability slot
+export async function DELETE(
+  request: Request,
+  { params }: { params: { id: string } }
+) {
+  try {
+    const { id } = params;
+
+    // Check if the availability exists
+    const existingAvailability = await prisma.courtAvailability.findUnique({
+      where: { id },
+    });
+
+    if (!existingAvailability) {
+      return NextResponse.json(
+        { message: "Court availability not found" },
+        { status: 404 }
+      );
+    }
+
+    // Delete the availability slot
+    await prisma.courtAvailability.delete({
+      where: { id },
+    });
+
+    return NextResponse.json({ message: "Court availability deleted" });
+  } catch (error) {
+    console.error("Error deleting court availability:", error);
+    return NextResponse.json(
+      { message: "Error deleting court availability" },
       { status: 500 }
     );
   }

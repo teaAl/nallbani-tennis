@@ -20,11 +20,11 @@ model User {
   updatedAt        DateTime          @updatedAt
   phoneNumber      String?
   dateOfBirth      DateTime?
-  notesForCoach    String?
   bio              String?
-  preferedPlayTime PreferedPlayTime?
-  level            SkillLevel?
   parentId         String?
+  level            SkillLevel?
+  notesForCoach    String?
+  preferedPlayTime PreferedPlayTime?
   bookings         Booking[]
   groups           GroupMember[]
   lessonsAttended  LessonAttendee[]
@@ -79,8 +79,8 @@ model Court {
   indoor       Boolean             @default(false)
   active       Boolean             @default(true)
   bookings     Booking[]
-  lessons      Lesson[]
   availability CourtAvailability[]
+  lessons      Lesson[]
 
   @@map("courts")
 }
