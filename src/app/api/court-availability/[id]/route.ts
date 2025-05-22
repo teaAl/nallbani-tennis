@@ -97,10 +97,10 @@ export async function PUT(
 // DELETE a specific court availability slot
 export async function DELETE(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = params;
+    const { id } = await params;
 
     // Check if the availability exists
     const existingAvailability = await prisma.courtAvailability.findUnique({
