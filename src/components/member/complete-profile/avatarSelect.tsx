@@ -3,6 +3,7 @@ import avatar1 from "../../../../public/images/avatars/avatar1.jpg";
 import avatar2 from "../../../../public/images/avatars/avatar2.jpg";
 import avatar3 from "../../../../public/images/avatars/avatar3.jpg";
 import avatar4 from "../../../../public/images/avatars/avatar4.jpg";
+import { UserNT } from "@/interfaces/usernt.interface";
 
 const AvatarSelect = ({
   user,

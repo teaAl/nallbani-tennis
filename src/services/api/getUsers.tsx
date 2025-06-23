@@ -1,3 +1,5 @@
+import { UserNT } from "@/interfaces/usernt.interface";
+
 export async function getUsers(): Promise<UserNT[]> {
   const response = await fetch(`/api/users`);
 
