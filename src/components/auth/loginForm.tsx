@@ -1,13 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
+import { useAuthStore } from "@/stores/authStore";
+import { requestMembership } from "@/utils/requestMembership";
 
 export default function LoginForm() {
   const router = useRouter();
+  const setUser = useAuthStore((state) => state.setUser);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -19,20 +21,17 @@ export default function LoginForm() {
     setError(null);
 
     try {
-      const result = await signIn("credentials", {
-        redirect: false,
-        email,
-        password,
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
       });
-
-      console.log("result", result);
-
-      if (result?.error) {
-        // setError('Invalid email or password');
-        setError(result.error);
+      const data = await response.json();
+      if (!response.ok) {
+        setError(data.error || "Invalid email or password");
         return;
       }
-
+      setUser(data.user);
       router.push("/profile");
       router.refresh();
     } catch (error) {
@@ -108,15 +107,15 @@ export default function LoginForm() {
           </button>
         </form>
 
-        <div className="mt-4 text-center">
+        <div className="mt-4 text-center text-xs">
           <p>
             Don't have an account?{" "}
-            <Link
-              href="/register"
-              className="text-blue-500 hover:text-blue-700"
+            <button
+              onClick={() => requestMembership(router)}
+              className="text-pear hover:text-pear/90 cursor-pointer"
             >
-              Register
-            </Link>
+              Request an account
+            </button>
           </p>
         </div>
       </div>

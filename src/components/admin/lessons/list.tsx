@@ -1,16 +1,24 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Badge } from "@/components/ui/badge"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { CustomDropdown, DropdownItem } from "@/components/ui/dropdown-menu"
-import { MoreHorizontal, Search } from "lucide-react"
+import { useState } from "react";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { CustomDropdown, DropdownItem } from "@/components/ui/dropdown-menu";
+import { MoreHorizontal, Search } from "lucide-react";
+import { useAdminFilterStore } from "@/stores/adminFilterStore";
 
 export function LessonsList() {
-  const [searchQuery, setSearchQuery] = useState("")
+  const { searchQuery, setSearchQuery } = useAdminFilterStore();
 
   // In a real app, this data would come from your API
   const lessons = [
@@ -74,14 +82,14 @@ export function LessonsList() {
       status: "Completed",
       court: "Court 1",
     },
-  ]
+  ];
 
   const filteredLessons = lessons.filter(
     (lesson) =>
       lesson.member.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       lesson.date.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      lesson.type.toLowerCase().includes(searchQuery.toLowerCase()),
-  )
+      lesson.type.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <div className="space-y-4">
@@ -119,7 +127,10 @@ export function LessonsList() {
                 <TableCell>
                   <div className="flex items-center space-x-3">
                     <Avatar>
-                      <AvatarImage src={lesson.member.image} alt={lesson.member.name} />
+                      <AvatarImage
+                        src={lesson.member.image}
+                        alt={lesson.member.name}
+                      />
                       <AvatarFallback>
                         {lesson.member.name
                           .split(" ")
@@ -131,7 +142,13 @@ export function LessonsList() {
                   </div>
                 </TableCell>
                 <TableCell>
-                  <Badge variant={lesson.type === "Individual" ? "outline" : "default"}>{lesson.type}</Badge>
+                  <Badge
+                    variant={
+                      lesson.type === "Individual" ? "outline" : "default"
+                    }
+                  >
+                    {lesson.type}
+                  </Badge>
                 </TableCell>
                 <TableCell>{lesson.court}</TableCell>
                 <TableCell>
@@ -159,7 +176,9 @@ export function LessonsList() {
                     <DropdownItem>View Details</DropdownItem>
                     <DropdownItem>Edit Lesson</DropdownItem>
                     <DropdownItem>Add Summary</DropdownItem>
-                    <DropdownItem className="text-red-600">Cancel Lesson</DropdownItem>
+                    <DropdownItem className="text-red-600">
+                      Cancel Lesson
+                    </DropdownItem>
                   </CustomDropdown>
                 </TableCell>
               </TableRow>
@@ -168,5 +187,7 @@ export function LessonsList() {
         </Table>
       </div>
     </div>
-  )
+  );
 }
+
+// MOCKED DATA - ADJUST API

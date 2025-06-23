@@ -1,24 +1,42 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-import { Textarea } from "@/components/ui/textarea"
-import { Calendar } from "@/components/ui/calendar"
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
-import { format } from "date-fns"
-import { CalendarIcon, Search, Plus, FileEdit } from "lucide-react"
-import { cn } from "@/lib/cn"
+import { useState } from "react";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Textarea } from "@/components/ui/textarea";
+import { Calendar } from "@/components/ui/calendar";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { format } from "date-fns";
+import { CalendarIcon, Search, Plus, FileEdit } from "lucide-react";
+import { cn } from "@/lib/cn";
+import { useAdminFilterStore } from "@/stores/adminFilterStore";
 
 interface GroupLessonsProps {
-  groupId: string
+  groupId: string;
 }
 
 export function GroupLessons({ groupId }: GroupLessonsProps) {
-  const [searchQuery, setSearchQuery] = useState("")
-  const [date, setDate] = useState<Date>()
+  const { searchQuery, setSearchQuery } = useAdminFilterStore();
+  const [date, setDate] = useState<Date>();
 
   // In a real app, this data would come from your API based on the groupId
   const lessons = [
@@ -36,7 +54,8 @@ export function GroupLessons({ groupId }: GroupLessonsProps) {
       date: "Apr 12, 2023",
       time: "6:00 PM - 7:30 PM",
       topic: "Backhand Technique",
-      summary: "Focused on one-handed and two-handed backhand techniques. Practiced cross-court backhand drills.",
+      summary:
+        "Focused on one-handed and two-handed backhand techniques. Practiced cross-court backhand drills.",
       attendance: "5/6",
     },
     {
@@ -44,7 +63,8 @@ export function GroupLessons({ groupId }: GroupLessonsProps) {
       date: "Apr 17, 2023",
       time: "6:00 PM - 7:30 PM",
       topic: "Serve Basics",
-      summary: "Covered proper stance, grip, and ball toss for serves. Practiced first and second serves.",
+      summary:
+        "Covered proper stance, grip, and ball toss for serves. Practiced first and second serves.",
       attendance: "6/6",
     },
     {
@@ -52,16 +72,17 @@ export function GroupLessons({ groupId }: GroupLessonsProps) {
       date: "Apr 19, 2023",
       time: "6:00 PM - 7:30 PM",
       topic: "Volleys and Net Play",
-      summary: "Worked on volley technique and positioning at the net. Practiced approach shots and volleys.",
+      summary:
+        "Worked on volley technique and positioning at the net. Practiced approach shots and volleys.",
       attendance: "4/6",
     },
-  ]
+  ];
 
   const filteredLessons = lessons.filter(
     (lesson) =>
       lesson.topic.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      lesson.summary.toLowerCase().includes(searchQuery.toLowerCase()),
-  )
+      lesson.summary.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <div className="space-y-4">
@@ -95,14 +116,22 @@ export function GroupLessons({ groupId }: GroupLessonsProps) {
                     <PopoverTrigger asChild>
                       <Button
                         variant="outline"
-                        className={cn("w-full justify-start text-left font-normal", !date && "text-muted-foreground")}
+                        className={cn(
+                          "w-full justify-start text-left font-normal",
+                          !date && "text-muted-foreground"
+                        )}
                       >
                         <CalendarIcon className="mr-2 h-4 w-4" />
                         {date ? format(date, "PPP") : "Select date"}
                       </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0">
-                      <Calendar mode="single" selected={date} onSelect={setDate} initialFocus />
+                      <Calendar
+                        mode="single"
+                        selected={date}
+                        onSelect={setDate}
+                        initialFocus
+                      />
                     </PopoverContent>
                   </Popover>
                 </div>
@@ -131,7 +160,9 @@ export function GroupLessons({ groupId }: GroupLessonsProps) {
               </div>
 
               <div className="flex justify-end">
-                <Button className="bg-lime-500 hover:bg-lime-600">Save Lesson</Button>
+                <Button className="bg-lime-500 hover:bg-lime-600">
+                  Save Lesson
+                </Button>
               </div>
             </div>
           </DialogContent>
@@ -157,7 +188,9 @@ export function GroupLessons({ groupId }: GroupLessonsProps) {
                 <TableCell>
                   <div>
                     <div className="font-medium">{lesson.topic}</div>
-                    <div className="text-sm text-gray-500 mt-1">{lesson.summary}</div>
+                    <div className="text-sm text-gray-500 mt-1">
+                      {lesson.summary}
+                    </div>
                   </div>
                 </TableCell>
                 <TableCell>{lesson.attendance}</TableCell>
@@ -173,5 +206,5 @@ export function GroupLessons({ groupId }: GroupLessonsProps) {
         </Table>
       </div>
     </div>
-  )
+  );
 }

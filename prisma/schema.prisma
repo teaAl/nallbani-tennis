@@ -60,14 +60,17 @@ model Staff {
 }
 
 model CourtAvailability {
-  id        String    @id @default(cuid())
-  courtId   String
-  dayOfWeek DayOfWeek
-  startTime String
-  endTime   String
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  court     Court     @relation(fields: [courtId], references: [id], onDelete: Cascade)
+  id           String       @id @default(cuid())
+  courtId      String
+  dayOfWeek    DayOfWeek
+  startTime    String
+  endTime      String
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  bookingState BookingState @default(PENDING)
+  price        Decimal      @default(10) @db.Decimal(10, 2)
+  Booking      Booking[]
+  court        Court        @relation(fields: [courtId], references: [id], onDelete: Cascade)
 
   @@map("court_availability")
 }
@@ -78,9 +81,9 @@ model Court {
   type         CourtType           @default(HARD)
   indoor       Boolean             @default(false)
   active       Boolean             @default(true)
-  bookings     Booking[]
   availability CourtAvailability[]
   lessons      Lesson[]
+  bookings     Booking[]           @relation("BookingToCourt")
 
   @@map("courts")
 }
@@ -161,19 +164,20 @@ model GroupMember {
 }
 
 model Booking {
-  id            String        @id @default(cuid())
-  startTime     DateTime
-  endTime       DateTime
-  createdAt     DateTime      @default(now())
-  updatedAt     DateTime      @updatedAt
-  status        BookingState  @default(PENDING)
-  price         Decimal?      @db.Decimal(10, 2)
-  paymentStatus PaymentStatus @default(UNPAID)
-  notes         String?
-  userId        String
-  courtId       String
-  court         Court         @relation(fields: [courtId], references: [id], onDelete: Cascade)
-  user          User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id                  String            @id @default(cuid())
+  createdAt           DateTime          @default(now())
+  updatedAt           DateTime          @updatedAt
+  status              BookingState      @default(PENDING)
+  userId              String?
+  bookerType          BookerType
+  courtAvailabilityId String
+  guestEmail          String?
+  guestName           String?
+  guestPhone          String?
+  needsEquipment      Boolean           @default(false)
+  courtAvailability   CourtAvailability @relation(fields: [courtAvailabilityId], references: [id], onDelete: Cascade)
+  user                User?             @relation(fields: [userId], references: [id])
+  Court               Court[]           @relation("BookingToCourt")
 
   @@map("bookings")
 }
@@ -362,4 +366,9 @@ enum PackageStatus {
   ACTIVE
   EXPIRED
   CANCELED
+}
+
+enum BookerType {
+  GUEST
+  MEMBER
 }

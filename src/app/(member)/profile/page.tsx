@@ -32,7 +32,7 @@ export default async function MemberPage() {
   return (
     <>
       <div className="container py-6 mx-auto flex items-center justify-center h-full">
-        <MemberContent user={session.user} />
+        <MemberContent />
       </div>
     </>
   );

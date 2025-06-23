@@ -1,4 +1,4 @@
-interface Court {
+export interface Court {
   active: boolean;
   id: string;
   indoor: boolean;
@@ -6,7 +6,7 @@ interface Court {
   type: CourtSurface;
 }
 
-enum CourtSurface {
+export enum CourtSurface {
   CLAY = "CLAY",
   GRASS = "GRASS",
   HARD = "HARD",

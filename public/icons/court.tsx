@@ -1,11 +1,11 @@
-const CourtIcon = (/*{ fill, size }: { fill: string; size: string }*/) => {
+const CourtIcon = ({ fill, size }: { fill?: string; size?: string }) => {
   return (
     <svg
-      fill="#afafaf"
-      //   fill={fill}
+      // fill="#afafaf"
+      fill={fill ? fill : "#afafaf"}
       //   height="200px"
-      width="21px"
-      //   width={size}
+      // width="21px"
+      width={size ? size : "21px"}
       version="1.1"
       id="Layer_1"
       xmlns="http://www.w3.org/2000/svg"

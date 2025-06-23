@@ -1,24 +1,16 @@
-import { NextResponse } from 'next/server';
-import { NextApiRequest, NextApiResponse } from 'next';
-import prisma from '@/lib/prisma';
-import { z } from 'zod';
+import prisma from "@/lib/prisma";
+import { NextResponse } from "next/server";
 
-
-export const GET = async (req: Request) => {
+// GET all bookings
+export async function GET() {
   try {
-    const bookings = await prisma.booking.findMany();
-    return NextResponse.json({ bookings });
+    const bookingsResponse = await prisma.booking.findMany();
+    return NextResponse.json(bookingsResponse, { status: 200 });
   } catch (error) {
-    return NextResponse.json({ error: 'Error fetching bookings' }, { status: 500 });
-  }
-}
-
-export const POST = async (req: Request) => {
-  try {
-    const data = await req.json();
-    const newBooking = await prisma.booking.create({ data });
-    return NextResponse.json({ newBooking });
-  } catch (error) {
-    return NextResponse.json({ error: error }, { status: 500 });
+    console.error("Error fetching bookings:", error);
+    return NextResponse.json(
+      { message: "Error fetching bookings" + error },
+      { status: 500 }
+    );
   }
 }

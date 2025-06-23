@@ -24,10 +24,11 @@ import {
 } from "@/components/ui/select";
 import { Plus, Trash2Icon, X } from "lucide-react";
 import { Modal } from "@/components/ui/modal";
+import { useCourtStore } from "@/stores/courtStore";
+import { useCourtAvailabilityStore } from "@/stores/courtAvailabilityStore";
 
 export function CourtScheduler() {
   const [selectedDay, setSelectedDay] = useState<DaysOfWeek>(DaysOfWeek.MONDAY);
-
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [deleteCourtModalOpen, setDeleteCourtModalOpen] =
     useState<boolean>(false);
@@ -37,22 +38,22 @@ export function CourtScheduler() {
   const [selectedCourt, setSelectedCourt] = useState<string | null>(null);
   const [startTime, setStartTime] = useState<TimesOfDay>(TimesOfDay["08:00"]);
   const [endTime, setEndTime] = useState<TimesOfDay>(TimesOfDay["09:00"]);
+  const [price, setPrice] = useState<number>(1000);
 
-  const [availabilityData, setAvailabilityData] = useState<
-    Record<DaysOfWeek, any[]>
-  >({
-    [DaysOfWeek.MONDAY]: [],
-    [DaysOfWeek.TUESDAY]: [],
-    [DaysOfWeek.WEDNESDAY]: [],
-    [DaysOfWeek.THURSDAY]: [],
-    [DaysOfWeek.FRIDAY]: [],
-    [DaysOfWeek.SATURDAY]: [],
-    [DaysOfWeek.SUNDAY]: [],
-  });
-
-  const [courts, setCourts] = useState<Court[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<Error | null>(null);
+  const {
+    courts,
+    loading: courtsLoading,
+    error: courtsError,
+    fetchCourts,
+  } = useCourtStore();
+  const {
+    availabilityData,
+    loading: availabilityLoading,
+    error: availabilityError,
+    fetchAvailabilityByDay,
+    addAvailability,
+    deleteAvailability,
+  } = useCourtAvailabilityStore();
 
   const days = [
     { value: DaysOfWeek.MONDAY, label: "Monday" },
@@ -65,107 +66,33 @@ export function CourtScheduler() {
   ];
 
   useEffect(() => {
-    const fetchCourts = async () => {
-      try {
-        setLoading(true);
-        const respoonse = await fetch("/api/courts");
-        if (!respoonse.ok) {
-          throw new Error("Failed to fetch courts");
-        }
-        const data = await respoonse.json();
-        const courts = data.courts;
-        setCourts(courts);
-        console.log("courts > ", courts);
-        setSelectedCourt(courts[0]?.id);
-      } catch (err) {
-        setError(
-          err instanceof Error ? err : new Error("Failed to fetch courts")
-        );
-      } finally {
-        setLoading(false);
-      }
-    };
     fetchCourts();
-  }, []);
+  }, [fetchCourts]);
 
-  const fetchAvailabilityByDay = async (day: DaysOfWeek) => {
-    try {
-      setLoading(true);
-      const response = await fetch(`/api/court-availability?dayOfWeek=${day}`);
-      if (!response.ok) {
-        throw new Error("Failed to fetch availability");
-      }
-      const data = await response.json();
-      setAvailabilityData((prev) => ({
-        ...prev,
-        [day]: data,
-      }));
-      console.log("Fetched availability data:", data);
-      // return data;
-    } catch (error) {
-      setError(
-        error instanceof Error
-          ? error
-          : new Error("Failed to fetch availability")
-      );
-    } finally {
-      setLoading(false);
+  useEffect(() => {
+    if (courts.length > 0 && !selectedCourt) {
+      setSelectedCourt(courts[0]?.id);
     }
-  };
+  }, [courts, selectedCourt]);
 
   useEffect(() => {
     fetchAvailabilityByDay(selectedDay);
-  }, [selectedDay]);
+  }, [selectedDay, fetchAvailabilityByDay]);
 
   const handleAddCourtAvailability = async () => {
-    try {
-      const response = await fetch("/api/court-availability", {
-        method: "POST",
-        body: JSON.stringify({
-          courtId: selectedCourt,
-          dayOfWeek: selectedDay,
-          startTime: startTime,
-          endTime: endTime,
-        }),
-      });
-      if (!response.ok) {
-        throw new Error(
-          "Failed to add court availability" + (await response.json())
-        );
-      }
-      const data = await response.json();
-      console.log("Court availability added successfully:", data);
-    } catch (error) {
-      console.error("Error adding court availability:", error);
-    } finally {
-      setIsModalOpen(false);
-    }
+    if (!selectedCourt) return;
+    await addAvailability({
+      courtId: selectedCourt,
+      dayOfWeek: selectedDay,
+      startTime,
+      endTime,
+      price: Number(price),
+    });
+    setIsModalOpen(false);
   };
 
   const handleDeleteAvailability = async (id: string) => {
-    try {
-      console.log("Deleting availability with ID:", id);
-      const response = await fetch(`/api/court-availability/${id}`, {
-        method: "DELETE",
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to delete availability");
-      }
-
-      // Update the state to remove the deleted slot
-      setAvailabilityData((prev) => {
-        const updated = { ...prev };
-        Object.keys(updated).forEach((day) => {
-          updated[day as DaysOfWeek] = updated[day as DaysOfWeek].filter(
-            (slot) => slot.id !== id
-          );
-        });
-        return updated;
-      });
-    } catch (error) {
-      console.error("Error deleting availability:", error);
-    }
+    await deleteAvailability(id);
   };
 
   return (
@@ -192,9 +119,9 @@ export function CourtScheduler() {
             )} */}
 
             {/* Show error state */}
-            {error && (
+            {availabilityError && (
               <div className="text-center py-8">
-                <span className="text-red-500">{error.message}</span>
+                <span className="text-red-500">{availabilityError}</span>
               </div>
             )}
 
@@ -268,9 +195,9 @@ export function CourtScheduler() {
                   </Dialog>
                 </div>
 
-                {availabilityData[day.value]?.length > 0 ? (
+                {availabilityData[selectedDay]?.length > 0 ? (
                   <div className="space-y-3">
-                    {availabilityData[day.value].map((slot) => (
+                    {availabilityData[selectedDay].map((slot) => (
                       <div
                         key={slot.id}
                         className="flex items-center justify-between p-3 bg-gray-50 rounded-md border"
@@ -293,8 +220,9 @@ export function CourtScheduler() {
                   </div>
                 ) : (
                   <div className="text-center py-8 text-gray-500">
-                    No available time slots for {day.label}. Add some time slots
-                    for members to book.
+                    No available time slots for{" "}
+                    {days.find((d) => d.value === selectedDay)?.label}. Add some
+                    time slots for members to book.
                   </div>
                 )}
               </TabsContent>
@@ -308,21 +236,34 @@ export function CourtScheduler() {
         </h2>
 
         {/* <form className="flex flex-col gap-1"> */}
-        <div>
-          <label className="text-foreground/70 text-sm font-poppins font-light">
-            Select Court
-          </label>
-          <select
-            value={selectedCourt || ""}
-            onChange={(e) => setSelectedCourt(e.target.value)}
-            className="w-full border rounded-md p-2 mb-4 border-pear focus:outline-pear"
-          >
-            {courts.map((court) => (
-              <option key={court.id} value={court.id}>
-                {court.name} - {court.type}{" "}
-              </option>
-            ))}
-          </select>
+        <div className="flex flex-row gap-4 justify-between">
+          <div>
+            <label className="text-foreground/70 text-sm font-poppins font-light">
+              Select Court
+            </label>
+            <select
+              value={selectedCourt || ""}
+              onChange={(e) => setSelectedCourt(e.target.value)}
+              className="w-full border rounded-md p-2 mb-4 border-pear focus:outline-pear"
+            >
+              {courts.map((court) => (
+                <option key={court.id} value={court.id}>
+                  {court.name} - {court.type}{" "}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <label className="text-foreground/70 text-sm font-poppins font-light">
+              Price
+            </label>
+            <input
+              type="number"
+              value={price}
+              onChange={(e) => setPrice(e.target.value as unknown as number)}
+              className="border border-pear rounded-md p-2 mb-4 w-full focus:outline-pear placeholder:text-foreground/30"
+            />
+          </div>
         </div>
         <div className="flex flex-row gap-4 justify-between">
           <div>
@@ -362,8 +303,9 @@ export function CourtScheduler() {
           <button
             className="bg-pear hover:bg-pear/80 text-white px-4 py-2 rounded-md cursor-pointer transition-colors duration-200"
             onClick={handleAddCourtAvailability}
+            disabled={availabilityLoading}
           >
-            Add Court Availability
+            {availabilityLoading ? "Adding..." : "Add Court Availability"}
           </button>
           <button
             className="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded-md cursor-pointer transition-colors duration-200 ml-2"
@@ -387,11 +329,13 @@ export function CourtScheduler() {
           <button
             className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md cursor-pointer transition-colors duration-200"
             onClick={() => {
-              handleDeleteAvailability(selectedAvailability!);
+              if (selectedAvailability)
+                handleDeleteAvailability(selectedAvailability);
               setDeleteCourtModalOpen(false);
             }}
+            disabled={availabilityLoading}
           >
-            Delete Court Availability
+            {availabilityLoading ? "Deleting..." : "Delete Court Availability"}
           </button>
           <button
             className="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded-md cursor-pointer transition-colors duration-200 ml-2"
@@ -410,4 +354,6 @@ export function CourtScheduler() {
 TODO: after adding a new court availability, fetch the updated data and update the state
 TODO: add a loading state when adding a new court availability
 TODO: add a success message after adding a new court availability
+TODO: add percantage calcualtion for the court availability price for guests only (members have the discounted price)
+TODO: manage the courts availability by filtering for the week we are in + add past bookings for admin to check
 */

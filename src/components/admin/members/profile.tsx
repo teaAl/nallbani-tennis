@@ -7,9 +7,11 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Pencil, Calendar, UserCog } from "lucide-react";
 import Link from "next/link";
 import { formatDate } from "@/utils/formatDate";
-import { useAdminState } from "@/context/adminProvider";
 import { useEffect, useState } from "react";
 import { Modal } from "@/components/ui/modal";
+import { useAuthStore } from "@/stores/authStore";
+import { MemberStatus } from "@prisma/client";
+import { UserNT } from "@/interfaces/usernt.interface";
 
 interface MemberProfileProps {
   id: string;
@@ -22,9 +24,12 @@ enum UserRole {
 }
 
 export function MemberProfile({ id }: MemberProfileProps) {
-  const [user, setUser] = useState<UserNT | null>(null);
+  // const [user, setUser] = useState<UserNT | null>(null);
+  const { user, setUser } = useAuthStore();
   const [isStatusModalOpen, setIsStatusModalOpen] = useState(false);
-  const [newStatus, setNewStatus] = useState(user?.status);
+  const [newStatus, setNewStatus] = useState<MemberStatus>(
+    user?.status ?? "PENDING"
+  );
   const [isRoleModalOpen, setIsRoleModalOpen] = useState(false);
   const [userRoles, setUserRoles] = useState<UserRole[]>([]);
   const [loading, setLoading] = useState(false);
@@ -63,7 +68,7 @@ export function MemberProfile({ id }: MemberProfileProps) {
       }
 
       const data = await response.json();
-      setUser((prev) => (prev ? { ...prev, status: data.user.status } : null));
+      // setUser((prev) => (prev ? { ...prev, status: data.user.status } : null));
       setIsStatusModalOpen(false); // Close the modal
     } catch (error) {
       console.error("Error updating status:", error);
@@ -90,7 +95,9 @@ export function MemberProfile({ id }: MemberProfileProps) {
       }
 
       const data = await response.json();
-      setUser((prev) => (prev ? { ...prev, status: data.user.status } : null));
+      if (user?.id) {
+        setUser({ ...user, status: data.user.status, id: user.id });
+      }
       setIsRoleModalOpen(false); // Close the modal
     } catch (error) {
       console.error("Error updating status:", error);

@@ -1,19 +1,33 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Search, Plus, X } from "lucide-react"
+import { useState } from "react";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Search, Plus, X } from "lucide-react";
+import { useAdminFilterStore } from "@/stores/adminFilterStore";
 
 interface GroupMembersProps {
-  groupId: string
+  groupId: string;
 }
 
 export function GroupMembers({ groupId }: GroupMembersProps) {
-  const [searchQuery, setSearchQuery] = useState("")
+  const { searchQuery, setSearchQuery } = useAdminFilterStore();
 
   // In a real app, this data would come from your API based on the groupId
   const members = [
@@ -65,13 +79,13 @@ export function GroupMembers({ groupId }: GroupMembersProps) {
       joinedOn: "Apr 20, 2023",
       image: "",
     },
-  ]
+  ];
 
   const filteredMembers = members.filter(
     (member) =>
       member.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      member.email.toLowerCase().includes(searchQuery.toLowerCase()),
-  )
+      member.email.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   // In a real app, this data would come from your API
   const availableMembers = [
@@ -93,7 +107,7 @@ export function GroupMembers({ groupId }: GroupMembersProps) {
       email: "james@example.com",
       image: "",
     },
-  ]
+  ];
 
   return (
     <div className="space-y-4">
@@ -123,7 +137,10 @@ export function GroupMembers({ groupId }: GroupMembersProps) {
               <Input placeholder="Search members..." />
               <div className="space-y-2 max-h-[300px] overflow-y-auto">
                 {availableMembers.map((member) => (
-                  <div key={member.id} className="flex items-center justify-between p-2 rounded-md hover:bg-gray-100">
+                  <div
+                    key={member.id}
+                    className="flex items-center justify-between p-2 rounded-md hover:bg-gray-100"
+                  >
                     <div className="flex items-center space-x-3">
                       <Avatar>
                         <AvatarImage src={member.image} alt={member.name} />
@@ -182,7 +199,11 @@ export function GroupMembers({ groupId }: GroupMembersProps) {
                 <TableCell>{member.phone}</TableCell>
                 <TableCell>{member.joinedOn}</TableCell>
                 <TableCell>
-                  <Button variant="default" size="sm" className="text-red-500 hover:text-red-700 hover:bg-red-50">
+                  <Button
+                    variant="default"
+                    size="sm"
+                    className="text-red-500 hover:text-red-700 hover:bg-red-50"
+                  >
                     <X className="h-4 w-4" />
                     <span className="sr-only">Remove member</span>
                   </Button>
@@ -193,5 +214,5 @@ export function GroupMembers({ groupId }: GroupMembersProps) {
         </Table>
       </div>
     </div>
-  )
+  );
 }

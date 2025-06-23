@@ -12,40 +12,36 @@ import FacebookLogo from "../../../../public/icons/fblogo";
 import InstagramLogo from "../../../../public/icons/instalogo";
 import LinkedinLogo from "../../../../public/icons/linkedinlogo";
 import YoutubeLogo from "../../../../public/icons/youtubelogo";
-import { useGlobalState } from "@/context/globalStateContext";
 import WhatsappIcon from "../../../../public/icons/whatsappIcon";
 import { useNavigationLinks } from "@/components/common/navbar/navlinks";
 import { useTranslations } from "next-intl";
 import LanguageSwitcher from "./languageSwitcher";
-import { Session } from "next-auth";
-import { User2, UserCircle, UserCircle2Icon } from "lucide-react";
-import { useUser } from "@/services/hooks/getUser";
+import { UserCircle2Icon } from "lucide-react";
 import { scrollIntoView } from "@/utils/scrollToView";
+import { requestMembership } from "@/utils/requestMembership";
+import { useAuthStore } from "@/stores/authStore";
 
-const NavigationMenu = ({ session }: { session: null | Session }) => {
+const NavigationMenu = () => {
   const router = useRouter();
-  const type: "member" | "guest" | "admin" =
-    session !== null ? "member" : "guest";
+  const [hamburgerMenuOpen, isHamburgerMenuOpen] = useState(false);
+  const { user, isAuthenticated } = useAuthStore();
+  const type: "member" | "guest" | "admin" = isAuthenticated
+    ? "member"
+    : "guest";
   const t = useTranslations("NavigationMenu");
   const ft = useTranslations("Footer");
   const pathName = usePathname();
   const navigationLinks = useNavigationLinks({ type });
-  const { hamburgerMenuOpen, setHamburgerMenuOpen } = useGlobalState();
   const navRef = useRef<HTMLDivElement | null>(null);
   const isNavVisible = useIsVisible(navRef);
 
-  const id = session?.user.id;
-  const { user, loading, error } = useUser(id as string);
-
-  console.log("user on navmenu > ", user);
-
-  const becomeMemberHandler = () => {
-    router.push("/services", { scroll: true });
-    router.prefetch("/services");
-    setTimeout(() => {
-      scrollIntoView("membership-form");
-    }, 300);
-  };
+  // const becomeMemberHandler = () => {
+  //   router.push("/services", { scroll: true });
+  //   router.prefetch("/services");
+  //   setTimeout(() => {
+  //     scrollIntoView("membership-form");
+  //   }, 300);
+  // };
 
   // Prevent scrolling when the hamburger menu is open
   useEffect(() => {
@@ -61,7 +57,7 @@ const NavigationMenu = ({ session }: { session: null | Session }) => {
       {/* DESKTOP MENU */}
       <div
         className={`hidden md:flex flex-row justify-between items-center px-4 py-2 w-full relative z-20
-                ${session !== null ? "bg-gray-800" : "bg-gray-900"}
+                ${isAuthenticated ? "bg-gray-800" : "bg-gray-900"}
                 ${
                   isNavVisible
                     ? "animate-fade animate-once animate-ease-in"
@@ -91,14 +87,7 @@ const NavigationMenu = ({ session }: { session: null | Session }) => {
           })}
         </div>
         <div className="flex flex-row gap-10">
-          {session === null ? (
-            <ActionButton
-              text={t("becomeMember")}
-              variant="secondary"
-              size="md"
-              onClick={() => becomeMemberHandler()}
-            />
-          ) : (
+          {isAuthenticated ? (
             <button
               className="flex flex-row gap-3 items-end justify-center cursor-pointer text-foreground/80 hover:text-pear transition-colors"
               onClick={() => router.push("/profile")}
@@ -119,6 +108,13 @@ const NavigationMenu = ({ session }: { session: null | Session }) => {
                 {user?.name}
               </span>
             </button>
+          ) : (
+            <ActionButton
+              text={t("becomeMember")}
+              variant="secondary"
+              size="md"
+              onClick={() => requestMembership(router)}
+            />
           )}
           <LanguageSwitcher />
         </div>
@@ -128,7 +124,7 @@ const NavigationMenu = ({ session }: { session: null | Session }) => {
       <div className="md:hidden absolute top-10  w-max bg-gradient-to-tl from-pear to-gray-800 rounded-r-2xl px-2 flex flex-col gap-4 py-2 justify-between items-center z-50 shadow-2xl">
         <Bars3Icon
           className="w-7 h-7 text-gray-900/80"
-          onClick={() => setHamburgerMenuOpen(true)}
+          onClick={() => isHamburgerMenuOpen(true)}
         />
       </div>
       <div
@@ -150,7 +146,7 @@ const NavigationMenu = ({ session }: { session: null | Session }) => {
               <LanguageSwitcher />
               <button
                 className="text-foreground text-3xl font-bold cursor-pointer"
-                onClick={() => setHamburgerMenuOpen(false)}
+                onClick={() => isHamburgerMenuOpen(false)}
               >
                 &times;
               </button>
@@ -172,7 +168,7 @@ const NavigationMenu = ({ session }: { session: null | Session }) => {
                     <span
                       className={`uppercase text-lg transition-all duration-300 cursor-pointer font-poppins w-full
                                     hover:text-pear`}
-                      onClick={() => setHamburgerMenuOpen(false)}
+                      onClick={() => isHamburgerMenuOpen(false)}
                     >
                       {link.name}
                     </span>
@@ -203,8 +199,8 @@ const NavigationMenu = ({ session }: { session: null | Session }) => {
                 variant="secondary"
                 size="md"
                 onClick={() => {
-                  becomeMemberHandler();
-                  setHamburgerMenuOpen(false);
+                  requestMembership(router);
+                  isHamburgerMenuOpen(false);
                 }}
               />
             </div>

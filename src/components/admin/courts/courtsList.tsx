@@ -10,66 +10,29 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Trash2Icon } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useCourtStore } from "@/stores/courtStore";
 
 const CourtsList = () => {
-  const [courts, setCourts] = useState<Court[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<Error | null>(null);
-
-  const [deleteCourtModalOpen, setDeleteCourtModalOpen] =
-    useState<boolean>(false);
+  const { courts, loading, error, removeCourt, fetchCourts } = useCourtStore();
+  const [deleteCourtModalOpen, setDeleteCourtModalOpen] = useState(false);
   const [selectedCourtId, setSelectedCourtId] = useState<string | null>(null);
 
-  useEffect(() => {
-    const fetchCourts = async () => {
-      try {
-        setLoading(true);
-        const respoonse = await fetch("/api/courts");
-        if (!respoonse.ok) {
-          throw new Error("Failed to fetch courts");
-        }
-        const data = await respoonse.json();
-        const courts = data.courts;
-        setCourts(courts);
-        console.log("courts > ", courts);
-      } catch (err) {
-        setError(
-          err instanceof Error ? err : new Error("Failed to fetch courts")
-        );
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchCourts();
-  }, []);
-
-  const deleteCourt = async () => {
-    setLoading(true);
-    try {
-      const response = await fetch(`/api/courts/${selectedCourtId}`, {
-        method: "DELETE",
-      });
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || "Failed to delete court");
-      }
-      setCourts((prevCourts) =>
-        prevCourts.filter((court) => court.id !== selectedCourtId)
-      );
+  const handleDeleteCourt = async () => {
+    if (selectedCourtId) {
+      await removeCourt(selectedCourtId);
       setDeleteCourtModalOpen(false);
-    } catch (error) {
-      console.error("Error deleting court:", error);
-    } finally {
-      setLoading(false);
     }
   };
+
+  useEffect(() => {
+    fetchCourts();
+  }, [fetchCourts]);
 
   return (
     <div className="space-y-6 py-6">
       {loading && <p>Loading courts...</p>}
-      {error && <p className="text-red-500">{error.message}</p>}
+      {error && <p className="text-red-500">{error}</p>}
       {courts.length === 0 && !loading && (
         <p className="text-gray-500">There aren't any registered courts</p>
       )}
@@ -82,7 +45,6 @@ const CourtsList = () => {
                 <TableHead>Name</TableHead>
                 <TableHead>Surface</TableHead>
                 <TableHead>Type</TableHead>
-                {/* <TableHead>Active</TableHead> */}
                 <TableHead className="w-[80px]"></TableHead>
               </TableRow>
             </TableHeader>
@@ -103,11 +65,6 @@ const CourtsList = () => {
                       {court.indoor ? "indoor" : "outdoor"}
                     </div>
                   </TableCell>
-                  {/* <TableCell>
-                    <div className="text-gray-900">
-                      {court.active ? "yes" : "no"}
-                    </div>
-                  </TableCell> */}
                   <TableCell>
                     <Trash2Icon
                       className="h-4 w-4 text-red-500 cursor-pointer hover:scale-110 transition-all duration-200"
@@ -131,7 +88,7 @@ const CourtsList = () => {
             <div className="flex flex-row justify-center items-center">
               <button
                 className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md cursor-pointer transition-colors duration-200"
-                onClick={deleteCourt}
+                onClick={handleDeleteCourt}
               >
                 Delete Court
               </button>

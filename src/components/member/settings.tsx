@@ -1,6 +1,6 @@
 "use client";
 
-import PersonalInfo from "./settings/personalInfo";
+// import PersonalInfo from "./settings/personalInfo";
 import ChangePassword from "./settings/changepass";
 import {
   Accordion,
@@ -9,6 +9,7 @@ import {
   AccordionContent,
 } from "../ui/accordation";
 import { Shield, UserCircle2 } from "lucide-react";
+import { UserNT } from "@/interfaces/usernt.interface";
 
 export default function ProfileSettings({ user }: { user: UserNT | null }) {
   return (
@@ -21,7 +22,8 @@ export default function ProfileSettings({ user }: { user: UserNT | null }) {
           </h3>
         </AccordionTrigger>
         <AccordionContent value="item-1">
-          <PersonalInfo user={user as UserNT} />
+          {/* <PersonalInfo user={user as UserNT} /> */}
+          <div>Personal Info</div>
         </AccordionContent>
       </AccordionItem>
 

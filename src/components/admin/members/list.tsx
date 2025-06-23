@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect } from "react";
 import {
   Table,
   TableBody,
@@ -10,28 +10,25 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { CustomDropdown, DropdownItem } from "@/components/ui/dropdown-menu";
 import { MoreHorizontal, Search } from "lucide-react";
 import Link from "next/link";
-import { useAdminState } from "@/context/adminProvider";
 import { formatDate } from "@/utils/formatDate";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { MemberGroups } from "./groups";
-import { MemberLessons } from "./lessons";
+import { useMemberStore } from "@/stores/memberStore";
 
-// interface MembersListProps {
-//   onViewMember?: (id: string) => void;
-// }
-
-// export function MembersList({ onViewMember }: MembersListProps) {
 export function MembersList() {
   // const [searchQuery, setSearchQuery] = useState("");
-  const { users } = useAdminState();
+  const { members, loading, error, fetchMembers } = useMemberStore();
 
-  const pendingUsers = users.filter((user) => user.status === "PENDING");
+  useEffect(() => {
+    fetchMembers();
+  }, [fetchMembers]);
+
+  const safeMembers = Array.isArray(members) ? members : [];
+  const pendingUsers = safeMembers.filter((user) => user.status === "PENDING");
   return (
     <div className="space-y-4">
       {/* <div className="flex items-center">
@@ -80,7 +77,7 @@ export function MembersList() {
                             <AvatarFallback>
                               {member.name
                                 .split(" ")
-                                .map((n) => n[0])
+                                .map((n: string) => n[0])
                                 .join("")}
                             </AvatarFallback>
                           </Avatar>
@@ -160,7 +157,7 @@ export function MembersList() {
               </TableHeader>
               <TableBody>
                 {/* {filteredMembers.map((member) => ( */}
-                {users.map((member) => (
+                {safeMembers.map((member) => (
                   <TableRow key={member.id}>
                     <TableCell>
                       <div className="flex items-center space-x-3">
@@ -172,7 +169,7 @@ export function MembersList() {
                           <AvatarFallback>
                             {member.name
                               .split(" ")
-                              .map((n) => n[0])
+                              .map((n: string) => n[0])
                               .join("")}
                           </AvatarFallback>
                         </Avatar>

@@ -2,14 +2,11 @@
 
 import { MembersList } from "@/components/admin/members/list";
 import { Button } from "@/components/ui/button";
-import { useAdminState } from "@/context/adminProvider";
 import { UserPlus } from "lucide-react";
 import Link from "next/link";
 import { useEffect } from "react";
 
 export default function MembersPage() {
-  const { users, setUsers } = useAdminState();
-
   useEffect(() => {
     const fetchUsers = async () => {
       const res = await fetch("/api/users");
@@ -17,12 +14,12 @@ export default function MembersPage() {
         throw new Error("Failed to fetch data");
       }
       const data = await res.json();
-      setUsers(data.users);
+      // setUsers(data.users);
       console.log("Fetched users:", data);
     };
 
     fetchUsers().catch((error) => console.error(error));
-    console.log("users on page comp > ", users);
+    // console.log("users on page comp > ", users);
   }, []);
 
   return (

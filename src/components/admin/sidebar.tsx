@@ -13,6 +13,7 @@ import {
   Menu,
   X,
   PowerCircle,
+  NotebookPen,
 } from "lucide-react";
 import CourtIcon from "../../../public/icons/court";
 
@@ -67,7 +68,7 @@ export function Sidebar() {
     {
       title: "Lessons",
       href: "/admin/lessons",
-      icon: Calendar,
+      icon: NotebookPen,
     },
     {
       title: "Members",
@@ -83,6 +84,11 @@ export function Sidebar() {
       title: "Courts Availability",
       href: "/admin/court-availability",
       icon: Clock,
+    },
+    {
+      title: "Bookings",
+      href: "/admin/bookings",
+      icon: Calendar,
     },
   ];
 

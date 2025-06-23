@@ -16,6 +16,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import { Badge } from "../ui/badge";
 import { Star, Search, UserPlus, Calendar, MessageSquare } from "lucide-react";
 import ActionButton from "../ui/actionbtn";
+import { useAdminFilterStore } from "@/stores/adminFilterStore";
+import { UserNT } from "@/interfaces/usernt.interface";
 
 export default function NetworkSection({ users }: { users: UserNT[] }) {
   // This would come from your API in a real implementation
@@ -49,6 +51,8 @@ export default function NetworkSection({ users }: { users: UserNT[] }) {
   //   },
   // ]
 
+  const { searchQuery, setSearchQuery } = useAdminFilterStore();
+
   if (!users) {
     return (
       <div className="text-center py-10 text-foreground">
@@ -74,8 +78,6 @@ export default function NetworkSection({ users }: { users: UserNT[] }) {
       mutualConnections: 1,
     },
   ];
-
-  const [searchQuery, setSearchQuery] = useState("");
 
   const filteredConnections = users.filter((connection) =>
     connection.name.toLowerCase().includes(searchQuery.toLowerCase())

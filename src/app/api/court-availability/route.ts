@@ -45,7 +45,7 @@ export async function POST(request: Request) {
   try {
     console.log("Available Prisma models:", Object.keys(prisma));
     const body = await request.json();
-    const { courtId, dayOfWeek, startTime, endTime } = body;
+    const { courtId, dayOfWeek, startTime, endTime, price } = body;
 
     console.log("POST request body:", body);
 
@@ -64,6 +64,7 @@ export async function POST(request: Request) {
         dayOfWeek: dayOfWeek,
         startTime: startTime,
         endTime: endTime,
+        price: price ? parseFloat(price) : 10,
       },
       // include: {
       //   court: {

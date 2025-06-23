@@ -15,6 +15,7 @@ import { Input } from "@/components/ui/input";
 import { CustomDropdown, DropdownItem } from "@/components/ui/dropdown-menu";
 import { MoreHorizontal, Search } from "lucide-react";
 import { groups } from "./data"; // In a real app, this data would come from your API
+import { useAdminFilterStore } from "@/stores/adminFilterStore";
 
 // interface GroupsListProps {
 //   onViewGroup?: (id: string) => void;
@@ -22,7 +23,7 @@ import { groups } from "./data"; // In a real app, this data would come from you
 
 // export function GroupsList({ onViewGroup }: GroupsListProps) {
 export function GroupsList() {
-  const [searchQuery, setSearchQuery] = useState("");
+  const { searchQuery, setSearchQuery } = useAdminFilterStore();
   const filteredGroups = groups.filter(
     (group) =>
       group.name.toLowerCase().includes(searchQuery.toLowerCase()) ||

@@ -6,27 +6,16 @@ import BookingsList from "./bookingsList";
 import ProgressTracker from "./progressTracker";
 import ProfileSettings from "./settings";
 import NetworkSection from "./network";
-import { useUser } from "@/services/hooks/getUser";
-import { formatDate } from "@/utils/formatDate";
-import { useUsers } from "@/services/hooks/getUsers";
-import { useGlobalState } from "@/context/globalStateContext";
-import { useEffect } from "react";
+import { useAuthStore } from "@/stores/authStore";
+import { useMemberStore } from "@/stores/memberStore";
 
-export default function ProfilePage({ user }: { user: any }) {
-  const id = user.id;
-  const { user: fetchedUser, loading, error } = useUser(id);
-  const { users } = useUsers();
+export default function ProfilePage() {
+  const { user: fetchedUser, loading: authLoading } = useAuthStore();
+  const { members: users, loading: membersLoading } = useMemberStore();
 
   return (
     <div className="container mx-auto">
-      {fetchedUser && (
-        <ProfileHeader
-          name={fetchedUser.name}
-          email={fetchedUser.email}
-          joinDate={formatDate(fetchedUser.createdAt)}
-          avatarUrl={`/images/avatars/${fetchedUser.avatar}.jpg`}
-        />
-      )}
+      {fetchedUser && <ProfileHeader />}
       <Tabs defaultValue="membership" className="mt-8">
         <TabsList className="grid w-full grid-cols-5">
           <TabsTrigger value="membership">Membership</TabsTrigger>

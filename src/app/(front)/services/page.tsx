@@ -1,8 +1,11 @@
+"use client";
 import GeneralBanner from "@/components/common/generalBanner";
 import ContactForm from "@/components/services/form";
 import ServicesInfo from "@/components/services/info";
 import { Check, InfoIcon } from "lucide-react";
 import Link from "next/link";
+import { useEffect, useLayoutEffect } from "react";
+import { scrollIntoView } from "@/utils/scrollToView";
 
 const ServicesPage: React.FC = () => {
   return (

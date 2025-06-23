@@ -8,6 +8,7 @@ import { useSession } from "next-auth/react";
 
 const ConfirmationStep = ({ id }: { id: string }) => {
   const router = useRouter();
+  const { update } = useSession();
   const { profileData } = useCompleteProfileProvider();
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
@@ -38,17 +39,24 @@ const ConfirmationStep = ({ id }: { id: string }) => {
         throw new Error("Failed to update profile");
       }
 
+      const data = await response.json();
+      console.log("Profile updated successfully:", data);
+
       // Clear local storage
       localStorage.removeItem("profileCompleteData");
 
       // Refresh the session to update the token
-      await fetch("/api/auth/session?update=true");
+      // await fetch("/api/auth/session?update=true");
+      // await update();
+      // try {
+      //   await update({ force: true }); // Force update the session
+      // } catch (sessionError) {
+      //   console.error("Error updating session:", sessionError);
+      // }
 
-      const { update } = useSession();
-      await update();
-
-      const data = await response.json();
-      console.log("Profile updated successfully:", data);
+      // const data = await response.json();
+      // console.log("Profile updated successfully:", data);
+      router.push("/profile");
       router.refresh();
     } catch (error) {
       console.error("Error updating profile:", error);

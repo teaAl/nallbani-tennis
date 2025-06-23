@@ -5,6 +5,7 @@ import ActionButton from "@/components/ui/actionbtn";
 import CourtsList from "./courtsList";
 import { useState } from "react";
 import { Modal } from "@/components/ui/modal";
+import { useCourtStore } from "@/stores/courtStore";
 
 export function AddCourts() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -13,38 +14,23 @@ export function AddCourts() {
   const [courtSurface, setCourtSurface] = useState<"indoor" | "outdoor">(
     "indoor"
   );
+  const { addCourt, loading } = useCourtStore();
 
-  const handleAddCourt = async () => {
+  const handleAddCourt = async (e: React.FormEvent) => {
+    e.preventDefault();
     if (!courtName) {
       alert("Please enter a court name");
       return;
     }
-
-    try {
-      const response = await fetch(`/api/courts`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name: courtName,
-          type: courtType,
-          indoor: courtSurface === "indoor",
-        }),
-      });
-      if (!response.ok) {
-        throw new Error("Failed to add court");
-      }
-      const data = await response.json();
-      console.log("Court added successfully:", data);
-      setCourtName("");
-      setCourtType("HARD");
-      setCourtSurface("indoor");
-    } catch (error) {
-      console.error("Error adding court:", error);
-    } finally {
-      setIsModalOpen(false);
-    }
+    await addCourt({
+      name: courtName,
+      type: courtType,
+      indoor: courtSurface === "indoor",
+    });
+    setCourtName("");
+    setCourtType("HARD");
+    setCourtSurface("indoor");
+    setIsModalOpen(false);
   };
 
   return (
@@ -67,7 +53,7 @@ export function AddCourts() {
       </Card>
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
         <h2 className="text-lg font-bold mb-4  text-pear">Add a new court</h2>
-        <form className="flex flex-col gap-1">
+        <form className="flex flex-col gap-1" onSubmit={handleAddCourt}>
           <div>
             <label className="text-foreground/70 text-sm font-poppins font-light">
               Court Name
@@ -75,6 +61,7 @@ export function AddCourts() {
             <input
               type="text"
               placeholder="fusha 1"
+              value={courtName || ""}
               onChange={(e) => setCourtName(e.target.value)}
               className="border border-pear rounded-md p-2 mb-4 w-full focus:outline-pear placeholder:text-foreground/30"
             />
@@ -112,12 +99,14 @@ export function AddCourts() {
           </div>
           <div className="flex flex-row justify-end items-center">
             <button
+              type="submit"
               className="bg-pear hover:bg-pear/80 text-white px-4 py-2 rounded-md cursor-pointer transition-colors duration-200"
-              onClick={handleAddCourt}
+              disabled={loading}
             >
-              Add Court
+              {loading ? "Adding..." : "Add Court"}
             </button>
             <button
+              type="button"
               className="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded-md cursor-pointer transition-colors duration-200 ml-2"
               onClick={() => {
                 setIsModalOpen(false);

@@ -1,4 +1,4 @@
-interface UserNT {
+export interface UserNT {
   id: string;
   name: string;
   email: string;
@@ -23,27 +23,27 @@ interface UserNT {
   };
 }
 
-enum UserRole {
+export enum UserRole {
   STUDENT = "STUDENT",
   PARENT = "PARENT",
   MEMBER = "MEMBER",
 }
 
-enum MemberStatus {
+export enum MemberStatus {
   ACTIVE = "ACTIVE",
   INACTIVE = "INACTIVE",
   PENDING = "PENDING",
   UNCOMPLETE = "UNCOMPLETE",
 }
 
-enum SkillLevel {
+export enum SkillLevel {
   BEGINNER = "BEGINNER",
   INTERMEDIATE = "INTERMEDIATE",
   ADVANCED = "ADVANCED",
   PROFESSIONAL = "PROFESSIONAL",
 }
 
-enum PreferedPlayTime {
+export enum PreferedPlayTime {
   MORNING = "MORNING",
   LATE_MORNING = "LATE_MORNING",
   AFTERNOON = "AFTERNOON",
