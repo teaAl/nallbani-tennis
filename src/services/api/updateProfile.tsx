@@ -1,3 +1,5 @@
+import { SkillLevel, PreferedPlayTime } from "@prisma/client";
+
 export async function UpdateProfile({
   id,
   body,

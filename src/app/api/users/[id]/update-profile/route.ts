@@ -1,6 +1,7 @@
 import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import { PreferedPlayTime } from "@prisma/client"; // Import the enum type from Prisma
+import { SkillLevel } from "@/interfaces/usernt.interface";
 
 interface UpdateProfileData {
   bio?: string;
