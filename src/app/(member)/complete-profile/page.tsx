@@ -3,8 +3,8 @@ import { authOptions } from "@/lib/authOpts";
 import prisma from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import Head from "next/head";
-import ProfileCompletionFlow from "@/components/member/complete-profile/flow";
-import { CompleteProfileProvider } from "@/context/completeProfileProvider";
+// import ProfileCompletionFlow from "@/components/member/complete-profile/flow";
+// import { CompleteProfileProvider } from "@/context/completeProfileProvider";
 
 export default async function CompleteProfilePage() {
   const session = await getServerSession(authOptions);
@@ -15,7 +15,8 @@ export default async function CompleteProfilePage() {
   }
 
   return (
-    <CompleteProfileProvider>
+    // <CompleteProfileProvider>
+    <>
       <Head>
         <title>Complete Your Profile | Tennis Club</title>
         <meta
@@ -25,8 +26,9 @@ export default async function CompleteProfilePage() {
       </Head>
 
       <main className="min-h-screen pt-10 bg-[linear-gradient(to_bottom,rgba(16,24,40,0.9),rgba(16,24,40,1)),url('/images/racquetpattern.jpg')] bg-cover bg-fixed bg-no-repeat">
-        <ProfileCompletionFlow id={session.user.id} />
+        {/* <ProfileCompletionFlow id={session.user.id} /> */}
       </main>
-    </CompleteProfileProvider>
+    </>
+    // </CompleteProfileProvider>
   );
 }

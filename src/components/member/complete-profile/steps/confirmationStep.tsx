@@ -1,5 +1,5 @@
 "use client";
-import { useCompleteProfileProvider } from "@/context/completeProfileProvider";
+// import { useCompleteProfileProvider } from "@/context/completeProfileProvider";
 import { formatDate } from "@/utils/formatDate";
 import Image from "next/image";
 import { useState } from "react";
@@ -9,7 +9,7 @@ import { useSession } from "next-auth/react";
 const ConfirmationStep = ({ id }: { id: string }) => {
   const router = useRouter();
   const { update } = useSession();
-  const { profileData } = useCompleteProfileProvider();
+  // const { profileData } = useCompleteProfileProvider();
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   const getLevelName = (level: string): string => {
@@ -25,13 +25,13 @@ const ConfirmationStep = ({ id }: { id: string }) => {
   const handleSubmit = async (): Promise<void> => {
     try {
       setIsSubmitting(true);
-      console.log("Submitting profile data:", profileData);
+      // console.log("Submitting profile data:", profileData);
       const response = await fetch(`/api/users/${id}/complete-profile`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(profileData),
+        // body: JSON.stringify(profileData),
       });
 
       if (!response.ok) {
@@ -73,7 +73,7 @@ const ConfirmationStep = ({ id }: { id: string }) => {
       </h2>
 
       <div className="mb-6 flex flex-row justify-evenly items-center gap-8">
-        <div className="flex items-center justify-start">
+        {/* <div className="flex items-center justify-start">
           <div className="min-w-32 w-60 min-h-32 h-60 rounded-full overflow-hidden border-2 border-pear relative">
             {profileData.avatar ? (
               <div className="relative w-full h-full">
@@ -90,37 +90,37 @@ const ConfirmationStep = ({ id }: { id: string }) => {
               </div>
             )}
           </div>
-        </div>
+        </div> */}
 
         <div className="flex flex-col h-full gap-3 justify-between w-full">
           <div className="flex flex-row justify-between items-center gap-4 border-b border-l border-pear/10 p-2">
             <p className="text-foreground">Phone:</p>
-            <p className="font-medium text-pear">{profileData.phoneNumber}</p>
+            {/* <p className="font-medium text-pear">{profileData.phoneNumber}</p> */}
           </div>
           <div className="flex flex-row justify-between items-center gap-4 border-b border-r border-pear/10 p-2">
             <p className="text-foreground">Birthday:</p>
             <p className="font-medium text-pear">
-              {formatDate(profileData.birthday)}
+              {/* {formatDate(profileData.birthday)} */}
             </p>
           </div>
           <div className="flex flex-row justify-between items-center gap-4 border-b border-l border-pear/10 p-2">
             <p className="text-foreground">Skill Level:</p>
             <p className="font-medium text-pear">
-              {getLevelName(profileData.level)}
+              {/* {getLevelName(profileData.level)} */}
             </p>
           </div>
           <div className="flex flex-row justify-between items-center gap-4 border-b border-r border-pear/10 p-2">
             <p className="text-foreground">Prefered Time to Play:</p>
-            <p className="font-medium text-pear">{profileData.preferedTime}</p>
+            {/* <p className="font-medium text-pear">{profileData.preferedTime}</p> */}
           </div>
           <div className="flex flex-col justify-center items-start gap-1 border-b border-l border-pear/10 p-2 shadow-sm">
             <p className="text-foreground">Bio:</p>
-            <p className="font-medium text-pear">{profileData.bio || ""}</p>
+            {/* <p className="font-medium text-pear">{profileData.bio || ""}</p> */}
           </div>
           <div className="flex flex-col justify-center items-start gap-1 border-b border-r  border-pear/10 p-2">
             <p className="text-foreground">Notes for your coach:</p>
             <p className="font-medium text-pear">
-              {profileData.notesForCoach || ""}
+              {/* {profileData.notesForCoach || ""} */}
             </p>
           </div>
         </div>

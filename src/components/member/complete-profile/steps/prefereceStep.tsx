@@ -1,17 +1,17 @@
-import { useCompleteProfileProvider } from "@/context/completeProfileProvider";
+// import { useCompleteProfileProvider } from "@/context/completeProfileProvider";
 import { ChangeEvent, FormEvent, useState } from "react";
 
 const PreferenceStep = () => {
-  const { profileData, setProfileData } = useCompleteProfileProvider();
+  // const { profileData, setProfileData } = useCompleteProfileProvider();
 
   const handleInputChange = (
-    field: keyof typeof profileData,
+    // field: keyof typeof profileData,
     value: string | boolean | File | null
   ): void => {
-    setProfileData((prev) => ({
-      ...prev,
-      [field]: value,
-    }));
+    // setProfileData((prev) => ({
+    //   ...prev,
+    //   [field]: value,
+    // }));
   };
 
   return (
@@ -22,7 +22,7 @@ const PreferenceStep = () => {
           (optional)
         </span>
       </h2>
-      <div className="w-full">
+      {/* <div className="w-full">
         <textarea
           id="bio"
           value={profileData.notesForCoach || ""}
@@ -38,7 +38,7 @@ const PreferenceStep = () => {
             ? profileData.notesForCoach
             : "Tell us about yourself (optional)"}
         </textarea>
-      </div>
+      </div> */}
     </div>
   );
 };

@@ -1,13 +1,13 @@
 import "react-datepicker/dist/react-datepicker.css";
 import "react-phone-input-2/lib/style.css";
-import { useCompleteProfileProvider } from "@/context/completeProfileProvider";
+// import { useCompleteProfileProvider } from "@/context/completeProfileProvider";
 import { ChangeEvent, useState } from "react";
 import DatePicker from "react-datepicker";
 import PhoneInput from "react-phone-input-2";
 import { StepBack, StepForward } from "lucide-react";
 
 const PersonalInfoStep = () => {
-  const { profileData, setProfileData } = useCompleteProfileProvider();
+  // const { profileData, setProfileData } = useCompleteProfileProvider();
   const [startDate, setStartDate] = useState<Date | null>(new Date());
   const years = Array.from(
     { length: new Date().getFullYear() - 1960 + 1 },
@@ -29,19 +29,19 @@ const PersonalInfoStep = () => {
   ];
 
   const handleInputChange = (
-    field: keyof typeof profileData,
+    // field: keyof typeof profileData,
     value: string | boolean | File | null
   ): void => {
-    setProfileData((prev) => ({
-      ...prev,
-      [field]: value,
-    }));
+    // setProfileData((prev) => ({
+    //   ...prev,
+    //   [field]: value,
+    // }));
   };
 
-  const handleDateChange = (date: Date | null) => {
-    setStartDate(date);
-    handleInputChange("birthday", date ? date.toISOString() : null);
-  };
+  // const handleDateChange = (date: Date | null) => {
+  //   setStartDate(date);
+  //   handleInputChange("birthday", date ? date.toISOString() : null);
+  // };
 
   return (
     <div className="bg-pana/10 backdrop-blur-lg p-6 rounded-lg shadow-md">
@@ -56,7 +56,7 @@ const PersonalInfoStep = () => {
           >
             Phone Number <span className="text-red-400">*</span>
           </label>
-          <PhoneInput
+          {/* <PhoneInput
             country={"al"}
             value={profileData.phoneNumber || ""}
             onChange={(phone: string) =>
@@ -70,7 +70,7 @@ const PersonalInfoStep = () => {
             inputClass="!w-full !py-5 !border !border-pear/30 !rounded !bg-transparent !focus:outline-none !focus:bg-pana/5 !text-foreground !transition-colors !duration-200"
             buttonClass="!border-0 !bg-transparent !border-r !border-r-pear/30 !rounded-l !focus:outline-none !focus:bg-pana/5 !hover:bg-transparent !text-foreground !transition-colors !duration-200"
             dropdownClass="!bg-gray-800 !backdrop-blur-lg !border !border-pear/30 !rounded !shadow-md"
-          />
+          /> */}
         </div>
 
         <div className="flex flex-row justify-between items-center gap-4">
@@ -81,7 +81,7 @@ const PersonalInfoStep = () => {
             >
               Birthday <span className="text-red-400">*</span>
             </label>
-            <DatePicker
+            {/* <DatePicker
               renderCustomHeader={({
                 date,
                 changeYear,
@@ -144,7 +144,7 @@ const PersonalInfoStep = () => {
               }
               onChange={(date) => handleDateChange(date)}
               className="w-full border border-pear/30 rounded px-3 py-2 focus:outline-none focus:bg-pana/5 text-foreground transition-colors duration-200"
-            />
+            /> */}
           </div>
 
           <div className="w-full">
@@ -154,7 +154,7 @@ const PersonalInfoStep = () => {
             >
               Skill Level
             </label>
-            <select
+            {/* <select
               id="level"
               value={profileData.level}
               onChange={(e: ChangeEvent<HTMLSelectElement>) =>
@@ -174,7 +174,7 @@ const PersonalInfoStep = () => {
               <option value="INTERMEDIATE">Intermediate</option>
               <option value="ADVANCED">Advanced</option>
               <option value="PROFESSIONAL">Professional</option>
-            </select>
+            </select> */}
           </div>
         </div>
 
@@ -195,7 +195,7 @@ const PersonalInfoStep = () => {
           >
             Bio
           </label>
-          <textarea
+          {/* <textarea
             id="bio"
             value={profileData.bio || ""}
             onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
@@ -209,7 +209,7 @@ const PersonalInfoStep = () => {
             {profileData.bio
               ? profileData.bio
               : "Tell us about yourself (optional)"}
-          </textarea>
+          </textarea> */}
         </div>
         <div className="w-full">
           <label
@@ -218,7 +218,7 @@ const PersonalInfoStep = () => {
           >
             Prefered Time to play
           </label>
-          <select
+          {/* <select
             id="level"
             value={profileData.preferedTime}
             onChange={(e: ChangeEvent<HTMLSelectElement>) =>
@@ -241,7 +241,7 @@ const PersonalInfoStep = () => {
             <option value="EVENING">Evening</option>
             <option value="NIGHT">Night</option>
             <option value="ANYTIME">Anytime</option>
-          </select>
+          </select> */}
         </div>
       </form>
     </div>

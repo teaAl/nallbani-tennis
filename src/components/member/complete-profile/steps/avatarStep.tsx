@@ -5,20 +5,20 @@ import avatar1 from "../../../../../public/images/avatars/avatar1.jpg";
 import avatar2 from "../../../../../public/images/avatars/avatar2.jpg";
 import avatar3 from "../../../../../public/images/avatars/avatar3.jpg";
 import avatar4 from "../../../../../public/images/avatars/avatar4.jpg";
-import { useCompleteProfileProvider } from "@/context/completeProfileProvider";
+// import { useCompleteProfileProvider } from "@/context/completeProfileProvider";
 
 const AvatarStep = () => {
-  const { profileData, setProfileData } = useCompleteProfileProvider();
+  // const { profileData, setProfileData } = useCompleteProfileProvider();
   const [preview, setPreview] = useState<string | null>(null);
 
   const handleInputChange = (
-    field: keyof typeof profileData,
+    // field: keyof typeof profileData,
     value: string | boolean | null
   ): void => {
-    setProfileData((prev) => ({
-      ...prev,
-      [field]: value,
-    }));
+    // setProfileData((prev) => ({
+    //   ...prev,
+    //   [field]: value,
+    // }));
   };
 
   return (
@@ -26,7 +26,7 @@ const AvatarStep = () => {
       <h2 className="text-xl font-semibold mb-4 text-pear">
         Choose Your Avatar
       </h2>
-      <div className="flex flex-col items-center">
+      {/* <div className="flex flex-col items-center">
         {profileData.avatar ? (
           <div className="flex flex-col justify-around items-center">
             <div className="min-w-32 w-100 min-h-32 h-100 rounded-full border-2 border-pear flex items-center justify-center overflow-hidden relative">
@@ -105,7 +105,7 @@ const AvatarStep = () => {
             )}
           </div>
         )}
-      </div>
+      </div> */}
     </div>
   );
 };
