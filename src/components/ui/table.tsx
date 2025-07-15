@@ -50,7 +50,7 @@ export function TableRow({ className, ...props }: TableRowProps) {
   return (
     <tr
       className={cn(
-        "border-b border-b-pear/30 transition-colors hover:bg-pear/5",
+        "border-b border-b-pear/30 transition-colors /hover:bg-pear/5",
         className
       )}
       {...props}
@@ -64,7 +64,7 @@ export function TableHead({ className, ...props }: TableHeadProps) {
   return (
     <th
       className={cn(
-        "h-12 px-4 text-left align-middle font-medium text-gray-900",
+        "h-12 px-4 text-left align-middle font-medium /text-gray-900",
         className
       )}
       {...props}

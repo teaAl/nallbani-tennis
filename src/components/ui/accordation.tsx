@@ -66,19 +66,26 @@ export function AccordionItem({
 interface AccordionTriggerProps {
   value: string;
   className?: string;
+  chevronColor?: string;
   children: React.ReactNode;
+  onClick?: () => void;
 }
 
 export function AccordionTrigger({
   value,
   className,
+  chevronColor,
   children,
+  onClick,
 }: AccordionTriggerProps) {
   const { expanded, setExpanded } = React.useContext(AccordionContext);
   const isExpanded = expanded === value;
 
   const handleClick = () => {
     setExpanded(isExpanded ? null : value);
+    if (onClick) {
+      onClick();
+    }
   };
 
   return (
@@ -86,15 +93,16 @@ export function AccordionTrigger({
       type="button"
       onClick={handleClick}
       className={cn(
-        "flex items-center justify-between w-full p-4 text-sm font-medium transition-all hover:underline cursor-pointer border-b border-pear/10",
+        "flex items-center justify-between w-full p-4 text-sm font-medium transition-all /*hover:underline*/ cursor-pointer border-b border-pear/10",
         className
       )}
     >
       {children}
       <ChevronDown
         className={cn(
-          "h-4 w-4 shrink-0 text-pear transition-transform duration-200",
-          isExpanded && "rotate-180"
+          "h-4 w-4 shrink-0 transition-transform duration-200",
+          isExpanded && "rotate-180",
+          chevronColor
         )}
       />
     </button>

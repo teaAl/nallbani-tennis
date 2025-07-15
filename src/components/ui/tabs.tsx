@@ -12,23 +12,30 @@ const TabsContext = createContext<TabsContextType | undefined>(undefined);
 
 export function Tabs({
   defaultValue,
+  value,
   children,
   className = "",
   onValueChange,
 }: {
   defaultValue: string;
+  value?: string;
   children: React.ReactNode;
   className?: string;
   onValueChange?: (value: string) => void;
 }) {
-  const [activeTab, setActiveTab] = useState(defaultValue);
-
-  useEffect(() => {
-    onValueChange?.(activeTab);
-  }, [activeTab, onValueChange]);
+  const [internalActiveTab, setInternalActiveTab] = useState(defaultValue);
+  const activeTab = value !== undefined ? value : internalActiveTab;
 
   return (
-    <TabsContext.Provider value={{ activeTab, setActiveTab }}>
+    <TabsContext.Provider
+      value={{
+        activeTab,
+        setActiveTab: (val: string) => {
+          if (onValueChange) onValueChange(val);
+          if (value === undefined) setInternalActiveTab(val);
+        },
+      }}
+    >
       <div className={className}>{children}</div>
     </TabsContext.Provider>
   );
@@ -52,10 +59,12 @@ export function TabsTrigger({
   value,
   children,
   className = "",
+  onClick,
 }: {
   value: string;
   children: React.ReactNode;
   className?: string;
+  onClick?: () => void;
 }) {
   const context = useContext(TabsContext);
   if (!context) throw new Error("TabsTrigger must be used within Tabs");
