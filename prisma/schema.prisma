@@ -63,6 +63,7 @@ model CourtAvailability {
   id           String       @id @default(cuid())
   courtId      String
   dayOfWeek    DayOfWeek
+  date         DateTime?
   startTime    String
   endTime      String
   createdAt    DateTime     @default(now())

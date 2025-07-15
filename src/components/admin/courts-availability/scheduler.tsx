@@ -13,7 +13,39 @@ import DayTabs from "./ui/DayTabs";
 import SlotList from "./ui/SlotList";
 
 export function CourtScheduler() {
-  const [selectedDay, setSelectedDay] = useState<DaysOfWeek>(DaysOfWeek.MONDAY);
+  function rotateDays(
+    days: { value: DaysOfWeek; label: string }[],
+    todayValue: DaysOfWeek
+  ): { value: DaysOfWeek; label: string }[] {
+    const idx = days.findIndex((day) => day.value === todayValue);
+    if (idx === -1) return days;
+    return [...days.slice(idx), ...days.slice(0, idx)];
+  }
+
+  const allDays = [
+    { value: DaysOfWeek.MONDAY, label: "Monday" },
+    { value: DaysOfWeek.TUESDAY, label: "Tuesday" },
+    { value: DaysOfWeek.WEDNESDAY, label: "Wednesday" },
+    { value: DaysOfWeek.THURSDAY, label: "Thursday" },
+    { value: DaysOfWeek.FRIDAY, label: "Friday" },
+    { value: DaysOfWeek.SATURDAY, label: "Saturday" },
+    { value: DaysOfWeek.SUNDAY, label: "Sunday" },
+  ];
+
+  const jsDay = new Date().getDay();
+  const daysOfWeekMap = [
+    DaysOfWeek.SUNDAY,
+    DaysOfWeek.MONDAY,
+    DaysOfWeek.TUESDAY,
+    DaysOfWeek.WEDNESDAY,
+    DaysOfWeek.THURSDAY,
+    DaysOfWeek.FRIDAY,
+    DaysOfWeek.SATURDAY,
+  ];
+  const todayValue = daysOfWeekMap[jsDay];
+  const days = rotateDays(allDays, todayValue);
+
+  const [selectedDay, setSelectedDay] = useState<DaysOfWeek>(todayValue);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedCourt, setSelectedCourt] = useState<string | null>(null);
 
@@ -26,16 +58,6 @@ export function CourtScheduler() {
   } = useCourtAvailabilityStore();
   const { members, fetchMembers } = useMemberStore();
   const { bookings, fetchBookings } = useBookingStore();
-
-  const days = [
-    { value: DaysOfWeek.MONDAY, label: "Monday" },
-    { value: DaysOfWeek.TUESDAY, label: "Tuesday" },
-    { value: DaysOfWeek.WEDNESDAY, label: "Wednesday" },
-    { value: DaysOfWeek.THURSDAY, label: "Thursday" },
-    { value: DaysOfWeek.FRIDAY, label: "Friday" },
-    { value: DaysOfWeek.SATURDAY, label: "Saturday" },
-    { value: DaysOfWeek.SUNDAY, label: "Sunday" },
-  ];
 
   useEffect(() => {
     fetchCourts();
