@@ -1,9 +1,12 @@
 // app/api/court-availability/route.ts
 import prisma from "@/lib/prisma";
+import { redirect } from "next/navigation";
 import { NextResponse } from "next/server";
 
 // GET all court availability slots
 export async function GET(request: Request) {
+  redirect("/");
+
   try {
     const { searchParams } = new URL(request.url);
     const dayOfWeek = searchParams.get("dayOfWeek");

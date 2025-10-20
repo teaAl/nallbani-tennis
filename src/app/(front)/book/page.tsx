@@ -1,15 +1,17 @@
-"use client";
+// "use client";
 
 import GeneralBanner from "@/components/common/generalBanner";
 import { Card, CardContent } from "@/components/ui/memberCard";
 import { DaysOfWeek } from "@/interfaces/daysOfWeek.interface";
-import { useEffect, useState } from "react";
+// import { useEffect, useState } from "react";
 import { Calendar, Calendar1Icon, Clock4Icon, InfoIcon } from "lucide-react";
 import HowItWorks from "@/components/admin/bookings/howItWorks";
 import Availabilities from "../../../components/admin/bookings/availabilities";
 import { useAuthStore } from "@/stores/authStore";
+import { redirect } from "next/navigation";
 
 const Book = () => {
+  redirect("/");
   const { user, isAuthenticated } = useAuthStore();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);

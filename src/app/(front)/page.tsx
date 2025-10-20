@@ -9,6 +9,7 @@ import { useTranslations } from "next-intl";
 
 const NewHome = () => {
   const t = useTranslations("HomePage.Subhero");
+  const tt = useTranslations("HomePage.Hero");
 
   const titleRef = useRef<HTMLHeadingElement | null>(null);
   const isTitleVisible = useIsVisible(titleRef);
@@ -32,7 +33,7 @@ const NewHome = () => {
               {t("subheader")}
             </h3>
           </div>
-          <SubHome />
+          {/* <SubHome /> */}
         </div>
       </div>
       <WideSection />

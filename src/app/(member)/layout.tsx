@@ -6,8 +6,6 @@ import NavigationMenu from "@/components/common/navbar/navigationMenu";
 import Footer from "@/components/common/footer";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale } from "next-intl/server";
-import { authOptions } from "@/lib/authOpts";
-import { getServerSession } from "next-auth";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -32,25 +30,22 @@ export default async function Layout({
   children: React.ReactNode;
 }) {
   const locale = await getLocale();
-  console.log("locale on rootlayout > ", locale);
 
   return (
-    <>
-      <html lang={locale}>
-        <body className={`${poppins.variable} ${nunito.variable} antialiased`}>
-          <NextIntlClientProvider /*messages={messages}*/>
-            <main className="flex flex-col min-h-screen h-full w-full overflow-x-hidden">
-              <NavigationMenu />
-              <div className="flex-grow overflow-auto min-h-screen flex flex-col gap-10">
-                {children}
-                <div className="w-full  z-30">
-                  <Footer />
-                </div>
+    <html lang={locale}>
+      <body className={`${poppins.variable} ${nunito.variable} antialiased`}>
+        <NextIntlClientProvider /*messages={messages}*/>
+          <main className="flex flex-col min-h-screen h-full w-full overflow-x-hidden">
+            <NavigationMenu />
+            <div className="flex-grow overflow-auto min-h-screen flex flex-col gap-10">
+              {children}
+              <div className="w-full  z-30">
+                <Footer />
               </div>
-            </main>
-          </NextIntlClientProvider>
-        </body>
-      </html>
-    </>
+            </div>
+          </main>
+        </NextIntlClientProvider>
+      </body>
+    </html>
   );
 }

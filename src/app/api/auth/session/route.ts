@@ -1,8 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/authOpts";
+import { redirect } from "next/navigation";
 
 export async function GET(req: NextRequest) {
+  redirect("/");
   const searchParams = req.nextUrl.searchParams;
   const shouldUpdate = searchParams.get("update") === "true";
 

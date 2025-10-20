@@ -5,7 +5,7 @@ import { useTranslations } from "next-intl";
 export const useNavigationLinks = ({
   type,
 }: {
-  type: "member" | "guest" | "admin";
+  type: "member" | "guest" | "admin" | "default";
 }) => {
   const t = useTranslations("NavigationMenu");
 
@@ -96,11 +96,11 @@ export const useNavigationLinks = ({
           link: "/services",
           name: t("services"),
         },
-        {
-          id: 5,
-          link: "/book",
-          name: t("bookacourt"),
-        },
+        // {
+        //   id: 5,
+        //   link: "/book",
+        //   name: t("bookacourt"),
+        // },
       ];
   }
 };

@@ -31,7 +31,8 @@ const NavigationMenu = () => {
   const t = useTranslations("NavigationMenu");
   const ft = useTranslations("Footer");
   const pathName = usePathname();
-  const navigationLinks = useNavigationLinks({ type });
+  // const navigationLinks = useNavigationLinks({ type });
+  const navigationLinks = useNavigationLinks({ type: "default" });
   const navRef = useRef<HTMLDivElement | null>(null);
   const isNavVisible = useIsVisible(navRef);
 
@@ -66,7 +67,7 @@ const NavigationMenu = () => {
         ref={navRef}
       >
         <Image src={logonb} width={70} height={70} alt="" />
-        <div className="flex flex-row gap-10">
+        <div className="flex flex-row gap-10 items-center">
           {navigationLinks.map((link) => {
             const isActive = pathName === link.link;
             return (
@@ -85,8 +86,6 @@ const NavigationMenu = () => {
               </Link>
             );
           })}
-        </div>
-        <div className="flex flex-row gap-10">
           {isAuthenticated ? (
             <button
               className="flex flex-row gap-3 items-end justify-center cursor-pointer text-foreground/80 hover:text-pear transition-colors"
@@ -116,6 +115,8 @@ const NavigationMenu = () => {
               onClick={() => requestMembership(router)}
             />
           )}
+        </div>
+        <div className="flex flex-row gap-10">
           <LanguageSwitcher />
         </div>
       </div>

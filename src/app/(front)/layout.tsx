@@ -34,26 +34,22 @@ export default async function Layout({
   console.log("locale on rootlayout > ", locale);
 
   return (
-    <>
-      <BookingLayout>
-        <html lang={locale}>
-          <body
-            className={`${poppins.variable} ${nunito.variable} antialiased`}
-          >
-            <NextIntlClientProvider /*messages={messages}*/>
-              <main className="flex flex-col min-h-screen h-full w-full overflow-x-hidden">
-                <NavigationMenu />
-                <div className="flex-grow overflow-auto h-screen flex flex-col gap-10">
-                  {children}
-                  <div className="w-full  z-30">
-                    <Footer />
-                  </div>
+    <BookingLayout>
+      <html lang={locale}>
+        <body className={`${poppins.variable} ${nunito.variable} antialiased`}>
+          <NextIntlClientProvider /*messages={messages}*/>
+            <main className="flex flex-col min-h-screen h-full w-full overflow-x-hidden">
+              <NavigationMenu />
+              <div className="flex-grow overflow-auto h-screen flex flex-col gap-10">
+                {children}
+                <div className="w-full  z-30">
+                  <Footer />
                 </div>
-              </main>
-            </NextIntlClientProvider>
-          </body>
-        </html>
-      </BookingLayout>
-    </>
+              </div>
+            </main>
+          </NextIntlClientProvider>
+        </body>
+      </html>
+    </BookingLayout>
   );
 }

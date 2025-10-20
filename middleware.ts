@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
+import { NextRequest } from "next/server";
 import { getToken } from "next-auth/jwt";
+import { withAuth } from "next-auth/middleware";
 
 export async function middleware(req: NextRequest) {
   const token = await getToken({
@@ -10,12 +11,27 @@ export async function middleware(req: NextRequest) {
 
   const { pathname } = req.nextUrl;
 
-  console.log(`
-    --- Middleware ---
-    Path: ${pathname}
-    User: ${token ? "Logged in" : "Not logged in"}
-    Status: ${token?.status || "N/A"}
-  `);
+  /* ===================================
+    Changes added after last refactor
+  ====================================*/
+
+  if (
+    pathname.startsWith("/api") &&
+    !pathname.startsWith("/api/auth") &&
+    !pathname.startsWith("/api/webhook")
+  ) {
+    const apiKey =
+      req.headers.get("x-api-key") || req.nextUrl.searchParams.get("apikey");
+    const validApiKey = process.env.API_SECRET_KEY;
+
+    if (!apiKey || apiKey !== validApiKey) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+  }
+
+  /* ===================================
+    Changes added after last refactor
+  ====================================*/
 
   // 1. Define public paths that don't require authentication
   const publicPaths = ["/", "/login", "/signup"];
@@ -139,9 +155,36 @@ export async function middleware(req: NextRequest) {
   // return NextResponse.next();
 }
 
+export default withAuth(
+  function middleware(req) {
+    console.log("Protected API accessed:", req.nextUrl.pathname);
+  },
+  {
+    callbacks: {
+      authorized: ({ token, req }) => {
+        // Only allow access to auth routes without token
+        if (req.nextUrl.pathname.startsWith("/api/auth")) {
+          return true;
+        }
+
+        // All other API routes require authentication
+        if (req.nextUrl.pathname.startsWith("/api")) {
+          return !!token;
+        }
+
+        // Allow all non-API routes
+        return true;
+      },
+    },
+  }
+);
+
 // Configure which routes use this middleware
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon.ico|public/).*)"],
+  matcher: [
+    "/((?!_next/static|_next/image|favicon.ico|public/).*)",
+    "/api/:path*",
+  ],
 };
 
 //TODO: Fix acess to /pending and /complete-profile for users according to their status

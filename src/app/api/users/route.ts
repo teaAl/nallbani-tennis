@@ -1,7 +1,9 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
+import { redirect } from "next/navigation";
 
 export const GET = async () => {
+  redirect("/");
   try {
     const users = await prisma.user.findMany({
       select: {
