@@ -194,7 +194,7 @@ const Footer = () => {
                     }`}
           ref={socialsMobileRef}
         >
-          <div className="flex flex-row gap-7 items-center justify-around">
+          <div className="flex flex-row gap-2 items-center justify-around">
             <a href="https://www.facebook.com/100063949922669/" aria-label="Facebook">
               <FacebookLogo size="35" />
             </a>
