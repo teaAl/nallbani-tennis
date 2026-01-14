@@ -3,10 +3,10 @@ import prisma from "@/lib/prisma";
 import { redirect } from "next/navigation";
 
 export const GET = async () => {
-  redirect("/");
+  // redirect("/");
   try {
     const courts = await prisma.court.findMany();
-
+ console.log("courts")
     return NextResponse.json({ courts }, { status: 200 });
   } catch (error) {
     console.error("Error fetching users:", error);

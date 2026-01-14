@@ -36,9 +36,9 @@ export default async function AdminLayout({
   const locale = await getLocale();
   const session = await getServerSession(authOptions);
 
-  if (!session) {
-    redirect("/");
-  }
+  // if (!session) {
+  //   redirect("/");
+  // }
 
   return (
     <html lang={locale}>
