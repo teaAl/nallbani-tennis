@@ -195,12 +195,12 @@ const Footer = () => {
           ref={socialsMobileRef}
         >
           <div className="flex flex-row gap-7 items-center justify-around">
-            <FacebookLogo size={35} />
-            <InstagramLogo size="35" />
-          </div>
-          <div className="flex flex-row gap-7 items-center justify-around">
-            <LinkedinLogo size="35" />
-            <YoutubeLogo size="35" />
+            <a href="https://www.facebook.com/100063949922669/" aria-label="Facebook">
+              <FacebookLogo size="35" />
+            </a>
+            <a href="https://www.instagram.com/tennis_nallbani?igsh=MWxhZDdnOGN2NGFw" aria-label="Instagram">
+              <InstagramLogo size="35" />
+            </a>
           </div>
         </div>
         <div className="hidden md:flex flex-col gap-6 justify-between md:w-max w-max">
@@ -216,7 +216,7 @@ const Footer = () => {
             {t("followUs")}
           </h5>
           <div
-            className={`flex flex-row gap-2 items-center md:justify-around justify-around
+            className={`flex flex-row items-center gap-2
                         ${
                           isSocialsVisible
                             ? "animate-fade-left animate-once animate-ease-linear delay-300"
@@ -224,10 +224,12 @@ const Footer = () => {
                         }`}
             ref={socialsRef}
           >
-            <FacebookLogo size={26} />
-            <InstagramLogo size="26" />
-            <LinkedinLogo size="26" />
-            <YoutubeLogo size="26" />
+            <a href="https://www.facebook.com/100063949922669/" aria-label="Facebook">
+              <FacebookLogo size="26" />
+            </a>
+            <a href="https://www.instagram.com/tennis_nallbani?igsh=MWxhZDdnOGN2NGFw" aria-label="Instagram">
+              <InstagramLogo size="26" />
+            </a>
           </div>
           <div
             className={`group ${
