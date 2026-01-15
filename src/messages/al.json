@@ -100,6 +100,43 @@
       "p3": "Në vitin 2014, ai mori licencën e tij të trajnimit nga ITF dhe gjithashtu punoi si arbitër ndërkombëtar për ngjarjet e Tennis Europe në Tiranë. Gjatë këtyre viteve, Toni u përball me një vendim të rëndësishëm në jetë dhe kuptoi se tenisi ishte thirrja e tij e vërtetë. Misioni i tij u bë i qartë: të promovojë sportin dhe të zhvillojë breza të rinj dhe lojtarë të rritur në Tiranë dhe në të gjithë Shqipërinë."
     }
   },
+  "ServicesPage": {
+    "title": "Shërbimet",
+    "Section1": {
+      "title": "Një shumëllojshmëri shërbimesh",
+      "p1": "Tek Nallbani Tennis, ne besojmë në ofrimin e një përvoje gjithëpërfshirëse për anëtarët tanë. Shërbimet tona janë të dizajnuara për t'iu përshtatur lojtarëve të të gjitha niveleve, nga fillestarët deri tek të avancuarit. Programet tona të stërvitjes janë të dizajnuara për të qenë argëtuese dhe tërheqëse, duke siguruar që jo vetëm të përmirësoni aftësitë tuaja, por edhe të shijoni procesin.",
+      "p2": "Përveç trajnimit, ne ofrojmë një gamë opsionesh anëtarësimi që i përshtaten nevojave tuaja. Ne gjithashtu organizojmë ngjarje dhe turne të rregullta, duke ju dhënë mundësinë të shfaqni aftësitë tuaja dhe të konkurroni me lojtarë të tjerë. Këto ngjarje janë një mënyrë e shkëlqyer për të takuar njerëz të rinj, për të bërë miq dhe për të shijuar aspektin shoqëror të lojës.",
+      "p3": "Në Nallbani Tennis, ne jemi të përkushtuar për të krijuar një komunitet mikpritës dhe gjithëpërfshirës për të gjithë lojtarët. Ne besojmë se tenisi nuk është thjesht një sport, por një mënyrë për t'u lidhur me të tjerët dhe për të ndërtuar marrëdhënie të qëndrueshme."
+    },
+    "Section2": {
+      "title1": "Mësime Individuale",
+      "p1": "Trajnim individual i hartuar posaçërisht për ju. Çdo seancë është e përshtatur sipas nivelit, qëllimeve dhe stilit tuaj të lojës, me vëmendje të plotë në përmirësimin e teknikës, lëvizjes dhe vetëbesimit tuaj në fushë.",
+      "title2": "Mësime në Grup",
+      "p2": "Seanca në grupe të vogla të drejtuara personalisht nga trajneri, duke kombinuar stërvitjen e strukturuar me një atmosferë motivuese. Ideale për përmirësimin e lojës, qëndrueshmërinë dhe të mësuarit përmes përvojës së përbashkët.",
+      "title3": "Opsionet e Anëtarësimit",
+      "p3": "Plane anëtarësimi të thjeshta dhe fleksibile që ju japin akses të vazhdueshëm në programe trajnimi dhe stërvitore. Të dizajnuara për lojtarë që duan përparim të qëndrueshëm me një qasje personale.",
+      "title4": "Rezervimet e Fushave",
+      "p4": "Rezervoni kohën tuaj në fushë lehtësisht dhe stërvituni pa probleme. Rezervimet menaxhohen drejtpërdrejt për të siguruar disponueshmërinë dhe një përvojë të qetë trajnimi."
+    },
+    "Section3": {
+      "title": "Bëhu anëtar sot!",
+      "p1": "Ne duam t'i përshtasim shërbimet tona sipas nevojave tuaja. Ju lutemi ndiqni hapat më poshtë për të na kontaktuar dhe për të diskutuar nevojat tuaja.",
+      "form1": "Plotësoni formularin me detajet tuaja.",
+      "form2": "Do t'i merrni të gjitha detajet menjëherë në një mesazh në whatsapp.",
+      "form3": "Diskutoni nevojat tuaja dhe finalizoni detajet.",
+      "form4": "Nëse dëshironi të vazhdoni, ne do të krijojmë një llogari për ju.",
+      "contactTitle": "Këto informacione do të përdoren për të krijuar llogarinë tuaj dhe për t'ju dërguar përditësime rreth anëtarësimit tuaj.",
+      "contactName": "Emri juaj",
+      "contactEmail": "Email-i juaj",
+      "contactPhone": "Numri juaj",
+      "selection1": "Zgjidh një Shërbim",
+      "selection2": "Trajnim për mua",
+      "selection3": "Trajnim për fëmijën tim",
+      "selection4": "Plan Anëtarësimi",
+      "submitButton": "Dërgo",
+      "submitting": "Duke dërguar"
+    }
+  },
   "Footer": {
     "contactUs": "na kontaktoni",
     "followUs": "na ndiqni",
