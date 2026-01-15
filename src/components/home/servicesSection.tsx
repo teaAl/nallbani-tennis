@@ -6,6 +6,7 @@ import Image from "next/image";
 import tennisgirl from "../../../public/images/tennisgirl.png";
 import ListElement from "../ui/servicesListElement";
 import { useTranslations } from "next-intl";
+import { useRouter } from "next/navigation";
 
 const ServicesSection = () => {
     const t = useTranslations('HomePage.ServicesSection');
@@ -21,7 +22,7 @@ const ServicesSection = () => {
     const isMobileButtonVisible = useIsVisible(mobileButtonRef);
     const imageRef = useRef<HTMLImageElement | null>(null);
     const isImageVisible = useIsVisible(imageRef);
-
+    const router = useRouter();
 
     return (
         <div className="md:w-4/5 w-full md:p-4 p-6 grid md:grid-cols-3 mx-auto md:gap-0 gap-8 ">
@@ -43,7 +44,7 @@ const ServicesSection = () => {
                 </p>
                 <button className={`text-pear w-max hidden md:block
                     ${isButtonVisible ? "animate-fade-right animate-once animate-ease-linear delay-900" : "opacity-0"}`}
-                    ref={buttonRef}>
+                    ref={buttonRef} onClick={() => router.push("/services")} >
                     {t('button')} {' >'}
                 </button>
             </div>
@@ -64,7 +65,7 @@ const ServicesSection = () => {
             </div>
             <div className="w-full md:hidden flex justify-center">
                 <button className={`text-pear w-max 
-                    ${isMobileButtonVisible ? "animate-fade-right animate-once animate-ease-linear" : "opacity-0"}`} ref={mobileButtonRef}>
+                    ${isMobileButtonVisible ? "animate-fade-right animate-once animate-ease-linear" : "opacity-0"}`} ref={mobileButtonRef} onClick={() => router.push("/services")}>
                     {t('button')} {' >'}
                 </button>
             </div>
