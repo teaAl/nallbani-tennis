@@ -7,9 +7,6 @@ import { AdminHeader } from "@/components/admin/admin-header";
 import { Toaster } from "@/components/ui/toaster";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale } from "next-intl/server";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/authOpts";
-import { redirect } from "next/navigation";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -24,8 +21,8 @@ const nunito = Nunito({
 });
 
 export const metadata: Metadata = {
-  title: "Nallbani Tennis",
-  description: "Elevate your game with us",
+  title: "Admin | Nallbani Tennis",
+  description: "Admin dashboard",
 };
 
 export default async function AdminLayout({
@@ -34,23 +31,21 @@ export default async function AdminLayout({
   children: React.ReactNode;
 }) {
   const locale = await getLocale();
-  const session = await getServerSession(authOptions);
-
-  // if (!session) {
-  //   redirect("/");
-  // }
 
   return (
     <html lang={locale}>
       <body className={`${poppins.variable} ${nunito.variable} antialiased`}>
-        <NextIntlClientProvider /*messages={messages}*/>
+        <NextIntlClientProvider>
           <div className="flex h-screen overflow-hidden">
             <Sidebar />
+
             <div className="flex flex-col flex-1 overflow-hidden">
               <AdminHeader />
+
               <main className="flex-1 overflow-y-auto p-6 bg-pana">
                 {children}
               </main>
+
               <Toaster />
             </div>
           </div>
