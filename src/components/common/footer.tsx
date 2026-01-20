@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useIsVisible } from "@/utils/useIsVisible";
 import Image from "next/image";
 import logonb from "../../../public/images/logo-nt.png";
@@ -16,6 +16,32 @@ import WhatsappIcon from "../../../public/icons/whatsappIcon";
 import { useTranslations } from "next-intl";
 import { scrollIntoView } from "@/utils/scrollToView";
 import { useRouter } from "next/navigation";
+
+type LegalType = "tnc" | "pp" | null;
+type LegalModalProps = {
+  type: "tnc" | "pp";
+  onClose: () => void;
+}
+
+const LegalModal: React.FC<LegalModalProps> = ({type, onClose}) => {
+  useEffect(() => {
+    const originalStyle = window.getComputedStyle(document.body).overflow;
+    document.body.style.overflow = "hidden"; 
+    return () => {
+      document.body.style.overflow = originalStyle;
+    };
+  }, []);
+  return (
+    <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.6)", zIndex: 5, display: "flex", justifyContent:"center", alignItems: "center"}} onClick={onClose}>
+      <div style={{ maxWidth: 600, margin: "80px auto", padding: 24, borderRadius: 8}} onClick={(e) => e.stopPropagation()} className="bg-gradient-to-br from-gray-900 to-gray-800">
+        <button onClick={onClose} style={{ float: "right" }}>✕</button>
+        <p className="font-bold text-xl">{type === "tnc" ? "Terms & Conditions" : "Privacy Policy"}</p>
+        {type === "tnc" ? (<p>By using our website and services, you agree to follow these terms and conditions. All content provided is for informational purposes only. We reserve the right to update or modify these terms at any time without prior notice. Your continued use of our services constitutes acceptance of these terms.</p>) 
+        : (<p>We respect your privacy and are committed to protecting your personal information. Any data you provide will only be used to improve your experience and provide our services. We do not share your personal information with third parties without your consent, except as required by law.</p>)}
+      </div>
+    </div>
+  );
+};
 
 const Footer = () => {
   const router = useRouter();
@@ -43,6 +69,7 @@ const Footer = () => {
   const isMobileBtnVisible = useIsVisible(mobileBtn);
   const lowerFooter = useRef<HTMLDivElement | null>(null);
   const isLowerFooterVisible = useIsVisible(lowerFooter);
+  const [open, setOpen] = useState<LegalType>(null);
 
   const becomeMemberHandler = () => {
     router.push("/services", { scroll: true });
@@ -167,13 +194,13 @@ const Footer = () => {
                     }`}
           ref={socialsMobileRef}
         >
-          <div className="flex flex-row gap-7 items-center justify-around">
-            <FacebookLogo size={35} />
-            <InstagramLogo size="35" />
-          </div>
-          <div className="flex flex-row gap-7 items-center justify-around">
-            <LinkedinLogo size="35" />
-            <YoutubeLogo size="35" />
+          <div className="flex flex-row gap-2 items-center justify-around">
+            <a href="https://www.facebook.com/100063949922669/" aria-label="Facebook">
+              <FacebookLogo size="35" />
+            </a>
+            <a href="https://www.instagram.com/tennis_nallbani?igsh=MWxhZDdnOGN2NGFw" aria-label="Instagram">
+              <InstagramLogo size="35" />
+            </a>
           </div>
         </div>
         <div className="hidden md:flex flex-col gap-6 justify-between md:w-max w-max">
@@ -189,7 +216,7 @@ const Footer = () => {
             {t("followUs")}
           </h5>
           <div
-            className={`flex flex-row gap-2 items-center md:justify-around justify-around
+            className={`flex flex-row items-center gap-2
                         ${
                           isSocialsVisible
                             ? "animate-fade-left animate-once animate-ease-linear delay-300"
@@ -197,10 +224,12 @@ const Footer = () => {
                         }`}
             ref={socialsRef}
           >
-            <FacebookLogo size={26} />
-            <InstagramLogo size="26" />
-            <LinkedinLogo size="26" />
-            <YoutubeLogo size="26" />
+            <a href="https://www.facebook.com/100063949922669/" aria-label="Facebook">
+              <FacebookLogo size="26" />
+            </a>
+            <a href="https://www.instagram.com/tennis_nallbani?igsh=MWxhZDdnOGN2NGFw" aria-label="Instagram">
+              <InstagramLogo size="26" />
+            </a>
           </div>
           <div
             className={`group ${
@@ -219,21 +248,15 @@ const Footer = () => {
           </div>
         </div>
       </div>
-      <div
-        className={`bg-gray-900 p-3 text-pear flex md:flex-row flex-col-reverse gap-2.5 justify-between items-center
-                ${
-                  isLowerFooterVisible
-                    ? "animate-fade animate-once animate-ease-linear"
-                    : "opacity-0"
-                }`}
-        ref={lowerFooter}
-      >
-        <span className=" text-pear/90">&copy; {t("rights")}</span>
-        <div className="flex flex-row gap-2 md:gap-4 text-pear/90">
-          <span>{t("tnc")}</span>
-          <span>|</span>
-          <span>{t("pp")}</span>
-        </div>
+      <div className={`bg-gray-900 p-3 text-pear flex md:flex-row flex-col-reverse gap-2.5 justify-between items-center
+        ${isLowerFooterVisible ? "animate-fade animate-once animate-ease-linear" : "opacity-0"}`} ref={lowerFooter}>
+          <span className=" text-pear/90">&copy; {t("rights")}</span>
+          <div className="flex flex-row gap-2 md:gap-4 text-pear/90">
+            <span className="cursor-pointer" onClick={() => setOpen("tnc")}> Terms & Conditions </span>
+            <span>|</span>
+            <span className="cursor-pointer" onClick={() => setOpen("pp")}> Privacy Policy </span>
+          </div>
+        {open && <LegalModal type={open} onClose={() => setOpen(null)} />}
       </div>
     </footer>
   );

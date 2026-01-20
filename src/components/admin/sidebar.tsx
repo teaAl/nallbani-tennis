@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { cn } from "@/lib/cn";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   Calendar,
   Users,
@@ -19,7 +19,15 @@ import CourtIcon from "../../../public/icons/court";
 
 export function Sidebar() {
   const pathname = usePathname();
+  const router = useRouter();
   const [collapsed, setCollapsed] = useState(false);
+
+  const handleLogout = async () => {
+    await fetch("/api/admin/logout", {
+      method: "POST",
+    });
+    router.push("/");
+  };
 
   // const navItems = [
   //   {
@@ -149,7 +157,7 @@ export function Sidebar() {
           className={cn(
             "flex w-full items-center py-2 px-3 rounded-md transition-colors hover:bg-gray-800 cursor-pointer",
             collapsed ? "justify-center" : ""
-          )}
+          )} onClick={handleLogout}
         >
           <PowerCircle className="h-5 w-5" />
           {!collapsed && <span className="ml-3">Logout</span>}
