@@ -100,6 +100,43 @@
       "p3": "In 2014, he earned his ITF coaching license and also worked as an international referee for Tennis Europe events in Tirana. Through these years, Toni faced a pivotal life decision and realized that tennis was his true calling. His mission became clear: to promote the sport and develop new generations of junior and adult players in Tirana and across Albania."
     }
   },
+  "ServicesPage": {
+    "title": "Services",
+    "Section1": {
+      "title": "A variety of services",
+      "p1": "At Nallbani Tennis, we believe in providing a comprehensive experience for our members. Our services are designed to cater to players of all levels, from beginners to advanced. Our coaching programs are designed to be fun and engaging, ensuring that you not only improve your skills but also enjoy the process.",
+      "p2": "In addition to coaching, we offer a range of membership options to suit your needs. We also organize regular events and tournaments, giving you the opportunity to showcase your skills and compete with other players. These events are a great way to meet new people, make friends, and enjoy the social aspect of the game.",
+      "p3": "At Nallbani Tennis, we are committed to creating a welcoming and inclusive community for all players. We believe that tennis is not just a sport, but a way to connect with others and build lasting relationships."
+    },
+    "Section2": {
+      "title1": "Individual Lessons",
+      "p1": "One-on-one coaching designed specifically for you. Each session is tailored to your level, goals, and playing style, with full attention on improving your technique, movement, and confidence on court.",
+      "title2": "Group Lessons",
+      "p2": "Small group sessions led personally by the coach, combining structured training with a motivating atmosphere. Ideal for improving match play, consistency, and learning through shared experience.",
+      "title3": "Membership Options",
+      "p3": "Simple and flexible membership plans that give you ongoing access to coaching and training programs. Designed for players who want steady progress with a personal approach.",
+      "title4": "Court Reservations",
+      "p4": "Book your court time easily and train without hassle. Reservations are managed directly to ensure availability and a smooth training experience."
+    },
+    "Section3": {
+      "title": "Become a member today!",
+      "p1": "We want to adjust our services to your needs. Please follow the steps below to get in touch with us and discuss your needs.",
+      "form1": "Fill in the form with your details.",
+      "form2": "You'll receive all the details in a whatsapp message instantly.",
+      "form3": "Discuss your needs and finalize the details.",
+      "form4": "If you wish to proceed, we will create an account for you.",
+      "contactTitle": "These info will be used to create your account and send you updates about your membership.",
+      "contactName": "Your Name",
+      "contactEmail": "Your Email",
+      "contactPhone": "Your Phone Number",
+      "selection1": "Select a Service",
+      "selection2": "Coaching for me",
+      "selection3": "Coaching for my kid",
+      "selection4": "Membership Plan",
+      "submitButton": "Submit",
+      "submitting": "Submitting..."
+    }
+  },
   "Footer": {
     "contactUs": "contact us",
     "followUs": "follow us",

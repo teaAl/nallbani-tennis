@@ -66,7 +66,9 @@ const NavigationMenu = () => {
                 }`}
         ref={navRef}
       >
-        <Image src={logonb} width={70} height={70} alt="" />
+        <Link href="/">
+          <Image src={logonb} width={70} height={70} alt="Home" className="cursor-pointer"/>
+        </Link>
         <div className="flex flex-row gap-10 items-center">
           {navigationLinks.map((link) => {
             const isActive = pathName === link.link;
