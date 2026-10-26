@@ -35,7 +35,10 @@ export function ExceptionForm({
   const [courtId, setCourtId] = useState(exception?.courtId ?? courts[0]?.id ?? "");
   const [date, setDate] = useState(exception?.date ?? defaultDate);
   const [closed, setClosed] = useState(exception ? exception.startHours.length === 0 : false);
-  const [hours, setHours] = useState<string[]>(exception?.startHours ?? []);
+  // A new exception starts from the day's usual hours, so the coach only removes or adds a few.
+  const [hours, setHours] = useState<string[]>(
+    () => exception?.startHours ?? courts[0]?.weekly[weekdayOf(defaultDate)] ?? [],
+  );
 
   const weekday = /^\d{4}-\d{2}-\d{2}$/.test(date) ? weekdayOf(date) : null;
   const court = courts.find((c) => c.id === courtId);

@@ -273,6 +273,7 @@ Env vars after the rebuild: `DATABASE_URL`, `AUTH_SECRET`, `BLOB_READ_WRITE_TOKE
    activities, courts with weekly hours and date exceptions, announcements,
    photos. Public pages render from them.
    WhatsApp links. After this phase the coach can run the site alone.
+   **Done 2026-10-26** on branch `rebuild` (photos need a Vercel Blob store).
 3. **Students.** Roster, groups → weekly lessons, attendance, notes,
    payments, Today tab.
 4. **Court booking log.** Logged bookings (and group lessons) mark public

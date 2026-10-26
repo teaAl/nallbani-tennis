@@ -46,14 +46,22 @@ async function main() {
   const admin = await ensureStaff({ email: process.env.SEED_ADMIN_EMAIL, password: process.env.SEED_ADMIN_PASSWORD, name: "Administratori", role: "ADMIN" });
   const coach = await ensureStaff({ email: process.env.SEED_COACH_EMAIL, password: process.env.SEED_COACH_PASSWORD, name: "Trajneri", role: "COACH" });
 
-  const fresh = !(await prisma.siteSettings.findUnique({ where: { id: 1 } }));
-  if (!fresh) {
+  // Each piece of starter content is created only while that table is still empty.
+  const [courts, groups, offerings, activities] = await Promise.all([
+    prisma.court.count(),
+    prisma.group.count(),
+    prisma.courseOffering.count(),
+    prisma.activity.count(),
+  ]);
+  if (courts > 0 && groups > 0 && offerings > 0 && activities > 0) {
     console.log("Starter content already present; nothing else to do.");
     return;
   }
 
-  await prisma.siteSettings.create({
-    data: {
+  await prisma.siteSettings.upsert({
+    where: { id: 1 },
+    update: {},
+    create: {
       id: 1,
       clubName: "Tennis Nallbani",
       tagline: "Klub tenisi në Tiranë",
@@ -73,10 +81,14 @@ async function main() {
 
   const evening = ["18:00", "19:00", "20:00", "21:00"];
   const morning = ["09:00", "10:00", "11:00", "12:00"];
-  const court1 = await createCourt("Fusha 1", 1, { 0: morning, 1: evening, 2: evening, 3: evening, 4: evening, 5: evening, 6: morning });
-  await createCourt("Fusha 2", 2, { 0: [], 1: evening, 2: evening, 3: evening, 4: evening, 5: evening, 6: morning });
+  let court1 = await prisma.court.findFirst({ orderBy: { sortOrder: "asc" } });
+  if (courts === 0) {
+    court1 = await createCourt("Fusha 1", 1, { 0: morning, 1: evening, 2: evening, 3: evening, 4: evening, 5: evening, 6: morning });
+    await createCourt("Fusha 2", 2, { 0: [], 1: evening, 2: evening, 3: evening, 4: evening, 5: evening, 6: morning });
+    console.log("Created Fusha 1 and Fusha 2 with weekly hours.");
+  }
 
-  await prisma.group.create({
+  if (groups === 0) await prisma.group.create({
     data: {
       name: "Grupi i fëmijëve",
       slug: "grupi-i-femijeve",
@@ -90,12 +102,12 @@ async function main() {
       monthlyPrice: 9000,
       capacity: 8,
       coachId: coach?.id ?? null,
-      courtId: court1.id,
+      courtId: court1?.id ?? null,
       published: false,
     },
   });
 
-  await prisma.courseOffering.create({
+  if (offerings === 0) await prisma.courseOffering.create({
     data: {
       title: "Mësim privat",
       slug: "mesim-privat",
@@ -110,7 +122,7 @@ async function main() {
   const nextMonth = new Date();
   nextMonth.setUTCMonth(nextMonth.getUTCMonth() + 1);
   nextMonth.setUTCHours(0, 0, 0, 0);
-  await prisma.activity.create({
+  if (activities === 0) await prisma.activity.create({
     data: {
       title: "Yoga në fushë",
       slug: "yoga-ne-fushe",
