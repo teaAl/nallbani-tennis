@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionForm } from "@/components/admin/use-action-form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -8,10 +8,10 @@ import { FormMessage } from "../forms";
 import { createAccount, resetPassword, type FormState } from "./actions";
 
 export function CreateAccountForm() {
-  const [state, action, pending] = useActionState<FormState, FormData>(createAccount, {});
+  const { state, onSubmit, pending } = useActionForm<FormState>(createAccount, {});
 
   return (
-    <form action={action} className="flex flex-col gap-3">
+    <form onSubmit={onSubmit} className="flex flex-col gap-3">
       <div className="flex flex-col gap-1.5">
         <Label htmlFor="name">Emri</Label>
         <Input id="name" name="name" required className="h-11" />
@@ -46,10 +46,10 @@ export function CreateAccountForm() {
 }
 
 export function ResetPasswordForm({ userId }: { userId: string }) {
-  const [state, action, pending] = useActionState<FormState, FormData>(resetPassword, {});
+  const { state, onSubmit, pending } = useActionForm<FormState>(resetPassword, {});
 
   return (
-    <form action={action} className="flex flex-col gap-2">
+    <form onSubmit={onSubmit} className="flex flex-col gap-2">
       <input type="hidden" name="id" value={userId} />
       <div className="flex gap-2">
         <Input

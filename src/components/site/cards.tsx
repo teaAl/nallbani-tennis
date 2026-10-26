@@ -71,7 +71,7 @@ export function GroupCard({ g, askHref }: { g: GroupCardData; askHref: string | 
         <h3 className="font-display text-3xl leading-8 font-bold">{g.name}</h3>
         {days && (
           <p className="font-semibold">
-            <span className="capitalize">{days}</span>, {g.startTime}–{g.endTime}
+            {days.charAt(0).toUpperCase() + days.slice(1)}, {g.startTime}–{g.endTime}
           </p>
         )}
         <p className="text-sm text-ink-muted">
@@ -140,9 +140,9 @@ export function ActivityCard({ a, askHref, past }: { a: ActivityCardData; askHre
           {a.guestCoachName && <Chip tone="warm">Trajner i ftuar</Chip>}
         </div>
         <h3 className="font-display text-3xl leading-8 font-bold">{a.title}</h3>
-        <p className="font-semibold capitalize">
-          {when}
-          {a.startTime && <span className="normal-case">, {a.startTime}{a.endTime ? `–${a.endTime}` : ""}</span>}
+        <p className="font-semibold">
+          {when.charAt(0).toUpperCase() + when.slice(1)}
+          {a.startTime && <span>, {a.startTime}{a.endTime ? `–${a.endTime}` : ""}</span>}
         </p>
         {a.place && <p className="text-sm text-ink-muted">{a.place}</p>}
         {a.description && <p className="text-ink-muted">{a.description}</p>}

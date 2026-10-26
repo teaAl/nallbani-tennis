@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionForm } from "@/components/admin/use-action-form";
 import { CheckboxCard, Field, FormSection, MoneyField, Row, SelectField, TextareaField } from "@/components/admin/fields";
 import { FormMessage, type FormState } from "@/components/admin/form-message";
 import { SubmitButton } from "@/components/admin/submit-button";
@@ -23,12 +23,12 @@ export type CourtFormValues = {
 };
 
 export function CourtForm({ court }: { court?: CourtFormValues }) {
-  const [state, action] = useActionState<FormState, FormData>(saveCourt, {});
+  const { state, onSubmit, pending } = useActionForm<FormState>(saveCourt, {});
   const b = (i: number) => court?.bundles[i];
 
   return (
     <div className="flex flex-col gap-4">
-      <form action={action} className="flex flex-col gap-4">
+      <form onSubmit={onSubmit} className="flex flex-col gap-4">
         {court && <input type="hidden" name="id" value={court.id} />}
         <FormSection>
           <Field label="Emri" name="name" required defaultValue={court?.name} placeholder="p.sh. Fusha 1" />
@@ -61,7 +61,7 @@ export function CourtForm({ court }: { court?: CourtFormValues }) {
         </FormSection>
 
         <FormMessage state={state} />
-        <SubmitButton>{court ? "Ruaj ndryshimet" : "Krijo fushën"}</SubmitButton>
+        <SubmitButton pending={pending}>{court ? "Ruaj ndryshimet" : "Krijo fushën"}</SubmitButton>
       </form>
       {court && (
         <DeleteForm action={deleteCourt} id={court.id} label="Fshi fushën" confirmText={`Të fshihet "${court.name}" bashkë me orët dhe rezervimet e saj?`} />

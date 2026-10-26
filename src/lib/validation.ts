@@ -1,7 +1,7 @@
 // zod helpers for FormData coming from the admin forms. Empty strings become null.
 import { z } from "zod";
 
-const blankToNull = (v: unknown) => (typeof v === "string" && v.trim() === "" ? null : v);
+const blankToNull = (v: unknown) => (v === undefined || v === null || (typeof v === "string" && v.trim() === "") ? null : v);
 
 export const optionalText = (max = 2000) =>
   z.preprocess(blankToNull, z.string().trim().max(max).nullable());

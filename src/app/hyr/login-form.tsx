@@ -1,16 +1,16 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionForm } from "@/components/admin/use-action-form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { login, type LoginState } from "./actions";
 
 export function LoginForm({ next }: { next?: string }) {
-  const [state, action, pending] = useActionState<LoginState, FormData>(login, {});
+  const { state, onSubmit, pending } = useActionForm<LoginState>(login, {});
 
   return (
-    <form action={action} className="flex flex-col gap-4">
+    <form onSubmit={onSubmit} className="flex flex-col gap-4">
       {next && <input type="hidden" name="next" value={next} />}
       <div className="flex flex-col gap-1.5">
         <Label htmlFor="email">Email</Label>

@@ -1,4 +1,6 @@
-// What the coach sees on day one. Safe to re-run: everything is upserted.
+// What the coach sees on day one. Runs on every deploy (see vercel.json), so it
+// must be safe to repeat: staff accounts are created only if their email is new,
+// and the starter content is created only once, on an empty database.
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
 
@@ -11,62 +13,47 @@ try {
 
 const prisma = new PrismaClient();
 
-function need(name: string) {
-  const value = process.env[name];
-  if (!value) throw new Error(`Seed needs ${name} in the environment`);
-  return value;
+async function ensureStaff(opts: { email: string | undefined; password: string | undefined; name: string; role: "ADMIN" | "COACH" }) {
+  if (!opts.email || !opts.password) {
+    console.log(`Skipping ${opts.role}: SEED_* variables not set.`);
+    return null;
+  }
+  const email = opts.email.toLowerCase().trim();
+  const existing = await prisma.user.findUnique({ where: { email } });
+  if (existing) return existing;
+  const created = await prisma.user.create({
+    data: { email, name: opts.name, role: opts.role, password: await bcrypt.hash(opts.password, 12), mustChangePassword: true },
+  });
+  console.log(`Created ${opts.role} account for ${email}.`);
+  return created;
 }
 
-async function upsertStaff(opts: { email: string; password: string; name: string; role: "ADMIN" | "COACH" }) {
-  const hash = await bcrypt.hash(opts.password, 12);
-  return prisma.user.upsert({
-    where: { email: opts.email.toLowerCase() },
-    update: { name: opts.name, role: opts.role, status: "ACTIVE" },
-    create: {
-      email: opts.email.toLowerCase(),
-      name: opts.name,
-      role: opts.role,
-      password: hash,
-      mustChangePassword: true,
+async function createCourt(name: string, sortOrder: number, weekly: Record<number, string[]>) {
+  return prisma.court.create({
+    data: {
+      name,
+      sortOrder,
+      surface: "HARD",
+      guestHourly: 1500,
+      memberHourly: 1000,
+      bundles: [{ hours: 10, price: 12000 }],
+      weeklyHours: { create: Array.from({ length: 7 }, (_, weekday) => ({ weekday, startHours: weekly[weekday] ?? [] })) },
     },
   });
 }
 
-async function upsertCourt(name: string, sortOrder: number, weekly: Record<number, string[]>) {
-  const existing = await prisma.court.findFirst({ where: { name } });
-  const court =
-    existing ??
-    (await prisma.court.create({
-      data: { name, sortOrder, surface: "HARD", guestHourly: 1500, memberHourly: 1000, bundles: [{ hours: 10, price: 12000 }] },
-    }));
-  for (let weekday = 0; weekday < 7; weekday++) {
-    await prisma.courtWeeklyHours.upsert({
-      where: { courtId_weekday: { courtId: court.id, weekday } },
-      update: {},
-      create: { courtId: court.id, weekday, startHours: weekly[weekday] ?? [] },
-    });
-  }
-  return court;
-}
-
 async function main() {
-  const admin = await upsertStaff({
-    email: need("SEED_ADMIN_EMAIL"),
-    password: need("SEED_ADMIN_PASSWORD"),
-    name: "Administratori",
-    role: "ADMIN",
-  });
-  const coach = await upsertStaff({
-    email: need("SEED_COACH_EMAIL"),
-    password: need("SEED_COACH_PASSWORD"),
-    name: "Trajneri",
-    role: "COACH",
-  });
+  const admin = await ensureStaff({ email: process.env.SEED_ADMIN_EMAIL, password: process.env.SEED_ADMIN_PASSWORD, name: "Administratori", role: "ADMIN" });
+  const coach = await ensureStaff({ email: process.env.SEED_COACH_EMAIL, password: process.env.SEED_COACH_PASSWORD, name: "Trajneri", role: "COACH" });
 
-  await prisma.siteSettings.upsert({
-    where: { id: 1 },
-    update: {},
-    create: {
+  const fresh = !(await prisma.siteSettings.findUnique({ where: { id: 1 } }));
+  if (!fresh) {
+    console.log("Starter content already present; nothing else to do.");
+    return;
+  }
+
+  await prisma.siteSettings.create({
+    data: {
       id: 1,
       clubName: "Tennis Nallbani",
       tagline: "Klub tenisi në Tiranë",
@@ -86,13 +73,11 @@ async function main() {
 
   const evening = ["18:00", "19:00", "20:00", "21:00"];
   const morning = ["09:00", "10:00", "11:00", "12:00"];
-  const court1 = await upsertCourt("Fusha 1", 1, { 0: morning, 1: evening, 2: evening, 3: evening, 4: evening, 5: evening, 6: morning });
-  await upsertCourt("Fusha 2", 2, { 0: [], 1: evening, 2: evening, 3: evening, 4: evening, 5: evening, 6: morning });
+  const court1 = await createCourt("Fusha 1", 1, { 0: morning, 1: evening, 2: evening, 3: evening, 4: evening, 5: evening, 6: morning });
+  await createCourt("Fusha 2", 2, { 0: [], 1: evening, 2: evening, 3: evening, 4: evening, 5: evening, 6: morning });
 
-  await prisma.group.upsert({
-    where: { slug: "grupi-i-femijeve" },
-    update: {},
-    create: {
+  await prisma.group.create({
+    data: {
       name: "Grupi i fëmijëve",
       slug: "grupi-i-femijeve",
       description: "Shembull: bazat e tenisit me lojë dhe ushtrime të shkurtra. Ndryshojeni ose fshijeni.",
@@ -104,16 +89,14 @@ async function main() {
       endTime: "18:00",
       monthlyPrice: 9000,
       capacity: 8,
-      coachId: coach.id,
+      coachId: coach?.id ?? null,
       courtId: court1.id,
       published: false,
     },
   });
 
-  await prisma.courseOffering.upsert({
-    where: { slug: "mesim-privat" },
-    update: {},
-    create: {
+  await prisma.courseOffering.create({
+    data: {
       title: "Mësim privat",
       slug: "mesim-privat",
       kind: "1 me 1",
@@ -125,11 +108,10 @@ async function main() {
   });
 
   const nextMonth = new Date();
-  nextMonth.setMonth(nextMonth.getMonth() + 1);
-  await prisma.activity.upsert({
-    where: { slug: "yoga-ne-fushe" },
-    update: {},
-    create: {
+  nextMonth.setUTCMonth(nextMonth.getUTCMonth() + 1);
+  nextMonth.setUTCHours(0, 0, 0, 0);
+  await prisma.activity.create({
+    data: {
       title: "Yoga në fushë",
       slug: "yoga-ne-fushe",
       category: "Yoga",
@@ -144,11 +126,8 @@ async function main() {
     },
   });
 
-  await prisma.auditLog.create({
-    data: { actorId: admin.id, action: "seed", entity: "system", data: { version: 2 } },
-  });
-
-  console.log("Seeded: admin, coach, site settings, 2 courts, 1 example group / offering / activity.");
+  await prisma.auditLog.create({ data: { actorId: admin?.id ?? null, action: "seed", entity: "system", data: { version: 2 } } });
+  console.log("Seeded starter content: site settings, 2 courts, 1 example group / offering / activity.");
 }
 
 main()

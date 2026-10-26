@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionForm } from "@/components/admin/use-action-form";
 import { Label } from "@/components/ui/label";
 import { CheckboxCard, Field, FormSection, MoneyField, Row, SelectField, TextareaField } from "@/components/admin/fields";
 import { FormMessage, type FormState } from "@/components/admin/form-message";
@@ -30,11 +30,11 @@ export type GroupFormValues = {
 };
 
 export function GroupForm({ group, courts }: { group?: GroupFormValues; courts: { id: string; name: string }[] }) {
-  const [state, action] = useActionState<FormState, FormData>(saveGroup, {});
+  const { state, onSubmit, pending } = useActionForm<FormState>(saveGroup, {});
 
   return (
     <div className="flex flex-col gap-4">
-      <form action={action} className="flex flex-col gap-4">
+      <form onSubmit={onSubmit} className="flex flex-col gap-4">
         {group && <input type="hidden" name="id" value={group.id} />}
 
         <FormSection>
@@ -99,7 +99,7 @@ export function GroupForm({ group, courts }: { group?: GroupFormValues; courts: 
         </FormSection>
 
         <FormMessage state={state} />
-        <SubmitButton>{group ? "Ruaj ndryshimet" : "Krijo grupin"}</SubmitButton>
+        <SubmitButton pending={pending}>{group ? "Ruaj ndryshimet" : "Krijo grupin"}</SubmitButton>
       </form>
 
       {group && (

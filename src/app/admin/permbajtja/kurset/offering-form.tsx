@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionForm } from "@/components/admin/use-action-form";
 import { CheckboxCard, Field, FormSection, MoneyField, Row, SelectField, TextareaField } from "@/components/admin/fields";
 import { FormMessage, type FormState } from "@/components/admin/form-message";
 import { SubmitButton } from "@/components/admin/submit-button";
@@ -26,11 +26,11 @@ export type OfferingFormValues = {
 };
 
 export function OfferingForm({ offering }: { offering?: OfferingFormValues }) {
-  const [state, action] = useActionState<FormState, FormData>(saveOffering, {});
+  const { state, onSubmit, pending } = useActionForm<FormState>(saveOffering, {});
 
   return (
     <div className="flex flex-col gap-4">
-      <form action={action} className="flex flex-col gap-4">
+      <form onSubmit={onSubmit} className="flex flex-col gap-4">
         {offering && <input type="hidden" name="id" value={offering.id} />}
         <FormSection>
           <Field label="Titulli" name="title" required defaultValue={offering?.title} placeholder="p.sh. Mësim privat" />
@@ -49,7 +49,7 @@ export function OfferingForm({ offering }: { offering?: OfferingFormValues }) {
           <CheckboxCard name="published" title="E publikuar në faqe" defaultChecked={offering?.published ?? false} />
         </FormSection>
         <FormMessage state={state} />
-        <SubmitButton>{offering ? "Ruaj ndryshimet" : "Krijo kursin"}</SubmitButton>
+        <SubmitButton pending={pending}>{offering ? "Ruaj ndryshimet" : "Krijo kursin"}</SubmitButton>
       </form>
       {offering && <DeleteForm action={deleteOffering} id={offering.id} label="Fshi kursin" confirmText={`Të fshihet "${offering.title}"?`} />}
     </div>

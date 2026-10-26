@@ -1,6 +1,7 @@
 "use client";
 
-import { useActionState, useState } from "react";
+import { useState } from "react";
+import { useActionForm } from "@/components/admin/use-action-form";
 import { CheckboxCard, Field, FormSection, MoneyField, Row, SelectField, TextareaField } from "@/components/admin/fields";
 import { FormMessage, type FormState } from "@/components/admin/form-message";
 import { SubmitButton } from "@/components/admin/submit-button";
@@ -38,13 +39,13 @@ export function ActivityForm({
   /** categories used before, offered as quick picks */
   categories: string[];
 }) {
-  const [state, action] = useActionState<FormState, FormData>(saveActivity, {});
+  const { state, onSubmit, pending } = useActionForm<FormState>(saveActivity, {});
   const [category, setCategory] = useState(activity?.category ?? "");
   const quick = [...new Set(["Yoga", "Pilates", "Trajner i ftuar", "Kamp", "Turne", ...categories])];
 
   return (
     <div className="flex flex-col gap-4">
-      <form action={action} className="flex flex-col gap-4">
+      <form onSubmit={onSubmit} className="flex flex-col gap-4">
         {activity && <input type="hidden" name="id" value={activity.id} />}
 
         <FormSection>
@@ -124,7 +125,7 @@ export function ActivityForm({
         </FormSection>
 
         <FormMessage state={state} />
-        <SubmitButton>{activity ? "Ruaj ndryshimet" : "Krijo aktivitetin"}</SubmitButton>
+        <SubmitButton pending={pending}>{activity ? "Ruaj ndryshimet" : "Krijo aktivitetin"}</SubmitButton>
       </form>
 
       {activity && (

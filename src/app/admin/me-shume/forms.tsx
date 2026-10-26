@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionForm } from "@/components/admin/use-action-form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -25,10 +25,10 @@ export function FormMessage({ state }: { state: FormState }) {
 }
 
 export function ChangePasswordForm() {
-  const [state, action, pending] = useActionState<FormState, FormData>(changePassword, {});
+  const { state, onSubmit, pending } = useActionForm<FormState>(changePassword, {});
 
   return (
-    <form action={action} className="flex flex-col gap-3">
+    <form onSubmit={onSubmit} className="flex flex-col gap-3">
       <div className="flex flex-col gap-1.5">
         <Label htmlFor="current">Fjalëkalimi aktual</Label>
         <Input id="current" name="current" type="password" autoComplete="current-password" required className="h-11" />

@@ -9,13 +9,17 @@ export function SubmitButton({
   pendingText = "Po ruhet…",
   className,
   variant,
+  pending: pendingProp,
 }: {
   children: React.ReactNode;
   pendingText?: string;
   className?: string;
   variant?: React.ComponentProps<typeof Button>["variant"];
+  /** pass this when the form submits through useActionForm; otherwise useFormStatus is used */
+  pending?: boolean;
 }) {
-  const { pending } = useFormStatus();
+  const status = useFormStatus();
+  const pending = pendingProp ?? status.pending;
   return (
     <Button
       type="submit"

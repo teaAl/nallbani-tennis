@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionForm } from "@/components/admin/use-action-form";
 import { Field, FormSection, TextareaField } from "@/components/admin/fields";
 import { FormMessage, type FormState } from "@/components/admin/form-message";
 import { SubmitButton } from "@/components/admin/submit-button";
@@ -30,11 +30,11 @@ export type SiteFormValues = {
 };
 
 export function SiteForm({ s }: { s: SiteFormValues }) {
-  const [state, action] = useActionState<FormState, FormData>(saveSiteSettings, {});
+  const { state, onSubmit, pending } = useActionForm<FormState>(saveSiteSettings, {});
   const v = (x: string | null) => x ?? "";
 
   return (
-    <form action={action} className="flex flex-col gap-4">
+    <form onSubmit={onSubmit} className="flex flex-col gap-4">
       <FormSection title="Ballina">
         <Field label="Emri i klubit" name="clubName" required defaultValue={s.clubName} />
         <Field label="Rreshti i vogël mbi titull" name="tagline" defaultValue={v(s.tagline)} placeholder="p.sh. Klub tenisi në Tiranë" />
@@ -74,7 +74,7 @@ export function SiteForm({ s }: { s: SiteFormValues }) {
       </FormSection>
 
       <FormMessage state={state} />
-      <SubmitButton>Ruaj faqen</SubmitButton>
+      <SubmitButton pending={pending}>Ruaj faqen</SubmitButton>
     </form>
   );
 }

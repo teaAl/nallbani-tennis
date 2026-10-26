@@ -144,12 +144,13 @@ Conventions:
 
 - The build command lives in `vercel.json`: it runs `prisma/baseline-legacy.sql`
   (drops the legacy db-push tables only while no migration history exists),
-  then `prisma migrate deploy`, then `npm run build`. The first deploy of the rebuild runs
+  then `prisma migrate deploy`, then `prisma db seed` (safe to repeat: creates the
+  SEED_* accounts only if missing and the starter content only on an empty
+  database), then `npm run build`. The first deploy of the rebuild runs
   `20261026120000_rebuild`, which **drops the legacy tables** (`users`, `staff`,
   `courts`, `bookings`, …) before creating the new schema. Do this knowingly.
-- After the first deploy run the seed once with the real `SEED_*` values set
-  in Vercel (`npx prisma db seed` with `vercel env pull`), then rotate the
-  temporary passwords from the admin panel.
+- The first deploy creates the two accounts from the `SEED_*` variables; both
+  are flagged to change their temporary password at first login.
 - `/api/health` returns `{ ok, db }`; use it for uptime checks.
 
 ---

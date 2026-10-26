@@ -1,6 +1,7 @@
 "use client";
 
-import { useActionState, useState } from "react";
+import { useState } from "react";
+import { useActionForm } from "@/components/admin/use-action-form";
 import { FormMessage, type FormState } from "@/components/admin/form-message";
 import { SubmitButton } from "@/components/admin/submit-button";
 import { HourGrid } from "@/components/admin/hour-grid";
@@ -12,13 +13,13 @@ import { saveWeeklyHours } from "../../actions";
 const SHORT: Record<number, string> = { 1: "H", 2: "M", 3: "Më", 4: "E", 5: "P", 6: "Sh", 0: "D" };
 
 export function WeeklyEditor({ courtId, initial }: { courtId: string; initial: Record<number, string[]> }) {
-  const [state, action] = useActionState<FormState, FormData>(saveWeeklyHours, {});
+  const { state, onSubmit, pending } = useActionForm<FormState>(saveWeeklyHours, {});
   const [week, setWeek] = useState<Record<number, string[]>>(initial);
   const [day, setDay] = useState(1);
   const setDayHours = (d: number, hours: string[]) => setWeek((w) => ({ ...w, [d]: hours }));
 
   return (
-    <form action={action} className="flex flex-col gap-4">
+    <form onSubmit={onSubmit} className="flex flex-col gap-4">
       <input type="hidden" name="courtId" value={courtId} />
       {WEEKDAYS_MON_FIRST.flatMap((d) => (week[d] ?? []).map((h) => <input key={`${d}-${h}`} type="hidden" name={`hours_${d}`} value={h} />))}
 
@@ -83,7 +84,7 @@ export function WeeklyEditor({ courtId, initial }: { courtId: string; initial: R
       </section>
 
       <FormMessage state={state} />
-      <SubmitButton>Ruaj orët e javës</SubmitButton>
+      <SubmitButton pending={pending}>Ruaj orët e javës</SubmitButton>
     </form>
   );
 }

@@ -1,6 +1,7 @@
 "use client";
 
-import { useActionState, useState } from "react";
+import { useState } from "react";
+import { useActionForm } from "@/components/admin/use-action-form";
 import { Label } from "@/components/ui/label";
 import { Field, FormSection, SelectField } from "@/components/admin/fields";
 import { FormMessage, type FormState } from "@/components/admin/form-message";
@@ -30,7 +31,7 @@ export function ExceptionForm({
   courts: CourtOption[];
   defaultDate: string;
 }) {
-  const [state, action] = useActionState<FormState, FormData>(saveException, {});
+  const { state, onSubmit, pending } = useActionForm<FormState>(saveException, {});
   const [courtId, setCourtId] = useState(exception?.courtId ?? courts[0]?.id ?? "");
   const [date, setDate] = useState(exception?.date ?? defaultDate);
   const [closed, setClosed] = useState(exception ? exception.startHours.length === 0 : false);
@@ -42,7 +43,7 @@ export function ExceptionForm({
 
   return (
     <div className="flex flex-col gap-4">
-      <form action={action} className="flex flex-col gap-4">
+      <form onSubmit={onSubmit} className="flex flex-col gap-4">
         {exception && <input type="hidden" name="id" value={exception.id} />}
         <FormSection>
           <div className="grid grid-cols-2 gap-3">
@@ -108,7 +109,7 @@ export function ExceptionForm({
         </FormSection>
 
         <FormMessage state={state} />
-        <SubmitButton>{exception ? "Ruaj ndryshimet" : "Ruaj për këtë datë"}</SubmitButton>
+        <SubmitButton pending={pending}>{exception ? "Ruaj ndryshimet" : "Ruaj për këtë datë"}</SubmitButton>
       </form>
       {exception && <DeleteForm action={deleteException} id={exception.id} label="Fshi përjashtimin" confirmText="Të fshihet ky përjashtim? Kthehen orët e javës." />}
     </div>
