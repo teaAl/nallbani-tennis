@@ -30,7 +30,7 @@ domain concepts were kept.
 | `AUTH_SECRET` | Signs session cookies (≥16 chars; `openssl rand -base64 32`) |
 | `NEXT_PUBLIC_SITE_URL` | Optional, canonical URL for metadata/robots |
 | `SEED_ADMIN_EMAIL`, `SEED_ADMIN_PASSWORD`, `SEED_COACH_EMAIL`, `SEED_COACH_PASSWORD` | Read only by `prisma db seed` |
-| `BLOB_READ_WRITE_TOKEN` | Vercel Blob photo uploads (phase 2) |
+| `BLOB_STORE_ID` (set by the Blob store; deployments authenticate with Vercel OIDC) or `BLOB_READ_WRITE_TOKEN` | Vercel Blob photo uploads |
 
 Locally everything is in `.env` (gitignored; `.env.example` lists the keys).
 Both Next.js and the Prisma CLI read `.env`. Production values are in Vercel.

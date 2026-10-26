@@ -5,8 +5,14 @@ import { prisma } from "@/lib/prisma";
 const MAX_BYTES = 5 * 1024 * 1024;
 const ALLOWED = new Set(["image/jpeg", "image/png", "image/webp", "image/gif"]);
 
+/**
+ * Two ways to be configured: a classic BLOB_READ_WRITE_TOKEN, or (newer stores)
+ * BLOB_STORE_ID plus the Vercel OIDC token that deployments get automatically.
+ * Locally the OIDC token only exists after `vercel env pull`.
+ */
 export function blobConfigured() {
-  return !!process.env.BLOB_READ_WRITE_TOKEN;
+  if (process.env.BLOB_READ_WRITE_TOKEN) return true;
+  return !!process.env.BLOB_STORE_ID && (!!process.env.VERCEL_OIDC_TOKEN || !!process.env.VERCEL);
 }
 
 export type PhotoResult = { url: string } | { error: string } | null;
@@ -18,14 +24,21 @@ export type PhotoResult = { url: string } | { error: string } | null;
 export async function uploadPhotoField(formData: FormData, folder: string, field = "photo"): Promise<PhotoResult> {
   const file = formData.get(field);
   if (!(file instanceof File) || file.size === 0) return null;
-  if (!blobConfigured()) return { error: "Ngarkimi i fotove nuk është aktivizuar ende (mungon BLOB_READ_WRITE_TOKEN)." };
+  if (!blobConfigured()) {
+    return { error: "Ngarkimi i fotove nuk është aktivizuar në këtë mjedis (mungon lidhja me Vercel Blob). Në faqen e publikuar funksionon." };
+  }
   if (!ALLOWED.has(file.type)) return { error: "Fotoja duhet të jetë JPG, PNG ose WebP." };
   if (file.size > MAX_BYTES) return { error: "Fotoja është më e madhe se 5 MB." };
 
   const ext = file.type === "image/png" ? "png" : file.type === "image/webp" ? "webp" : file.type === "image/gif" ? "gif" : "jpg";
-  const blob = await put(`${folder}/${Date.now()}.${ext}`, file, { access: "public", addRandomSuffix: true });
-  await prisma.mediaAsset.create({ data: { url: blob.url, pathname: blob.pathname, kind: folder } });
-  return { url: blob.url };
+  try {
+    const blob = await put(`${folder}/${Date.now()}.${ext}`, file, { access: "public", addRandomSuffix: true });
+    await prisma.mediaAsset.create({ data: { url: blob.url, pathname: blob.pathname, kind: folder } });
+    return { url: blob.url };
+  } catch (error) {
+    console.error("Blob upload failed", error);
+    return { error: "Fotoja nuk u ngarkua. Provoni përsëri; nëse vazhdon, kontrolloni lidhjen e Vercel Blob me projektin." };
+  }
 }
 
 /** Best-effort delete of a photo we uploaded earlier. Never throws. */
