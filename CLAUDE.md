@@ -142,8 +142,9 @@ Conventions:
 
 ## 5. Deploying
 
-- Vercel build command should be `prisma migrate deploy && npm run build` so
-  migrations run before the build. The first deploy of the rebuild runs
+- The build command lives in `vercel.json`: it runs `prisma/baseline-legacy.sql`
+  (drops the legacy db-push tables only while no migration history exists),
+  then `prisma migrate deploy`, then `npm run build`. The first deploy of the rebuild runs
   `20261026120000_rebuild`, which **drops the legacy tables** (`users`, `staff`,
   `courts`, `bookings`, …) before creating the new schema. Do this knowingly.
 - After the first deploy run the seed once with the real `SEED_*` values set
