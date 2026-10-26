@@ -46,6 +46,8 @@ export default async function CourtsPage() {
         <div className="rounded-xl bg-lime-soft p-3.5 text-sm">
           Orët që zgjidhni këtu shfaqen në faqe si <b className="font-semibold">orë të lira</b>. Rezervimet që shënoni dhe mësimet e grupeve i zënë vetë.
         </div>
+        <ListLink href="/admin/fushat/rezervimet" title="Regjistri i rezervimeve" meta="Shënoni rezervimet e konfirmuara; zënë orën në faqe" />
+
 
         <section className="flex flex-col gap-3">
           {courts.length === 0 && <EmptyState title="Ende asnjë fushë." text="Shtoni fushën e parë nga lidhja lart djathtas." />}

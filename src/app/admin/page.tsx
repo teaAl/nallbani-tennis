@@ -106,12 +106,17 @@ export default async function TodayPage({ searchParams }: { searchParams: Promis
         )}
 
         <section className="flex flex-col gap-2">
-          <h2 className="eyebrow text-ink-muted">Rezervimet e fushave</h2>
+          <div className="flex items-center justify-between">
+            <h2 className="eyebrow text-ink-muted">Rezervimet e fushave</h2>
+            <Link href={`/admin/fushat/rezervimet/i-ri?d=${dateIso}`} className="text-sm font-semibold text-lime-ink underline underline-offset-4">
+              Shëno rezervim
+            </Link>
+          </div>
           {bookings.length === 0 ? (
-            <div className="rounded-xl border bg-card p-4 text-sm text-ink-muted">Asnjë rezervim i shënuar. Regjistri i rezervimeve vjen në fazën 4.</div>
+            <div className="rounded-xl border bg-card p-4 text-sm text-ink-muted">Asnjë rezervim i shënuar për këtë ditë.</div>
           ) : (
             bookings.map((b) => (
-              <div key={b.id} className="flex items-center gap-3 rounded-xl border bg-card px-3.5 py-3">
+              <Link key={b.id} href={`/admin/fushat/rezervimet/${b.id}`} className="flex items-center gap-3 rounded-xl border bg-card px-3.5 py-3 text-ink">
                 <span className="flex w-14 shrink-0 flex-col items-center">
                   <span className="font-display text-2xl leading-6 font-extrabold tabular-nums">{b.startTime}</span>
                   <span className="text-xs text-ink-muted">{durationLabel(b.startTime, b.endTime)}</span>
@@ -122,7 +127,8 @@ export default async function TodayPage({ searchParams }: { searchParams: Promis
                   <span className="text-sm text-ink-muted">{[b.court.name, b.phone].filter(Boolean).join(" · ")}</span>
                 </span>
                 {b.price !== null && (b.paid ? <StatusBadge kind="success">Paguar</StatusBadge> : <StatusBadge kind="warning">{formatMoney(b.price)} L</StatusBadge>)}
-              </div>
+                <ChevronRight className="size-5 shrink-0 text-line-strong" />
+              </Link>
             ))
           )}
         </section>

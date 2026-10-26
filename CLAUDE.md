@@ -157,8 +157,9 @@ Conventions:
 
 ## 6. Status
 
-Phases 1–3 are done: foundation and auth, admin content editing with the public
+Phases 1–4 are done (phase 4: booking log at `/admin/fushat/rezervimet`, with a
+double-booking check against bookings and lessons on the same court): foundation and auth, admin content editing with the public
 site, and students (roster, groups → lessons materialised on demand in
 `lib/lessons.ts`, attendance at `/admin/mesimet/[id]`, monthly fee + payments in
-`lib/payments.ts`, notes, Sot tab). Phases 4–5 (court booking log, polish/SEO)
+`lib/payments.ts`, notes, Sot tab). Phase 5 (polish/SEO)
 follow the plan in `docs/REBUILD-PLAN.md` section 9.
