@@ -17,7 +17,7 @@ const barlowCondensed = Barlow_Condensed({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://nallbani-tennis.vercel.app"),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.nallbani-tennis.com"),
   title: { default: "Tennis Nallbani", template: "%s · Tennis Nallbani" },
   description: "Klub tenisi në Tiranë: kurse për fëmijë dhe të rritur, fusha me orë dhe aktivitete.",
 };
