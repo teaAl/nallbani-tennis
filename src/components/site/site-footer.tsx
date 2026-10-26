@@ -27,9 +27,9 @@ export function SiteFooter({
 }) {
   return (
     <footer className="mt-16 bg-navy text-on-navy">
-      <div className="mx-auto grid max-w-6xl gap-8 px-4 py-10 md:grid-cols-3">
-        <div className="flex flex-col gap-3">
-          <Image src="/images/logo-nt.png" alt={clubName} width={160} height={48} className="h-10 w-auto self-start" />
+      <div className="mx-auto grid max-w-6xl gap-10 px-4 py-10 text-center md:grid-cols-3 md:gap-8 md:text-left">
+        <div className="flex flex-col items-center gap-3 md:items-start">
+          <Image src="/images/logo-nt.png" alt={clubName} width={160} height={48} className="h-10 w-auto" />
           {address &&
             (mapUrl ? (
               <a href={mapUrl} target="_blank" rel="noopener" className="inline-flex items-start gap-2 text-on-navy-muted hover:text-on-navy">
@@ -44,23 +44,23 @@ export function SiteFooter({
             ))}
           {openingHoursText && <p className="text-on-navy-muted">{openingHoursText}</p>}
         </div>
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col items-center gap-2 md:items-start">
           <p className="eyebrow text-on-navy-muted">Faqet</p>
           {NAV.map((n) => (
-            <Link key={n.href} href={n.href} className="self-start font-semibold text-on-navy hover:text-lime">
+            <Link key={n.href} href={n.href} className="font-semibold text-on-navy hover:text-lime">
               {n.label}
             </Link>
           ))}
         </div>
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col items-center gap-3 md:items-start">
           <p className="eyebrow text-on-navy-muted">Kontakt</p>
           {telHref && (
-            <a href={telHref} className="self-start font-semibold hover:text-lime">
+            <a href={telHref} className="font-semibold hover:text-lime">
               {phone}
             </a>
           )}
           {waHref && (
-            <a href={waHref} target="_blank" rel="noopener" className="inline-flex h-11 items-center gap-2 self-start rounded-lg bg-lime px-4 font-semibold text-ink hover:bg-lime/90">
+            <a href={waHref} target="_blank" rel="noopener" className="inline-flex h-11 items-center gap-2 rounded-lg bg-lime px-4 font-semibold text-ink hover:bg-lime/90">
               <WhatsAppIcon className="size-5" /> Na shkruani në WhatsApp
             </a>
           )}
@@ -81,8 +81,9 @@ export function SiteFooter({
         </div>
       </div>
       <div className="border-t border-navy-dark">
-        <div className="mx-auto max-w-6xl px-4 py-4 text-xs text-on-navy-muted">
-          © {new Date().getFullYear()} {clubName}. English? Your browser can translate this page.
+        <div className="mx-auto flex max-w-6xl flex-col items-center gap-1 px-4 py-4 text-center text-xs text-on-navy-muted md:flex-row md:justify-between md:text-left">
+          <span>© {new Date().getFullYear()} {clubName}</span>
+          <span>English? Your browser can translate this page.</span>
         </div>
       </div>
     </footer>
