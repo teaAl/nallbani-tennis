@@ -22,8 +22,8 @@ export default async function ContactPage() {
         <MarkedHeading text="Kontakt" className="display text-5xl md:text-7xl" />
       </header>
 
-      <div className="grid gap-6 md:grid-cols-2">
-        <section className="flex flex-col gap-4 rounded-2xl border bg-card p-6">
+      <div className="grid gap-6 md:grid-cols-[minmax(0,360px)_minmax(0,1fr)] md:items-start">
+        <section className="flex flex-col gap-4 rounded-2xl border bg-card p-6 md:sticky md:top-24">
           {s.phone && (
             <p className="flex items-center gap-3">
               <Phone className="size-5 shrink-0 text-lime-ink" aria-hidden="true" />
@@ -62,16 +62,16 @@ export default async function ContactPage() {
         </section>
 
         {(s.aboutText || s.coachName) && (
-          <section className="flex flex-col gap-4 rounded-2xl border bg-card p-6">
+          <section className="flex flex-col gap-4 rounded-2xl border bg-card p-6 md:p-8">
             <h2 className="display text-3xl">Rreth nesh</h2>
-            {s.aboutText && <p className="whitespace-pre-line text-ink-muted">{s.aboutText}</p>}
+            {s.aboutText && <p className="max-w-[68ch] whitespace-pre-line text-ink-muted">{s.aboutText}</p>}
             {s.coachName && (
               <div className="flex items-start gap-4 border-t pt-4">
                 {s.coachPhotoUrl && <Image src={s.coachPhotoUrl} alt={s.coachName} width={96} height={96} className="size-20 shrink-0 rounded-full object-cover" />}
                 <div>
                   <p className="eyebrow text-ink-muted">Trajneri</p>
                   <p className="font-display text-2xl font-bold">{s.coachName}</p>
-                  {s.coachBio && <p className="mt-1 text-sm whitespace-pre-line text-ink-muted">{s.coachBio}</p>}
+                  {s.coachBio && <p className="mt-2 max-w-[68ch] whitespace-pre-line text-ink-muted">{s.coachBio}</p>}
                 </div>
               </div>
             )}
