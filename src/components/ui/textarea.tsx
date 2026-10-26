@@ -1,41 +1,17 @@
-"use client"
+import * as React from "react"
+import { cn } from "cn"
 
-import type React from "react"
-
-type TextareaProps = {
-  id?: string
-  name?: string
-  placeholder?: string
-  value?: string
-  onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void
-  className?: string
-  disabled?: boolean
-  required?: boolean
-  rows?: number
-}
-
-export function Textarea({
-  id,
-  name,
-  placeholder,
-  value,
-  onChange,
-  className = "",
-  disabled = false,
-  required = false,
-  rows = 3,
-}: TextareaProps) {
+function Textarea({ className, ...props }: React.ComponentProps<"textarea">) {
   return (
     <textarea
-      id={id}
-      name={name}
-      placeholder={placeholder}
-      value={value}
-      onChange={onChange}
-      disabled={disabled}
-      required={required}
-      rows={rows}
-      className={`flex w-full rounded-md border border-foreground/30 bg-gray-800 px-3 py-2 text-sm text-foreground placeholder:text-foreground/40 focus:outline-none focus:border-pear/40 disabled:cursor-not-allowed disabled:opacity-50 transition-all duration-200 ${className}`}
+      data-slot="textarea"
+      className={cn(
+        "flex field-sizing-content min-h-16 w-full rounded-md border border-input bg-transparent px-3 py-2 text-base shadow-xs transition-[color,box-shadow] outline-none placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 md:text-sm dark:bg-input/30 dark:aria-invalid:ring-destructive/40",
+        className
+      )}
+      {...props}
     />
   )
 }
+
+export { Textarea }

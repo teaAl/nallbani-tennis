@@ -231,9 +231,9 @@ All text columns single-language.
 
 | Concern | Choice |
 |---|---|
-| Framework | Current stable Next.js, React, Tailwind v4, shadcn/ui |
+| Framework | Next.js 16, React 19, Tailwind v4, shadcn/ui, Prisma 6, zod 4 |
 | Data | Server Components + Server Actions, zod validation, authorization per action |
-| Auth | Auth.js v5, email + password, 90-day session. Password reset by an admin from the More tab; no email vendor |
+| Auth | Own signed-cookie session (jose HS256 + bcrypt), email + password, 30-day cookie, re-checked against the DB on every request. Chosen over Auth.js v5 because that is still a beta. Password reset by an admin from the More tab; no email vendor |
 | Files | Vercel Blob for photos (free tier) |
 | WhatsApp | `wa.me` links with prefilled text only |
 | Dates | `date-fns` + tz, store UTC, show Europe/Tirane |
@@ -241,8 +241,9 @@ All text columns single-language.
 | Tests | Playwright: coach adds a student; coach publishes a group and it appears on the site; courts page builds the right WhatsApp link |
 | Monitoring | Vercel logs + `/api/health` |
 
-Env vars after the rebuild: `DATABASE_URL`, `AUTH_SECRET`, `AUTH_URL`,
-`BLOB_READ_WRITE_TOKEN`.
+Env vars after the rebuild: `DATABASE_URL`, `AUTH_SECRET`, `BLOB_READ_WRITE_TOKEN`
+(phase 2), optional `NEXT_PUBLIC_SITE_URL`. Seeding also reads `SEED_ADMIN_EMAIL`,
+`SEED_ADMIN_PASSWORD`, `SEED_COACH_EMAIL`, `SEED_COACH_PASSWORD`.
 
 ---
 
@@ -265,8 +266,9 @@ Env vars after the rebuild: `DATABASE_URL`, `AUTH_SECRET`, `AUTH_URL`,
    admin Courts (weekly hours, date exception),
    admin Students (list + add + student page with payments), admin Group form,
    admin Activity form.
-1. **Foundation.** Fresh `src/`, one root layout, Auth.js with roles, Prisma
-   migration baseline, seed, shadcn/ui, admin shell with tabs.
+1. **Foundation.** Fresh `src/`, one root layout, session auth with roles, Prisma
+   migration baseline, seed, shadcn/ui, admin shell with tabs. **Done 2026-10-26**
+   on branch `rebuild`.
 2. **Admin content + public site.** Site settings, groups, courses,
    activities, courts with weekly hours and date exceptions, announcements,
    photos. Public pages render from them.

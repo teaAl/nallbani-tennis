@@ -1,227 +1,161 @@
-# Nallbani Tennis — Project Overview
+# Nallbani Tennis — Project Guide
 
-Web app for a tennis club in Albania (Nallbani Tennis Club). Three audiences:
-public visitors (marketing + enquiries), members (profile, bookings, progress),
-and club staff (admin panel). Languages: English and Albanian.
+Web app for a tennis club in Tirana. Two surfaces: the public site (Albanian
+only, SEO matters, browser translation for other languages) and the admin
+panel the coach runs from his phone. The product plan, agreed decisions and
+phases live in `docs/REBUILD-PLAN.md`; read it before changing behaviour.
 
-This file documents how the project is wired **as it exists today**. The app
-layer is being rebuilt from scratch; the infrastructure below is what we keep.
+This is the rebuilt codebase (branch `rebuild`, started 2026-10-26). The first
+version of the app was removed; only Vercel, the Postgres database and the
+domain concepts were kept.
 
 ---
 
-## 1. Stack and hosting
+## 1. Stack
 
-| Layer | What | Notes |
-|---|---|---|
-| Framework | Next.js 15.2 (App Router, Turbopack dev), React 19, TypeScript | `src/app` |
-| Styling | Tailwind CSS v4 via `@tailwindcss/postcss` | Theme tokens live in `src/app/globals.css` under `@theme`. `tailwind.config.ts` is a leftover v3 file whose export is commented out; it is dead. |
-| Database | PostgreSQL via Prisma 5 | `prisma/schema.prisma`. No `migrations/` folder, so the schema is applied with `prisma db push`. No seed file (deleted in git history). |
-| Auth | NextAuth v4 (Credentials provider, JWT strategy) + a separate password-gate for admin | See section 4. |
-| State | Zustand stores in `src/stores` (some persisted to localStorage) | |
-| i18n | `next-intl` with a cookie-based locale (`NEXT_LOCALE`), no URL prefix | Messages in `src/messages/{en,al}.json`. `src/i18n/config.ts` wrongly lists `['en','de']`; the real locales are `en` and `al`. |
-| Messaging | Meta WhatsApp Cloud API (direct `fetch`) | `src/utils/sendwpMessage.tsx` |
-| Hosting | Vercel, project `nallbani-tennis` | Live: https://nallbani-tennis.vercel.app. Repo: github.com/teaAl/nallbani-tennis (`main` is production). |
-
-Unused dependencies that can be dropped in the rebuild: `twilio`,
-`@vercel/postgres`, `i18next`, `react-i18next`, `next-i18next`,
-`react-calendar`, `react-datepicker`, `react-phone-input-2`, `lottie-react`
-(only used on a dead thank-you page), the browserify polyfills in
-`next.config.ts`, `tailwindcss-animate`, `tailwindcss-animated`.
+| Layer | Choice |
+|---|---|
+| Framework | Next.js 16 (App Router, Turbopack), React 19, TypeScript strict |
+| Styling | Tailwind v4 + shadcn/ui. Brand tokens in `src/app/globals.css` (`:root` vars, mapped into `@theme inline`). Utilities `display` and `eyebrow` for the two type styles. |
+| Database | PostgreSQL via Prisma 6. Schema `prisma/schema.prisma`, migrations in `prisma/migrations/` (**always `prisma migrate dev`, never `db push`**). |
+| Auth | Own signed-cookie session: `jose` HS256 JWT in an httpOnly cookie, `bcryptjs` passwords. See section 4. |
+| Validation | zod 4 inside every server action. |
+| Hosting | Vercel project `nallbani-tennis`, repo github.com/teaAl/nallbani-tennis, `main` = production. |
 
 ### Environment variables
 
-There is no `.env` in the repo; values live in Vercel project settings.
-Pull them with `vercel env pull .env.local` when working locally.
-
-| Variable | Used by |
+| Variable | Purpose |
 |---|---|
 | `DATABASE_URL` | Prisma |
-| `NEXTAUTH_SECRET`, `NEXTAUTH_URL` | NextAuth, middleware `getToken`, and the hand-rolled JWT in `/api/auth/login` |
-| `ADMIN_PASSWORD` | `/api/admin/login` password gate |
-| `API_SECRET_KEY` | Middleware API-key check on `/api/*` (see section 4, this is currently blocking the app's own calls) |
-| `META_WHATSAPP_ACCESS_TOKEN`, `META_WHATSAPP_PHONE_ID`, `WHATSAPP_API_URL`, `WHATSAPP_API_VERSION` | Outbound WhatsApp messages |
-| `VERIFY_TOKEN` | WhatsApp webhook verification handshake (`GET /api/whatsapp-api`) |
+| `AUTH_SECRET` | Signs session cookies (≥16 chars; `openssl rand -base64 32`) |
+| `NEXT_PUBLIC_SITE_URL` | Optional, canonical URL for metadata/robots |
+| `SEED_ADMIN_EMAIL`, `SEED_ADMIN_PASSWORD`, `SEED_COACH_EMAIL`, `SEED_COACH_PASSWORD` | Read only by `prisma db seed` |
+| `BLOB_READ_WRITE_TOKEN` | Vercel Blob photo uploads (phase 2) |
+
+Locally everything is in `.env` (gitignored; `.env.example` lists the keys).
+Both Next.js and the Prisma CLI read `.env`. Production values are in Vercel.
 
 ### Commands
 
 ```bash
-npm run dev          # next dev --turbopack
-npm run build        # next build
-npx prisma generate  # regenerate client after schema edits
-npx prisma db push   # apply schema to the database (no migrations in use)
-npx prisma studio    # browse data
+npm run dev            # next dev on :3000
+npm run build          # prisma generate && next build
+npm run typecheck      # tsc --noEmit
+npm run lint           # eslint .
+npm run db:migrate     # prisma migrate dev (creates + applies a migration)
+npm run db:deploy      # prisma migrate deploy (production / CI)
+npm run db:seed        # prisma db seed  → prisma/seed.ts (idempotent)
+npm run db:studio
 ```
+
+Local database for development: `docker run -d --name nallbani-pg -e POSTGRES_PASSWORD=nallbani -e POSTGRES_DB=nallbani -p 5433:5432 postgres:17-alpine`
+(matches the `DATABASE_URL` in `.env.example` style: `postgresql://postgres:nallbani@localhost:5433/nallbani`).
 
 ---
 
 ## 2. Data model (Prisma)
 
-The database is considerably wider than the UI. Tables marked **(no API, no UI)**
-exist in Postgres but nothing in the app reads or writes them.
+- **User** — one table for everyone. `role` ADMIN | COACH | STUDENT, `status`
+  ACTIVE | INACTIVE. Staff have `password` (bcrypt) and `mustChangePassword`;
+  students have `password = null` and never log in. Student fields: level,
+  date of birth, parent name/phone, notes, `monthlyFee`.
+- **StudentNote**, **Payment** (typed-in payments; balance is computed in the UI).
+- **Court** + **CourtWeeklyHours** (one row per court and weekday 0–6, `startHours`
+  like `["18:00","19:00"]`) + **CourtDateException** (replaces one date's hours,
+  empty = closed) + **CourtBooking** (the coach's log; CONFIRMED rows mark slots
+  taken on the public site). Free slots are computed, never stored.
+- **Group** (weekdays, times, dates, price, capacity, coach, court, `published`),
+  **GroupMember**, **Lesson** (one session of a group), **LessonAttendee**.
+- **CourseOffering** (private lessons, packages…), **Activity** (free-text
+  `category`), **SiteSettings** (single row id 1), **Announcement**, **MediaAsset**,
+  **AuditLog**.
 
-**People**
-- `User` — members. `role: UserRole[]` (STUDENT | PARENT | MEMBER), `status: MemberStatus`
-  (PENDING default | ACTIVE | INACTIVE | UNCOMPLETE), profile fields (avatar, bio,
-  level, phone, DOB, preferedPlayTime, notesForCoach), self-relation `parent`/`children`.
-- `Staff` — coaches/admins (`StaffRole` ADMIN | COACH). **(no API, no UI)**. The
-  admin panel does not use Staff accounts at all; it uses one shared password.
-
-**Courts and bookings**
-- `Court` — name, `type` (CLAY|HARD|GRASS|CARPET), `indoor`, `active`.
-- `CourtAvailability` — a bookable slot: `courtId`, `dayOfWeek`, optional `date`,
-  `startTime`/`endTime` as `"HH:mm"` strings, `price` (Decimal, default 10),
-  `bookingState` (PENDING|CONFIRMED|CANCELED|COMPLETED). Slots are *weekly
-  recurring by weekday* unless `date` is set.
-- `Booking` — a request for one `CourtAvailability`. `bookerType` GUEST (name/email/phone
-  on the row) or MEMBER (`userId`). `status` uses `BookingState`. `needsEquipment`.
-  Also has an implicit many-to-many `Court[]` relation that nothing uses.
-  Several bookings can target the same slot; admin "approves" one, the rest are cancelled.
-
-**Coaching**
-- `Lesson` (PRIVATE|GROUP|CAMP, level, capacity, coach, court, group) + `LessonAttendee`. **(no API, no UI)**
-- `Group` (level, `dayOfWeek[]`, times, dates, price, capacity, coach) + `GroupMember`. **(no API, no UI)**
-- `Package` + `UserPackage` (lesson bundles / subscriptions). **(no API, no UI)**
-- `UserProgress` (per-skill percentages, streaks) + `ProgressUpdate` (coach notes per lesson). **(no API, no UI)**
-- `Achievement` + `UserAchievement`. **(no API, no UI)**
-- `Setting` key/value. **(no API, no UI)**
-
-Enum `PaymentStatus` exists but is referenced by no model.
+Dates: date-only columns are `@db.Date`, stored as UTC midnight. Use
+`src/lib/dates.ts` (`todayIso`, `isoToDate`, `formatDateSq`, Albanian weekday
+and month names). Club time zone is Europe/Tirane.
 
 ---
 
-## 3. Application structure
+## 3. Code layout
 
 ```
 src/
   app/
-    (front)/      public site: /, /about, /services, /pricing, /book (dead), /thank-you (dead)
-    (auth)/       /login, /signup (shows "Registration closed"), /admin-auth
-    (member)/     /profile, /pending, /complete-profile (flow commented out, renders empty)
-    (admin)/admin/ dashboard, members, members/[id], groups, groups/new, groups/[id],
-                  lessons, lessons/new, courts, court-availability, bookings
-    api/          route handlers (section 5)
-    globals.css   Tailwind v4 theme tokens + third-party widget overrides
-  components/     admin/, member/, booking/, home/, services/, common/, ui/ (hand-rolled shadcn-style)
-  stores/         zustand: authStore (persisted), memberStore, courtStore, courtAvailabilityStore, bookingStore, adminFilterStore
-  lib/            prisma.ts (singleton), authOpts.ts (NextAuth config), auth.ts (getServerSession helpers), cn.tsx
-  i18n/ + services/locale.ts   next-intl request config, cookie get/set
-  messages/       en.json, al.json
-  middleware.ts   routing + auth gate (section 4)
-  interfaces/, constants/, utils/, services/api/   assorted types, helpers, fetch wrappers
-public/           images, Lottie JSON animations, icons as .tsx components
+    layout.tsx            root layout: fonts Barlow + Barlow Condensed, lang="sq"
+    page.tsx              public home (reads SiteSettings)
+    hyr/                  staff login (page, login-form, actions)
+    admin/                coach panel, guarded by requireStaff() in layout.tsx
+      page.tsx            Sot (today)
+      nxenesit/           students
+      permbajtja/         content (groups, offerings, activities, site)
+      fushat/             courts: weekly hours, date exceptions, booking log
+      me-shume/           change password, logout; llogarite/ = accounts (ADMIN only)
+    api/health/route.ts   DB ping for monitoring
+    robots.ts, not-found.tsx
+  proxy.ts                Next 16 "proxy" (was middleware): redirects /admin/* without a valid cookie to /hyr
+  lib/
+    prisma.ts             PrismaClient singleton
+    session-token.ts      sign/verify the JWT (no next/headers import, usable in proxy)
+    auth.ts               getSession, createSession, destroySession, getCurrentUser, requireStaff, requireAdmin
+    password.ts           hash/verify + passwordSchema
+    dates.ts, courts.ts, utils.ts (cn, formatMoney, labels)
+  components/
+    ui/                   shadcn components (generated; `cn` comes from the `cn` package there)
+    admin/                AdminNav (bottom tabs on phone, sidebar on md+), PageHeader
+prisma/
+  schema.prisma, migrations/, seed.ts
+docs/REBUILD-PLAN.md      the agreed product plan
 ```
 
-Each of the four route groups has its **own root layout** rendering `<html>` and
-`<body>`, each re-declaring the Google fonts (Poppins, Nunito) and the
-`NextIntlClientProvider`. There is no shared root layout.
-
-### Current look
-
-Dark theme: near-black backgrounds (`gray-900` / `#0a0a0a`), lime accent
-`pear #cddc3b`, cream `pana #fff0db` for the admin content area, grey text
-`foreground #afafaf`. Fonts Poppins (headings) and Nunito (body). Lots of
-photo backgrounds with dark gradient overlays and Lottie animations.
-
----
-
-## 4. Auth and access control (how it is wired today)
-
-There are **three unrelated auth mechanisms**, and they do not fit together.
-
-**A. NextAuth (members)** — `src/lib/authOpts.ts`
-- Credentials provider checks `User.email` + bcrypt password.
-- JWT session; the `jwt` callback re-reads `status` and `role` from the DB on every call.
-- Session exposes `user.id`, `user.status`, `user.role[]`.
-- Route handler at `/api/auth/[...nextauth]`.
-- **Nothing in the UI calls `signIn()`**. The login form posts to a custom
-  `/api/auth/login` that returns a hand-signed `jsonwebtoken` and the user row,
-  which the form stores in the persisted zustand `authStore`. No NextAuth cookie
-  is ever created, so `getServerSession` and the middleware's `getToken` see no
-  user. Result: `/profile` always bounces to `/login`. **Member login is broken.**
-
-**B. Admin password gate** — `/api/admin/login`, `/admin-auth`, middleware
-- One shared `ADMIN_PASSWORD`. On success sets cookie `admin-session=true`
-  (httpOnly, 8 h). Middleware lets `/admin/*` through if that cookie's value is
-  literally `"true"`.
-- The cookie is **not signed**, so anyone who sets `admin-session=true` in their
-  browser gets in. Brute-force limiting is also cookie-based and therefore
-  client-controlled. This must be replaced.
-
-**C. API key on `/api/*`** — middleware
-- Every `/api/*` request except `/api/auth/*`, `/api/admin/*`, `/api/webhook/*`
-  must carry `x-api-key` equal to `API_SECRET_KEY`.
-- **The app's own client code never sends it**, so every store `fetch("/api/...")`
-  returns 401 in production. Admin data pages are effectively non-functional.
-
-**Member status routing** (middleware, on NextAuth token — so currently never triggers):
-`UNCOMPLETE` → `/complete-profile`, `PENDING` → `/pending`, `ACTIVE` → `/profile`.
-Intended journey: admin creates account → member completes profile → admin
-approves → member is active. Public self-registration is disabled (`/signup`
-shows "Registration Closed"), and there is no admin UI to create a member
-(`/admin/members/new` is linked but does not exist).
+Conventions:
+- Pages are Server Components that read Prisma directly. Mutations are Server
+  Actions in an `actions.ts` next to the page: `"use server"`, zod-parse the
+  `FormData`, call `requireStaff()`/`requireAdmin()` **inside the action**,
+  write an `AuditLog` row for anything that changes data, `revalidatePath`.
+- Forms are small client components using `useActionState`; `FormState` is
+  `{ error?, success? }`.
+- Public pages that read the database use `export const dynamic = "force-dynamic"`
+  until caching is tuned in phase 5.
+- All UI copy is Albanian, written inline. No i18n library.
+- Keep the schema the source of truth; UI labels for enums live in `lib/utils.ts`.
 
 ---
 
-## 5. API routes
+## 4. Auth and access control
 
-Handlers under `src/app/api`. ⚠ = starts with `redirect("/")`, i.e. deliberately
-disabled ("quick commented code to pass the build" era) and dead in production.
-
-| Route | Methods | Purpose / state |
-|---|---|---|
-| `auth/[...nextauth]` | GET POST | NextAuth. Works but unused by UI. |
-| `auth/login` | POST | Custom login, returns self-signed JWT + user. Used by login form. |
-| `auth/register` | POST | Creates user (status defaults PENDING). No UI calls it. |
-| `auth/refresh` | GET | Returns fresh status/role for a NextAuth session. |
-| `auth/session` | GET ⚠ | Dead. |
-| `admin/login`, `admin/logout` | POST, POST/GET | Password gate (section 4B). |
-| `courts` | GET POST | List / create court. GET blocked by API-key rule in practice. |
-| `courts/[id]` | GET PUT DELETE | Court CRUD. |
-| `court-availability` | GET ⚠ POST | List (dead) / create slot. |
-| `court-availability/[id]` | GET PUT DELETE | Slot CRUD. |
-| `bookings` | GET ⚠ | Dead. |
-| `bookings/guest`, `bookings/member` | POST | Create booking. Guest route rejects `needsEquipment: false` because it validates with `!needsEquipment`. |
-| `bookings/approve` | POST | Confirms one booking on a slot, cancels the others, marks slot CONFIRMED. |
-| `users` | GET ⚠ | Dead. |
-| `users/[id]` | GET | Single user. |
-| `users/[id]/complete-profile` | PUT | Sets profile fields and `status: ACTIVE`. |
-| `users/[id]/update-profile` | PUT | Partial profile update. |
-| `users/update-role`, `users/update-status` | PUT | Admin actions. |
-| `reset-password` | PUT | Change password (NextAuth session required, so unreachable today). |
-| `whatsapp-api` | GET POST | GET = Meta webhook verify. POST = both the inbound webhook receiver *and* the handler for the Services contact form. Sends a confirmation message to a **hardcoded phone number**, not the enquirer's. |
-| `create-session.ts` | — | Pages-router file in the App Router folder; compares plaintext passwords. Dead. |
-
-No input validation (zod is installed but every schema is commented out). No
-authorization checks inside handlers; protection is only the middleware rules above.
+- `/hyr` posts to the `login` server action: finds the user by email, requires
+  role ADMIN or COACH and status ACTIVE, bcrypt-compares, then `createSession`
+  sets cookie `nt_session` (JWT: sub = user id, role, name; 30 days; httpOnly,
+  sameSite lax, secure in production). Failed attempts wait 700 ms and return a
+  generic message.
+- `src/proxy.ts` verifies the cookie signature for `/admin/*` and redirects to
+  `/hyr?next=…` otherwise. It never trusts the payload alone.
+- `requireStaff()` (admin layout and every action) re-reads the user from the
+  DB, so deactivating an account locks it out immediately. `requireAdmin()`
+  additionally requires role ADMIN (accounts page).
+- Roles: COACH manages everything except accounts; ADMIN also manages staff
+  accounts (create, deactivate, reset password). Reset sets `mustChangePassword`,
+  which shows a banner in the admin until the person changes it.
+- There is no public self-registration and no email sending.
 
 ---
 
-## 6. Feature inventory: what actually works
+## 5. Deploying
 
-| Area | State |
-|---|---|
-| Marketing pages (home, about, services, pricing) | Render. Copy partly placeholder (fake prices, fake phone). EN/AL switch works. |
-| Services enquiry form → WhatsApp | Works, but message goes to the club's hardcoded number only. |
-| Member login / profile | Broken (section 4A). Profile tabs (membership card, bookings, progress, network) are static JSX with no data. |
-| Complete-profile wizard | Components exist, page renders nothing (flow commented out). |
-| Public court booking (`/book`) | Entire page commented out and redirects home. |
-| Admin: dashboard, lessons, groups | Hardcoded arrays, no API. |
-| Admin: members list / detail, courts, availability, bookings | Wired to zustand stores and real routes, but calls fail (API key + dead GETs). |
-| Lessons, groups, packages, progress, achievements, staff | Schema only. |
-
-GitHub issues #2–#20 are all small "button does nothing / add real data /
-translate" items from a review pass. Open PRs #15 and #22 are minor copy and
-navbar tweaks on branches `nadia-main` and `nadia-testing`.
+- Vercel build command should be `prisma migrate deploy && npm run build` so
+  migrations run before the build. The first deploy of the rebuild runs
+  `20261026120000_rebuild`, which **drops the legacy tables** (`users`, `staff`,
+  `courts`, `bookings`, …) before creating the new schema. Do this knowingly.
+- After the first deploy run the seed once with the real `SEED_*` values set
+  in Vercel (`npx prisma db seed` with `vercel env pull`), then rotate the
+  temporary passwords from the admin panel.
+- `/api/health` returns `{ ok, db }`; use it for uptime checks.
 
 ---
 
-## 7. Working conventions for the rebuild
+## 6. Status
 
-- Keep: Vercel project, Postgres database, Prisma, the domain concepts in the
-  schema, EN/AL bilingual requirement, WhatsApp as the club's preferred channel.
-- Replace: everything under `src/`. One root layout. One auth system. Route
-  handlers or server actions with zod validation and real authorization.
-- Schema changes are allowed but go through Prisma migrations from now on
-  (`prisma migrate dev`), not `db push`.
-- Secrets never go in the repo; use `vercel env pull`.
-- Don't fix the legacy code; it is being removed.
+Phase 1 (foundation) is done: schema + baseline migration, seed, session auth,
+admin shell with the five tabs, accounts management, public home reading
+SiteSettings. Phases 2–5 (content editing + public pages, students, booking
+log, polish/SEO) follow the plan in `docs/REBUILD-PLAN.md` section 9.

@@ -1,1 +1,0 @@
-// TODO: Create a new component for the icon button or merge with action button as another variant

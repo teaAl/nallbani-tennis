@@ -1,3 +1,5 @@
+// Nallbani Tennis — data model (rebuild, see docs/REBUILD-PLAN.md section 6)
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -7,369 +9,370 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id               String            @id @default(cuid())
-  name             String
-  email            String            @unique
-  emailVerified    DateTime?
-  password         String?
-  avatar           String?
-  role             UserRole[]
-  status           MemberStatus      @default(PENDING)
-  createdAt        DateTime          @default(now())
-  updatedAt        DateTime          @updatedAt
-  phoneNumber      String?
-  dateOfBirth      DateTime?
-  bio              String?
-  parentId         String?
-  level            SkillLevel?
-  notesForCoach    String?
-  preferedPlayTime PreferedPlayTime?
-  bookings         Booking[]
-  groups           GroupMember[]
-  lessonsAttended  LessonAttendee[]
-  achievements     UserAchievement[]
-  subscriptions    UserPackage[]
-  progress         UserProgress?
-  parent           User?             @relation("ParentToChild", fields: [parentId], references: [id])
-  children         User[]            @relation("ParentToChild")
+// ---------- People ----------
 
-  @@map("users")
-}
-
-model Staff {
-  id              String           @id @default(cuid())
-  name            String
-  email           String           @unique
-  emailVerified   DateTime?
-  password        String?
-  image           String?
-  role            StaffRole        @default(COACH)
-  createdAt       DateTime         @default(now())
-  updatedAt       DateTime         @updatedAt
-  phoneNumber     String?
-  specialties     String?
-  experience      Int?
-  bio             String?
-  active          Boolean          @default(true)
-  groupsLeading   Group[]
-  lessonsCoach    Lesson[]
-  progressUpdates ProgressUpdate[]
-
-  @@map("staff")
-}
-
-model CourtAvailability {
-  id           String       @id @default(cuid())
-  courtId      String
-  dayOfWeek    DayOfWeek
-  date         DateTime?
-  startTime    String
-  endTime      String
-  createdAt    DateTime     @default(now())
-  updatedAt    DateTime     @updatedAt
-  bookingState BookingState @default(PENDING)
-  price        Decimal      @default(10) @db.Decimal(10, 2)
-  Booking      Booking[]
-  court        Court        @relation(fields: [courtId], references: [id], onDelete: Cascade)
-
-  @@map("court_availability")
-}
-
-model Court {
-  id           String              @id @default(cuid())
-  name         String
-  type         CourtType           @default(HARD)
-  indoor       Boolean             @default(false)
-  active       Boolean             @default(true)
-  availability CourtAvailability[]
-  lessons      Lesson[]
-  bookings     Booking[]           @relation("BookingToCourt")
-
-  @@map("courts")
-}
-
-model Lesson {
-  id              String           @id @default(cuid())
-  title           String
-  description     String?
-  startTime       DateTime
-  endTime         DateTime
-  type            LessonType
-  level           SkillLevel
-  maxCapacity     Int
-  createdAt       DateTime         @default(now())
-  updatedAt       DateTime         @updatedAt
-  canceled        Boolean          @default(false)
-  coachId         String
-  courtId         String?
-  groupId         String?
-  attendees       LessonAttendee[]
-  coach           Staff            @relation(fields: [coachId], references: [id])
-  court           Court?           @relation(fields: [courtId], references: [id], onDelete: Cascade)
-  group           Group?           @relation(fields: [groupId], references: [id], onDelete: Cascade)
-  progressUpdates ProgressUpdate[]
-
-  @@map("lessons")
-}
-
-model LessonAttendee {
-  id        String   @id @default(cuid())
-  lessonId  String
-  userId    String
-  attended  Boolean  @default(false)
-  notes     String?
-  createdAt DateTime @default(now())
-  lesson    Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@unique([lessonId, userId])
-  @@map("lesson_attendees")
-}
-
-model Group {
-  id          String        @id @default(cuid())
-  name        String
-  description String?
-  level       SkillLevel
-  dayOfWeek   DayOfWeek[]
-  startTime   String
-  endTime     String
-  startDate   DateTime
-  endDate     DateTime?
-  price       Decimal?      @db.Decimal(10, 2)
-  maxCapacity Int
-  active      Boolean       @default(true)
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
-  coachId     String
-  members     GroupMember[]
-  coach       Staff         @relation(fields: [coachId], references: [id])
-  lessons     Lesson[]
-  packages    Package[]
-
-  @@map("groups")
-}
-
-model GroupMember {
-  id       String   @id @default(cuid())
-  groupId  String
-  userId   String
-  joinedAt DateTime @default(now())
-  active   Boolean  @default(true)
-  group    Group    @relation(fields: [groupId], references: [id], onDelete: Cascade)
-  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@unique([groupId, userId])
-  @@map("group_members")
-}
-
-model Booking {
-  id                  String            @id @default(cuid())
-  createdAt           DateTime          @default(now())
-  updatedAt           DateTime          @updatedAt
-  status              BookingState      @default(PENDING)
-  userId              String?
-  bookerType          BookerType
-  courtAvailabilityId String
-  guestEmail          String?
-  guestName           String?
-  guestPhone          String?
-  needsEquipment      Boolean           @default(false)
-  courtAvailability   CourtAvailability @relation(fields: [courtAvailabilityId], references: [id], onDelete: Cascade)
-  user                User?             @relation(fields: [userId], references: [id])
-  Court               Court[]           @relation("BookingToCourt")
-
-  @@map("bookings")
-}
-
-model Package {
-  id           String        @id @default(cuid())
-  name         String
-  description  String?
-  price        Decimal       @db.Decimal(10, 2)
-  duration     Int
-  lessonCount  Int
-  level        SkillLevel
-  benefits     String?
-  active       Boolean       @default(true)
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
-  groupId      String?
-  group        Group?        @relation(fields: [groupId], references: [id])
-  userPackages UserPackage[]
-
-  @@map("packages")
-}
-
-model UserPackage {
-  id               String        @id @default(cuid())
-  userId           String
-  packageId        String
-  startDate        DateTime
-  endDate          DateTime
-  lessonsRemaining Int
-  status           PackageStatus
-  createdAt        DateTime      @default(now())
-  updatedAt        DateTime      @updatedAt
-  package          Package       @relation(fields: [packageId], references: [id])
-  user             User          @relation(fields: [userId], references: [id])
-
-  @@map("user_packages")
-}
-
-model Achievement {
-  id               String            @id @default(cuid())
-  name             String
-  description      String
-  category         String
-  icon             String?
-  pointValue       Int
-  createdAt        DateTime          @default(now())
-  userAchievements UserAchievement[]
-
-  @@map("achievements")
-}
-
-model UserAchievement {
-  id            String      @id @default(cuid())
-  userId        String
-  achievementId String
-  awardedAt     DateTime    @default(now())
-  notes         String?
-  achievement   Achievement @relation(fields: [achievementId], references: [id])
-  user          User        @relation(fields: [userId], references: [id])
-
-  @@unique([userId, achievementId])
-  @@map("user_achievements")
-}
-
-model UserProgress {
-  id                   String           @id @default(cuid())
-  userId               String           @unique
-  overallProgress      Decimal          @default(0) @db.Decimal(5, 2)
-  forehandProgress     Decimal          @default(0) @db.Decimal(5, 2)
-  backhandProgress     Decimal          @default(0) @db.Decimal(5, 2)
-  serveProgress        Decimal          @default(0) @db.Decimal(5, 2)
-  volleyProgress       Decimal          @default(0) @db.Decimal(5, 2)
-  footworkProgress     Decimal          @default(0) @db.Decimal(5, 2)
-  currentStreak        Int              @default(0)
-  longestStreak        Int              @default(0)
-  totalLessonsAttended Int              @default(0)
-  lastUpdated          DateTime         @default(now())
-  progressUpdates      ProgressUpdate[]
-  user                 User             @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@map("user_progress")
-}
-
-model ProgressUpdate {
-  id             String       @id @default(cuid())
-  userProgressId String
-  coachId        String
-  lessonId       String?
-  forehandUpdate Decimal?     @db.Decimal(5, 2)
-  backhandUpdate Decimal?     @db.Decimal(5, 2)
-  serveUpdate    Decimal?     @db.Decimal(5, 2)
-  volleyUpdate   Decimal?     @db.Decimal(5, 2)
-  footworkUpdate Decimal?     @db.Decimal(5, 2)
-  notes          String?
-  createdAt      DateTime     @default(now())
-  coach          Staff        @relation(fields: [coachId], references: [id])
-  lesson         Lesson?      @relation(fields: [lessonId], references: [id])
-  userProgress   UserProgress @relation(fields: [userProgressId], references: [id], onDelete: Cascade)
-
-  @@map("progress_updates")
-}
-
-model Setting {
-  id        String   @id @default(cuid())
-  key       String   @unique
-  value     String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@map("settings")
-}
-
-enum UserRole {
-  STUDENT
-  PARENT
-  MEMBER
-}
-
-enum MemberStatus {
-  ACTIVE
-  INACTIVE
-  PENDING
-  UNCOMPLETE
-}
-
-enum PreferedPlayTime {
-  MORNING
-  LATE_MORNING
-  AFTERNOON
-  EVENING
-  NIGHT
-  ANYTIME
-}
-
-enum StaffRole {
+enum Role {
   ADMIN
   COACH
+  STUDENT
 }
 
-enum CourtType {
-  CLAY
-  HARD
-  GRASS
-  CARPET
-}
-
-enum LessonType {
-  PRIVATE
-  GROUP
-  CAMP
+enum UserStatus {
+  ACTIVE
+  INACTIVE
 }
 
 enum SkillLevel {
   BEGINNER
   INTERMEDIATE
   ADVANCED
-  PROFESSIONAL
 }
 
-enum DayOfWeek {
-  MONDAY
-  TUESDAY
-  WEDNESDAY
-  THURSDAY
-  FRIDAY
-  SATURDAY
-  SUNDAY
+model User {
+  id                 String     @id @default(cuid())
+  role               Role
+  status             UserStatus @default(ACTIVE)
+  name               String
+  email              String?    @unique
+  phone              String?
+  /// bcrypt hash; null for students (they never log in)
+  password           String?
+  mustChangePassword Boolean    @default(false)
+  dateOfBirth        DateTime?  @db.Date
+  level              SkillLevel?
+  parentName         String?
+  parentPhone        String?
+  notes              String?
+  monthlyFee         Decimal?   @db.Decimal(10, 2)
+  photoUrl           String?
+  createdAt          DateTime   @default(now())
+  updatedAt          DateTime   @updatedAt
+
+  memberships   GroupMember[]
+  payments      Payment[]       @relation("PaymentStudent")
+  attendance    LessonAttendee[]
+  coachedGroups Group[]         @relation("GroupCoach")
+  bookings      CourtBooking[]
+  studentNotes  StudentNote[]   @relation("NoteStudent")
+  auditLogs     AuditLog[]
+
+  @@index([role, status])
+  @@index([name])
 }
 
-enum BookingState {
-  PENDING
+model StudentNote {
+  id        String   @id @default(cuid())
+  studentId String
+  student   User     @relation("NoteStudent", fields: [studentId], references: [id], onDelete: Cascade)
+  authorId  String?
+  body      String
+  createdAt DateTime @default(now())
+
+  @@index([studentId, createdAt])
+}
+
+model Payment {
+  id           String   @id @default(cuid())
+  userId       String
+  user         User     @relation("PaymentStudent", fields: [userId], references: [id], onDelete: Cascade)
+  date         DateTime @db.Date
+  amount       Decimal  @db.Decimal(10, 2)
+  note         String?
+  recordedById String?
+  createdAt    DateTime @default(now())
+
+  @@index([userId, date])
+}
+
+// ---------- Courts ----------
+
+enum Surface {
+  CLAY
+  HARD
+  GRASS
+  CARPET
+}
+
+enum BookingStatus {
   CONFIRMED
-  CANCELED
-  COMPLETED
+  CANCELLED
 }
 
-enum PaymentStatus {
-  UNPAID
-  PARTIAL
-  PAID
-  REFUNDED
+model Court {
+  id           String   @id @default(cuid())
+  name         String
+  surface      Surface  @default(HARD)
+  indoor       Boolean  @default(false)
+  active       Boolean  @default(true)
+  sortOrder    Int      @default(0)
+  /// length of one bookable slot; the UI assumes 60 for now
+  slotMinutes  Int      @default(60)
+  guestHourly  Decimal? @db.Decimal(10, 2)
+  memberHourly Decimal? @db.Decimal(10, 2)
+  /// [{ "hours": 10, "price": 12000 }]
+  bundles      Json?
+  description  String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  weeklyHours CourtWeeklyHours[]
+  exceptions  CourtDateException[]
+  bookings    CourtBooking[]
+  groups      Group[]
+  lessons     Lesson[]
+  activities  Activity[]
 }
 
-enum PackageStatus {
-  ACTIVE
-  EXPIRED
-  CANCELED
+/// Default bookable slots, one row per court and weekday (0 = Sunday … 6 = Saturday).
+model CourtWeeklyHours {
+  id         String   @id @default(cuid())
+  courtId    String
+  court      Court    @relation(fields: [courtId], references: [id], onDelete: Cascade)
+  weekday    Int
+  /// slot start times, "HH:mm", sorted
+  startHours String[]
+
+  @@unique([courtId, weekday])
 }
 
-enum BookerType {
-  GUEST
-  MEMBER
+/// Replaces the weekday's slots for one date. Empty startHours = closed.
+model CourtDateException {
+  id          String   @id @default(cuid())
+  courtId     String
+  court       Court    @relation(fields: [courtId], references: [id], onDelete: Cascade)
+  date        DateTime @db.Date
+  startHours  String[]
+  reason      String?
+  createdById String?
+  createdAt   DateTime @default(now())
+
+  @@unique([courtId, date])
+}
+
+/// The coach's booking log. Confirmed rows mark slots as taken on the site.
+model CourtBooking {
+  id          String        @id @default(cuid())
+  courtId     String
+  court       Court         @relation(fields: [courtId], references: [id], onDelete: Cascade)
+  date        DateTime      @db.Date
+  startTime   String
+  endTime     String
+  name        String
+  phone       String?
+  userId      String?
+  user        User?         @relation(fields: [userId], references: [id], onDelete: SetNull)
+  price       Decimal?      @db.Decimal(10, 2)
+  paid        Boolean       @default(false)
+  status      BookingStatus @default(CONFIRMED)
+  notes       String?
+  createdById String?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  @@index([courtId, date])
+  @@index([date])
+}
+
+// ---------- Coaching ----------
+
+enum LessonStatus {
+  SCHEDULED
+  CANCELLED
+  DONE
+}
+
+enum AttendanceStatus {
+  PRESENT
+  ABSENT
+}
+
+model Group {
+  id           String      @id @default(cuid())
+  name         String
+  slug         String      @unique
+  description  String?
+  level        SkillLevel?
+  ageMin       Int?
+  ageMax       Int?
+  /// 0 = Sunday … 6 = Saturday
+  weekdays     Int[]
+  startTime    String
+  endTime      String
+  startDate    DateTime?   @db.Date
+  endDate      DateTime?   @db.Date
+  monthlyPrice Decimal?    @db.Decimal(10, 2)
+  capacity     Int?
+  coachId      String?
+  coach        User?       @relation("GroupCoach", fields: [coachId], references: [id], onDelete: SetNull)
+  courtId      String?
+  court        Court?      @relation(fields: [courtId], references: [id], onDelete: SetNull)
+  photoUrl     String?
+  published    Boolean     @default(false)
+  sortOrder    Int         @default(0)
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+
+  members GroupMember[]
+  lessons Lesson[]
+
+  @@index([published, sortOrder])
+}
+
+model GroupMember {
+  id       String    @id @default(cuid())
+  groupId  String
+  group    Group     @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  userId   String
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  joinedAt DateTime  @default(now())
+  leftAt   DateTime?
+
+  @@unique([groupId, userId])
+}
+
+/// One session of a group (generated from the group's weekdays) or a private lesson.
+model Lesson {
+  id        String       @id @default(cuid())
+  groupId   String?
+  group     Group?       @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  courtId   String?
+  court     Court?       @relation(fields: [courtId], references: [id], onDelete: SetNull)
+  date      DateTime     @db.Date
+  startTime String
+  endTime   String
+  status    LessonStatus @default(SCHEDULED)
+  notes     String?
+  createdAt DateTime     @default(now())
+
+  attendees LessonAttendee[]
+
+  @@unique([groupId, date, startTime])
+  @@index([date])
+}
+
+model LessonAttendee {
+  id       String           @id @default(cuid())
+  lessonId String
+  lesson   Lesson           @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  userId   String
+  user     User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  status   AttendanceStatus
+  note     String?
+
+  @@unique([lessonId, userId])
+}
+
+enum PriceUnit {
+  PER_HOUR
+  PER_SESSION
+  PER_MONTH
+  PER_PACKAGE
+}
+
+/// A course the club sells that is not a fixed group: private lessons, packages, trial.
+model CourseOffering {
+  id          String    @id @default(cuid())
+  title       String
+  slug        String    @unique
+  /// free text shown as a chip, e.g. "1 me 1"
+  kind        String?
+  description String?
+  price       Decimal?  @db.Decimal(10, 2)
+  priceUnit   PriceUnit @default(PER_HOUR)
+  published   Boolean   @default(false)
+  sortOrder   Int       @default(0)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([published, sortOrder])
+}
+
+// ---------- Activities ----------
+
+model Activity {
+  id                 String    @id @default(cuid())
+  title              String
+  slug               String    @unique
+  /// free text: Yoga, Pilates, Kamp, Turne, Trajner i ftuar, …
+  category           String
+  description        String?
+  startDate          DateTime  @db.Date
+  endDate            DateTime? @db.Date
+  startTime          String?
+  endTime            String?
+  place              String?
+  courtId            String?
+  court              Court?    @relation(fields: [courtId], references: [id], onDelete: SetNull)
+  price              Decimal?  @db.Decimal(10, 2)
+  guestCoachName     String?
+  guestCoachBio      String?
+  guestCoachPhotoUrl String?
+  capacity           Int?
+  photoUrl           String?
+  published          Boolean   @default(false)
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+
+  @@index([published, startDate])
+}
+
+// ---------- Site ----------
+
+/// Single row (id = 1). Everything on the public site the coach can retype.
+model SiteSettings {
+  id               Int     @id @default(1)
+  clubName         String  @default("Tennis Nallbani")
+  tagline          String?
+  heroTitle        String?
+  heroText         String?
+  aboutText        String?
+  coachName        String?
+  coachBio         String?
+  coachPhotoUrl    String?
+  phone            String?
+  /// international digits only, used for wa.me links
+  whatsapp         String?
+  email            String?
+  address          String?
+  mapUrl           String?
+  instagram        String?
+  facebook         String?
+  openingHoursText String?
+  seoTitle         String?
+  seoDescription   String?
+  searchConsoleTag String?
+  updatedAt        DateTime @updatedAt
+}
+
+model Announcement {
+  id        String    @id @default(cuid())
+  text      String
+  active    Boolean   @default(true)
+  startsAt  DateTime?
+  endsAt    DateTime?
+  createdAt DateTime  @default(now())
+}
+
+/// Photos uploaded to Vercel Blob.
+model MediaAsset {
+  id        String   @id @default(cuid())
+  url       String
+  pathname  String   @unique
+  kind      String?
+  width     Int?
+  height    Int?
+  createdAt DateTime @default(now())
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  actorId   String?
+  actor     User?    @relation(fields: [actorId], references: [id], onDelete: SetNull)
+  action    String
+  entity    String
+  entityId  String?
+  data      Json?
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
 }

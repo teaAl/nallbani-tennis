@@ -1,311 +1,130 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import "tailwindcss";
+@import "tw-animate-css";
 
-@plugin 'tailwindcss-animate';
-
+/* The site is light-only. Scope shadcn's `dark:` utilities to a `.dark` class that is never set,
+   so a phone in dark mode does not get half-dark inputs. */
 @custom-variant dark (&:is(.dark *));
-@import 'tailwindcss';
-@import 'tailwindcss-animated';
-/* @tailwind base; */
-/* @tailwind components; */
-@tailwind utilities;
 
-/* @media (prefers-color-scheme: dark) {
-  :root {
-    --foreground: #afafaf;
-    --pear: #cddc3b;
-    --olive: #648767;
-    --coolgray: #A7A5C6;
-    --violet: #827191;
-    --lazurite: #456990;
+/* Brand tokens (design system "Tennis Nallbani"): navy ink, lime accent, warm off-white ground. */
+:root {
+  --surface: #fafaf3;
+  --raised: #ffffff;
+  --sunken: #f0f1e5;
+  --line: #dde0cf;
+  --line-strong: #9aa2b4;
+  --ink: #0f1f3d;
+  --ink-muted: #5a6478;
+  --navy: #0f1f3d;
+  --navy-dark: #162a55;
+  --on-navy: #f5f6ec;
+  --on-navy-muted: #b7bfd1;
+  --lime: #cddc3b;
+  --lime-soft: #f3f7cf;
+  --lime-ink: #5f6d06;
+  --success: #1f7a4a;
+  --success-soft: #e3f3e9;
+  --warning: #8f5208;
+  --warning-soft: #fbeed7;
+  --danger: #b03232;
+  --danger-soft: #f9e3e3;
+
+  /* shadcn/ui variables mapped onto the brand */
+  --background: var(--surface);
+  --foreground: var(--ink);
+  --card: var(--raised);
+  --card-foreground: var(--ink);
+  --popover: var(--raised);
+  --popover-foreground: var(--ink);
+  --primary: var(--navy);
+  --primary-foreground: var(--on-navy);
+  --secondary: var(--sunken);
+  --secondary-foreground: var(--ink);
+  --muted: var(--sunken);
+  --muted-foreground: var(--ink-muted);
+  --accent: var(--lime-soft);
+  --accent-foreground: var(--ink);
+  --destructive: var(--danger);
+  --border: var(--line);
+  --input: var(--line-strong);
+  --ring: var(--lime);
+  --radius: 0.5rem;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-surface: var(--surface);
+  --color-raised: var(--raised);
+  --color-sunken: var(--sunken);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --color-navy: var(--navy);
+  --color-navy-dark: var(--navy-dark);
+  --color-on-navy: var(--on-navy);
+  --color-on-navy-muted: var(--on-navy-muted);
+  --color-lime: var(--lime);
+  --color-lime-soft: var(--lime-soft);
+  --color-lime-ink: var(--lime-ink);
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+  --color-warning: var(--warning);
+  --color-warning-soft: var(--warning-soft);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: var(--radius);
+  --radius-lg: calc(var(--radius) + 6px);
+  --radius-xl: calc(var(--radius) + 10px);
+
+  --font-sans: var(--font-barlow), "Helvetica Neue", Arial, sans-serif;
+  --font-display: var(--font-barlow-condensed), "Arial Narrow", sans-serif;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
   }
-} */
-
-@theme {
-  --color-foreground: #afafaf;
-  --color-pear: #cddc3b;
-  --color-pana: #fff0db;
-  --color-olive: #648767;
-  --color-coolgray: #A7A5C6;
-  --color-violet: #827191;
-  --color-lazurite: #456990;
-  --font-nunito: 'Nunito', sans-serif;
-  --font-poppins: 'Poppins', sans-serif;
-  --shadow-square: "30px 25px 0px 0px #fafafa"
-}
-
-@layer utilities {
-  #my-extension {
-    @tailwind utilities;
+  html {
+    -webkit-font-smoothing: antialiased;
+    color-scheme: light;
+  }
+  body {
+    @apply bg-background text-foreground font-sans;
   }
 }
 
-body {
-  @apply bg-gray-900 font-nunito;
+@utility display {
+  font-family: var(--font-display);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  line-height: 0.95;
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
-
-  /* Chrome, Safari and Opera */
-  .no-scrollbar::-webkit-scrollbar {
-    display: none;
-  }
-
-  .no-scrollbar {
-    -ms-overflow-style: none;
-    /* IE and Edge */
-    scrollbar-width: none;
-    /* Firefox */
-  }
-}
-
-/* start of custom styles for react-calendar */
-
-/*=============
-Aesthetics 
-=========================*/
-
-.react-calendar button:enabled:hover {
-  @apply scale-110 transition-all;
-}
-
-.react-calendar button {
-  @apply transition-all;
-}
-
-.react-calendar__navigation__arrow:disabled,
-.react-calendar__tile:disabled {
-  @apply opacity-50;
-}
-
-.react-calendar__tile--now>abbr {
-  @apply border border-pear/100
-  /*border-opacity-100*/
-  text-pear font-bold bg-white/10;
-
-}
-
-.react-calendar__tile--active>abbr {
-  @apply bg-pear text-black font-bold;
-  /* @apply border border-pear border-opacity-100 text-pear font-bold bg-white bg-opacity-10; */
-}
-
-/*start of hide year buttons*/
-.react-calendar__navigation button.react-calendar__navigation__arrow:first-child {
-  display: none;
-}
-
-.react-calendar__navigation button.react-calendar__navigation__arrow:last-child {
-  display: none;
-}
-
-/*end of hide year buttons*/
-
-/*start of navigation styles*/
-.react-calendar__navigation {
-  @apply w-full border-b p-4 border-pear/15 flex justify-center;
-}
-
-.react-calendar__navigation__label {
-  @apply text-pear md:text-lg text-base font-extrabold w-max mx-auto;
-}
-
-/*end of navigation styles*/
-
-/*start of day tile calendat styles*/
-.react-calendar__tile>abbr {
-  @apply aspect-square md:w-9 md:h-9 w-6 h-6 md:p-2 p-1 rounded-full border border-olive/20 transition-all;
-}
-
-/*start of weekday styles*/
-.react-calendar__month-view__weekdays__weekday {
-  @apply text-center text-pear font-bold md:text-sm text-xs md:p-4 p-2 no-underline font-nunito;
-}
-
-abbr {
-  @apply no-underline;
-}
-
-/*end of weekday styles*/
-
-/* Additional responsive adjustments */
-.react-calendar__month-view__days {
-  @apply text-xs sm:text-sm;
-}
-
-/* Fix for mobile view width issues */
-.react-calendar {
-  width: 100% !important;
-  max-width: 100% !important;
-}
-
-/* .react-calendar__tile--start {
-  background: #006edc;
-  color: white;
-}
-
-.react-calendar__tile--end {
-  background: #006edc;
-  color: white;
-}
-
-.react-calendar__tile--start:enabled:hover,
-.react-calendar__tile--start:enabled:focus,
-.react-calendar__tile--end:enabled:hover,
-.react-calendar__tile--end:enabled:focus {
-  background: #1087ff;
-} */
-/* end of custom styles for react-calendar */
-
-/* start of custom styles for form elements */
-
-/* input[type="text"],
-input[type="email"],
-input[type="tel"],
-textarea {
-  @apply w-full pl-10 pr-4 py-3 bg-black bg-linear-to-r from-[#6487673b] to-black border-b-transparent rounded-br-none rounded-tl-none rounded-bl-md rounded-tr-md text-white placeholder:font-poppins placeholder:text-white/45 transition-all duration-500 outline-hidden;
-} */
-
-/* input:-webkit-internal-autofill-selected {
-  background-color: #37242E !important;
-  background-image: none !important;
-  color: white !important;
-  -webkit-box-shadow: 0 0 0 30px #37242E inset !important;
-} */
-
-/* input:is(:-moz-any(:-webkit-iternal-autofill-selected), :active, :focus, :) { */
-/* @apply border-b-green-300; */
-/* background-color: #18181b !important;
-  background-image: none !important;
-  color: white !important;
-  -webkit-box-shadow: 0 0 0 30px #f9a8d43b inset !important;
-} */
-
-/* input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus,
-input:-webkit-autofill:active {
-  -webkit-box-shadow: 0 0 0 30px #37242E inset !important;
-  -webkit-text-fill-color: white !important;
-  @apply border-b-green-300 outline-none bg-zinc-900 bg-gradient-to-r from-[#f9a8d43b] to-[#f9a8d43b] placeholder:text-opacity-5;
-} */
-
-/* input[type="text"]:focus,
-input[type="email"]:focus,
-input[type="tel"]:focus,
-textarea:focus,
-input:-webkit-autofill,
-input:-webkit-autofill:focus,
-input:-webkit-autofill:active,
-input:-webkit-autofill:focus-within {
-  @apply border-b-green-300 outline-hidden bg-zinc-900 bg-linear-to-r from-[#6487673b] to-[#6487673b] placeholder:text-white/5;
-  -webkit-text-fill-color: white !important;
-  -webkit-box-shadow: 0 0 0 60px #648767 inset !important;
-} */
-
-/* custom group form styles */
-input.group,
-textarea.group {
-  @apply
-  /*bg-opacity-10*/
-  placeholder:text-sm placeholder:text-pear/30;
-}
-
-/* range slider custom styles */
-input[type="range"] {
-  @apply appearance-none w-60 cursor-pointer outline-hidden bg-white/10 rounded-2xl h-2;
-}
-
-/* range slider thumb styles */
-input[type="range"]::-webkit-slider-thumb {
-  @apply appearance-none w-6 h-6 rounded-full cursor-pointer flex items-center justify-center border-none bg-[url(/images/tennisball.png)] bg-cover;
-  transition: .2s ease-in-out;
-  /*  rotate thumb  */
-  transform: rotateZ(var(--thumb-rotate, 0deg));
-}
-
-/* range slider track progress styles */
-input[type="range"]::-webkit-slider-runnable-track,
-input[type="range"]::-moz-range-track {
-  @apply appearance-none h-4 bg-pear/20 rounded-2xl;
-}
-
-/* Hover, active & focus Thumb: Webkit */
-input[type="range"]::-webkit-slider-thumb:hover {
-  box-shadow: 0 0 0 10px #86efad1d
-}
-
-input[type="range"]:active::-webkit-slider-thumb {
-  box-shadow: 0 0 0 13px #86efad1d
-}
-
-input[type="range"]:focus::-webkit-slider-thumb {
-  box-shadow: 0 0 0 13px #86efad1d
-}
-
-/* Hover, active & focus Thumb: Firfox */
-input[type="range"]::-moz-range-thumb:hover {
-  box-shadow: 0 0 0 10px #86efad1d
-}
-
-input[type="range"]:active::-moz-range-thumb {
-  box-shadow: 0 0 0 13px #86efad1d
-}
-
-input[type="range"]:focus::-moz-range-thumb {
-  box-shadow: 0 0 0 13px #86efad1d
-}
-
-/* end of custom styles for form elements */
-.h-screen-20 {
-  height: calc(100vh - 4.6rem);
-}
-
-/* React Datepicker custom styles*/
-.react-datepicker {
-  background-color: #fff0db !important;
-  border: 1px solid #cddc3b40 !important;
-}
-.react-datepicker__header {
-  background-color: #fff0db !important;
-  color: #111826 !important;
-  border-radius: 0.5rem 0.5rem 0 0 !important;
-}
-
-.react-datepicker__day--selected {
-  background-color: #cddc3b !important;
-  color: #111826 !important;
-}
-
-.react-datepicker__day:not([aria-disabled="true"]):hover {
-  background-color: #cddc3b30 !important;
-  color: #111826 !important;
-}
-
-/* custom styles for react-phone-picker */
-.selected-flag:hover {
-  background-color: #fff0db05 !important;
-}
-
-.react-tel-input .flag-dropdown.open .selected-flag {
-  background-color: transparent !important;
-}
-
-.country {
-  border: 1px solid #cddc3b10 !important;
-  font-family: 'Poppins', sans-serif !important;
-  font-size: small !important;
-  font-weight: 300 !important;
-  color: #afafaf !important;
-}
-
-.country:hover {
-  background-color: #afafaf10 !important;
-}
-
-.highlight {
-  background-color: #cddc3b !important;
-  color: #111826 !important;
+@utility eyebrow {
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-weight: 600;
 }
