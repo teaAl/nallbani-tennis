@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Phone } from "lucide-react";
 import { prisma } from "@/lib/prisma";
@@ -38,8 +39,14 @@ export default async function HomePage() {
 
   return (
     <>
-      <section className="bg-navy text-on-navy">
-        <div className="mx-auto flex max-w-6xl flex-col gap-5 px-4 pt-14 pb-16 md:pt-24 md:pb-24">
+      <section className="relative overflow-hidden bg-navy text-on-navy">
+        {s.heroPhotoUrl && (
+          <>
+            <Image src={s.heroPhotoUrl} alt="" fill priority sizes="100vw" className="object-cover" />
+            <div className="absolute inset-0 bg-gradient-to-r from-navy via-navy/85 to-navy/40" aria-hidden="true" />
+          </>
+        )}
+        <div className="relative mx-auto flex max-w-6xl flex-col gap-5 px-4 pt-14 pb-16 md:pt-24 md:pb-24">
           {s.tagline && <p className="eyebrow text-lime">{s.tagline}</p>}
           <h1 className="display max-w-[14ch] text-5xl md:text-7xl">{s.heroTitle ?? clubName}</h1>
           {s.heroText && <p className="max-w-[44ch] text-lg text-on-navy-muted md:text-xl">{s.heroText}</p>}

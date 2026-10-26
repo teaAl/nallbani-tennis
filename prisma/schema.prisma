@@ -325,6 +325,7 @@ model SiteSettings {
   tagline          String?
   heroTitle        String?
   heroText         String?
+  heroPhotoUrl     String?
   aboutText        String?
   coachName        String?
   coachBio         String?

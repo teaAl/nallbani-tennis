@@ -37,13 +37,14 @@ const settingsSchema = z.object({
   seoDescription: optionalText(300),
   searchConsoleTag: optionalText(200),
   removePhoto: checkbox,
+  removeHeroPhoto: checkbox,
 });
 
 export async function saveSiteSettings(_prev: FormState, formData: FormData): Promise<FormState> {
   const user = await requireStaff();
   const parsed = settingsSchema.safeParse(entries(formData));
   if (!parsed.success) return { error: firstIssue(parsed.error) };
-  const { removePhoto, ...d } = parsed.data;
+  const { removePhoto, removeHeroPhoto, ...d } = parsed.data;
 
   if (d.whatsapp && d.whatsapp.replace(/\D/g, "").length < 8) {
     return { error: "Numri i WhatsApp duhet me prefiks shteti, p.sh. +355 69 123 4567." };
@@ -61,9 +62,20 @@ export async function saveSiteSettings(_prev: FormState, formData: FormData): Pr
     coachPhotoUrl = null;
   }
 
+  const hero = await uploadPhotoField(formData, "site", "heroPhoto");
+  if (hero && "error" in hero) return { error: hero.error };
+  let heroPhotoUrl = current.heroPhotoUrl;
+  if (hero) {
+    await deletePhoto(heroPhotoUrl);
+    heroPhotoUrl = hero.url;
+  } else if (removeHeroPhoto) {
+    await deletePhoto(heroPhotoUrl);
+    heroPhotoUrl = null;
+  }
+
   await prisma.siteSettings.update({
     where: { id: 1 },
-    data: { ...d, whatsapp: d.whatsapp ? d.whatsapp.replace(/\D/g, "") : null, coachPhotoUrl },
+    data: { ...d, whatsapp: d.whatsapp ? d.whatsapp.replace(/\D/g, "") : null, coachPhotoUrl, heroPhotoUrl },
   });
   await audit(user.id, "site.update", "siteSettings", "1");
   revalidateSite();

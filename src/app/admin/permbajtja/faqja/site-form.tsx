@@ -12,6 +12,7 @@ export type SiteFormValues = {
   tagline: string | null;
   heroTitle: string | null;
   heroText: string | null;
+  heroPhotoUrl: string | null;
   aboutText: string | null;
   coachName: string | null;
   coachBio: string | null;
@@ -40,6 +41,13 @@ export function SiteForm({ s }: { s: SiteFormValues }) {
         <Field label="Rreshti i vogël mbi titull" name="tagline" defaultValue={v(s.tagline)} placeholder="p.sh. Klub tenisi në Tiranë" />
         <Field label="Titulli i madh" name="heroTitle" defaultValue={v(s.heroTitle)} placeholder="p.sh. Tenis për të gjithë" />
         <TextareaField label="Teksti nën titull" name="heroText" rows={2} defaultValue={v(s.heroText)} />
+        <PhotoField
+          currentUrl={s.heroPhotoUrl}
+          name="heroPhoto"
+          removeName="removeHeroPhoto"
+          label="Fotoja e sfondit"
+          hint="Shfaqet pas titullit të madh, me hije blu sipër. Një foto horizontale e fushës funksionon më mirë. Deri në 5 MB."
+        />
       </FormSection>
 
       <FormSection title="Rreth nesh">

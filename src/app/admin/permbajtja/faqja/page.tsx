@@ -62,6 +62,7 @@ export default async function SitePage() {
             tagline: s.tagline,
             heroTitle: s.heroTitle,
             heroText: s.heroText,
+            heroPhotoUrl: s.heroPhotoUrl,
             aboutText: s.aboutText,
             coachName: s.coachName,
             coachBio: s.coachBio,
