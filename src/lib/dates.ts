@@ -27,6 +27,11 @@ export function isoToDate(iso: string): Date {
   return new Date(`${iso}T00:00:00.000Z`);
 }
 
+/** A real timestamp (createdAt…) → the calendar date in Tirana, "YYYY-MM-DD". */
+export function timestampToIso(date: Date): string {
+  return isoFormatter.format(date);
+}
+
 /** Date from a @db.Date column (UTC midnight) → "YYYY-MM-DD". */
 export function dateToIso(date: Date): string {
   return date.toISOString().slice(0, 10);

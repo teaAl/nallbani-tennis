@@ -275,7 +275,7 @@ Env vars after the rebuild: `DATABASE_URL`, `AUTH_SECRET`, `BLOB_READ_WRITE_TOKE
    WhatsApp links. After this phase the coach can run the site alone.
    **Done 2026-10-26** on branch `rebuild` (photos need a Vercel Blob store).
 3. **Students.** Roster, groups → weekly lessons, attendance, notes,
-   payments, Today tab.
+   payments, Today tab. **Done 2026-10-27** on branch `rebuild`.
 4. **Court booking log.** Logged bookings (and group lessons) mark public
    slots as taken.
 5. **Polish.** Audit log, SEO, health route, in-app how-to, cleanup of old

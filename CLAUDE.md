@@ -157,7 +157,8 @@ Conventions:
 
 ## 6. Status
 
-Phase 1 (foundation) is done: schema + baseline migration, seed, session auth,
-admin shell with the five tabs, accounts management, public home reading
-SiteSettings. Phases 2–5 (content editing + public pages, students, booking
-log, polish/SEO) follow the plan in `docs/REBUILD-PLAN.md` section 9.
+Phases 1–3 are done: foundation and auth, admin content editing with the public
+site, and students (roster, groups → lessons materialised on demand in
+`lib/lessons.ts`, attendance at `/admin/mesimet/[id]`, monthly fee + payments in
+`lib/payments.ts`, notes, Sot tab). Phases 4–5 (court booking log, polish/SEO)
+follow the plan in `docs/REBUILD-PLAN.md` section 9.
