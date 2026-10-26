@@ -3,6 +3,7 @@ import Image from "next/image";
 import { MapPin, Phone, Mail, Clock } from "lucide-react";
 import { getSiteSettings, telLink, whatsappLink } from "@/lib/site";
 import { WhatsAppIcon } from "@/components/site/whatsapp-icon";
+import { MarkedHeading } from "@/components/site/mark";
 
 export const metadata: Metadata = {
   title: "Kontakt dhe rreth nesh",
@@ -18,7 +19,7 @@ export default async function ContactPage() {
     <div className="mx-auto flex max-w-6xl flex-col gap-10 px-4 pt-12">
       <header className="flex flex-col gap-3">
         <p className="eyebrow text-lime-ink">Na gjeni</p>
-        <h1 className="display text-5xl md:text-7xl">Kontakt</h1>
+        <MarkedHeading text="Kontakt" className="display text-5xl md:text-7xl" />
       </header>
 
       <div className="grid gap-6 md:grid-cols-2">
@@ -38,17 +39,13 @@ export default async function ContactPage() {
           {s.address && (
             <p className="flex items-start gap-3">
               <MapPin className="mt-0.5 size-5 shrink-0 text-lime-ink" aria-hidden="true" />
-              <span>
+              {s.mapUrl ? (
+                <a href={s.mapUrl} target="_blank" rel="noopener" className="font-semibold text-ink underline decoration-lime decoration-2 underline-offset-4 hover:text-lime-ink">
+                  {s.address}
+                </a>
+              ) : (
                 <span className="font-semibold">{s.address}</span>
-                {s.mapUrl && (
-                  <>
-                    {" "}
-                    <a href={s.mapUrl} target="_blank" rel="noopener" className="text-lime-ink underline underline-offset-4">
-                      Hape në hartë
-                    </a>
-                  </>
-                )}
-              </span>
+              )}
             </p>
           )}
           {s.openingHoursText && (

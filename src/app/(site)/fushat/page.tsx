@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { MarkedHeading } from "@/components/site/mark";
 import { getAvailability } from "@/lib/availability";
 import { getSiteSettings } from "@/lib/site";
 import { hoursToRanges } from "@/lib/courts";
@@ -21,7 +22,7 @@ export default async function CourtsPage() {
     <div className="mx-auto flex max-w-6xl flex-col gap-10 px-4 pt-12">
       <header className="flex flex-col gap-3">
         <p className="eyebrow text-lime-ink">Rezervim me orë</p>
-        <h1 className="display text-5xl md:text-7xl">Fushat</h1>
+        <MarkedHeading text="Fushat" className="display text-5xl md:text-7xl" />
         <p className="max-w-[48ch] text-lg text-ink-muted">Orët e lira i vendos klubi. Zgjidhni ditën dhe orën, dhe kërkesa hapet gati në WhatsApp.</p>
       </header>
 

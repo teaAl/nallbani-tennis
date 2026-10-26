@@ -29,6 +29,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
         clubName={s.clubName}
         phone={s.phone}
         address={s.address}
+        mapUrl={s.mapUrl}
         openingHoursText={s.openingHoursText}
         waHref={waHref}
         telHref={telLink(s.phone)}

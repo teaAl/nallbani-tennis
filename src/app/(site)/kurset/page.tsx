@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { MarkedHeading } from "@/components/site/mark";
 import { getSiteSettings, whatsappLink } from "@/lib/site";
 import { getPublishedGroups, getPublishedOfferings } from "@/lib/public-data";
 import { GroupCard, OfferingCard } from "@/components/site/cards";
@@ -16,7 +17,7 @@ export default async function CoursesPage() {
     <div className="mx-auto flex max-w-6xl flex-col gap-10 px-4 pt-12">
       <header className="flex flex-col gap-3">
         <p className="eyebrow text-lime-ink">Mësoni tenis</p>
-        <h1 className="display text-5xl md:text-7xl">Kurset</h1>
+        <MarkedHeading text="Kurset" className="display text-5xl md:text-7xl" />
         <p className="max-w-[48ch] text-lg text-ink-muted">Grupe të vogla sipas moshës dhe nivelit, mësime private dhe paketa. Pyesni në WhatsApp për një provë.</p>
       </header>
 

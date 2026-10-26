@@ -59,7 +59,7 @@ export function GroupCard({ g, askHref }: { g: GroupCardData; askHref: string | 
       : g.weekdays.map((d) => WEEKDAYS_SHORT[d]).join(", ")
     : null;
   return (
-    <article className="flex flex-col overflow-hidden rounded-2xl border bg-card">
+    <article className="lift flex flex-col overflow-hidden rounded-2xl border bg-card">
       {g.photoUrl && (
         <Image src={g.photoUrl} alt="" width={640} height={360} className="aspect-[16/9] w-full object-cover" />
       )}
@@ -97,7 +97,7 @@ export type OfferingCardData = {
 
 export function OfferingCard({ o, askHref }: { o: OfferingCardData; askHref: string | null }) {
   return (
-    <article className="flex flex-col gap-3 rounded-2xl border bg-card p-5">
+    <article className="lift flex flex-col gap-3 rounded-2xl border bg-card p-5">
       {o.kind && (
         <div>
           <Chip>{o.kind}</Chip>
@@ -132,7 +132,7 @@ export type ActivityCardData = {
 export function ActivityCard({ a, askHref, past }: { a: ActivityCardData; askHref: string | null; past?: boolean }) {
   const when = a.endDate && a.endDate !== a.startDate ? `${formatDateSq(a.startDate)} – ${formatDateSq(a.endDate)}` : formatDateSq(a.startDate, { weekday: true });
   return (
-    <article className={`flex flex-col overflow-hidden rounded-2xl border bg-card ${past ? "opacity-70" : ""}`}>
+    <article className={`lift flex flex-col overflow-hidden rounded-2xl border bg-card ${past ? "opacity-70" : ""}`}>
       {a.photoUrl && <Image src={a.photoUrl} alt="" width={640} height={360} className="aspect-[16/9] w-full object-cover" />}
       <div className="flex grow flex-col gap-3 p-5">
         <div className="flex flex-wrap gap-2">

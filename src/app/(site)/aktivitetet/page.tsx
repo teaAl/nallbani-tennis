@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { MarkedHeading } from "@/components/site/mark";
 import { getSiteSettings, whatsappLink } from "@/lib/site";
 import { getActivities } from "@/lib/public-data";
 import { ActivityCard } from "@/components/site/cards";
@@ -20,7 +21,7 @@ export default async function ActivitiesPage() {
     <div className="mx-auto flex max-w-6xl flex-col gap-10 px-4 pt-12">
       <header className="flex flex-col gap-3">
         <p className="eyebrow text-lime-ink">Më shumë se tenis</p>
-        <h1 className="display text-5xl md:text-7xl">Aktivitetet</h1>
+        <MarkedHeading text="Aktivitetet" className="display text-5xl md:text-7xl" />
         <p className="max-w-[48ch] text-lg text-ink-muted">Yoga, kampe, turne dhe trajnerë të ftuar. Regjistrohuni me një mesazh në WhatsApp.</p>
       </header>
 

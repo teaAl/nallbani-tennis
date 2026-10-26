@@ -9,6 +9,10 @@ import { WEEKDAYS_SHORT, WEEKDAYS_MON_FIRST } from "@/lib/dates";
 import { formatMoney } from "@/lib/utils";
 import { ActivityCard, GroupCard, OfferingCard } from "@/components/site/cards";
 import { WhatsAppIcon } from "@/components/site/whatsapp-icon";
+import { MarkedHeading } from "@/components/site/mark";
+import { Reveal } from "@/components/site/reveal";
+
+const stagger = (i: number) => ({ "--i": i }) as React.CSSProperties;
 
 function SectionHead({ title, text, href, linkLabel }: { title: string; text?: string; href: string; linkLabel: string }) {
   return (
@@ -47,10 +51,18 @@ export default async function HomePage() {
           </>
         )}
         <div className="relative mx-auto flex max-w-6xl flex-col gap-5 px-4 pt-14 pb-16 md:pt-24 md:pb-24">
-          {s.tagline && <p className="eyebrow text-lime">{s.tagline}</p>}
-          <h1 className="display max-w-[14ch] text-5xl md:text-7xl">{s.heroTitle ?? clubName}</h1>
-          {s.heroText && <p className="max-w-[44ch] text-lg text-on-navy-muted md:text-xl">{s.heroText}</p>}
-          <div className="mt-2 flex flex-wrap gap-3">
+          {s.tagline && (
+            <p className="hero-item eyebrow text-lime" style={stagger(0)}>
+              {s.tagline}
+            </p>
+          )}
+          <MarkedHeading text={s.heroTitle ?? clubName} className="hero-item display max-w-[14ch] text-5xl md:text-7xl" style={stagger(1)} delay={700} />
+          {s.heroText && (
+            <p className="hero-item max-w-[44ch] text-lg text-on-navy-muted md:text-xl" style={stagger(3)}>
+              {s.heroText}
+            </p>
+          )}
+          <div className="hero-item mt-2 flex flex-wrap gap-3" style={stagger(4)}>
             {wa("Përshëndetje! Dua të pyes për tenis te " + clubName + ".") && (
               <a
                 href={wa("Përshëndetje! Dua të pyes për tenis te " + clubName + ".")!}
@@ -69,7 +81,7 @@ export default async function HomePage() {
       </section>
 
       {cards.length > 0 && (
-        <section className="mx-auto flex max-w-6xl flex-col gap-6 px-4 pt-14">
+        <Reveal><section className="mx-auto flex max-w-6xl flex-col gap-6 px-4 pt-14">
           <SectionHead title="Kurset" text="Grupe të vogla sipas moshës dhe nivelit." href="/kurset" linkLabel="Shiko të gjitha kurset" />
           <div className="grid gap-4 md:grid-cols-3">
             {cards.map((c, i) =>
@@ -80,29 +92,29 @@ export default async function HomePage() {
               ),
             )}
           </div>
-        </section>
+        </section></Reveal>
       )}
 
       {activities.length > 0 && (
-        <section className="mx-auto flex max-w-6xl flex-col gap-6 px-4 pt-14">
+        <Reveal><section className="mx-auto flex max-w-6xl flex-col gap-6 px-4 pt-14">
           <SectionHead title="Aktivitetet" text="Yoga, kampe, turne dhe trajnerë të ftuar." href="/aktivitetet" linkLabel="Të gjitha aktivitetet" />
           <div className="grid gap-4 md:grid-cols-3">
             {activities.map((a, i) => (
               <ActivityCard key={i} a={a} askHref={wa(`Përshëndetje! Dua të regjistrohem për "${a.title}".`)} />
             ))}
           </div>
-        </section>
+        </section></Reveal>
       )}
 
       {courts.length > 0 && (
-        <section className="mx-auto flex max-w-6xl flex-col gap-6 px-4 pt-14">
+        <Reveal><section className="mx-auto flex max-w-6xl flex-col gap-6 px-4 pt-14">
           <SectionHead title="Fushat" text="Rezervoni një orë fushe me WhatsApp." href="/fushat" linkLabel="Shiko orët e lira" />
           <div className="grid gap-4 sm:grid-cols-2">
             {courts.map((c) => {
               const byDay = new Map(c.weeklyHours.map((w) => [w.weekday, w.startHours]));
               const openDays = WEEKDAYS_MON_FIRST.filter((d) => (byDay.get(d) ?? []).length > 0);
               return (
-                <Link key={c.id} href="/fushat" className="flex flex-col gap-2 rounded-2xl border bg-card p-5 text-ink">
+                <Link key={c.id} href="/fushat" className="lift flex flex-col gap-2 rounded-2xl border bg-card p-5 text-ink">
                   <span className="eyebrow text-ink-muted">{c.indoor ? "E mbuluar" : "E hapur"}</span>
                   <span className="font-display text-3xl leading-8 font-bold">{c.name}</span>
                   {c.description && <span className="text-sm text-ink-muted">{c.description}</span>}
@@ -122,10 +134,10 @@ export default async function HomePage() {
               );
             })}
           </div>
-        </section>
+        </section></Reveal>
       )}
 
-      <section className="mx-auto max-w-6xl px-4 pt-14">
+      <Reveal><section className="mx-auto max-w-6xl px-4 pt-14">
         <div className="flex flex-col gap-4 rounded-2xl bg-lime-soft p-6 md:flex-row md:items-center md:justify-between md:p-8">
           <div>
             <h2 className="display text-3xl md:text-4xl">Keni pyetje?</h2>
@@ -144,7 +156,7 @@ export default async function HomePage() {
             )}
           </div>
         </div>
-      </section>
+      </section></Reveal>
     </>
   );
 }
