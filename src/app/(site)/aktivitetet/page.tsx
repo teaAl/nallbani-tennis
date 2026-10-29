@@ -7,6 +7,7 @@ import { Band, BandHead, PageIntro } from "@/components/site/band";
 export const metadata: Metadata = {
   title: "Aktivitetet",
   description: "Yoga, pilates, kampe tenisi, turne dhe trajnerë të ftuar në Tiranë.",
+  alternates: { canonical: "/aktivitetet" },
 };
 
 export default async function ActivitiesPage() {

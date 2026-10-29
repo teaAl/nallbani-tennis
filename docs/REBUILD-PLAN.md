@@ -278,8 +278,12 @@ Env vars after the rebuild: `DATABASE_URL`, `AUTH_SECRET`, `BLOB_READ_WRITE_TOKE
    payments, Today tab. **Done 2026-10-27** on branch `rebuild`.
 4. **Court booking log.** Logged bookings (and group lessons) mark public
    slots as taken. **Done 2026-10-27** on branch `rebuild`.
-5. **Polish.** Audit log, SEO, health route, in-app how-to, cleanup of old
-   branches/PRs/issues.
+5. **Polish.** Audit log, SEO (JSON-LD, share image, canonicals), cached public
+   pages, health route, in-app how-to, Playwright smoke tests + CI.
+   **Done 2026-10-29** on branch `rebuild`.
+6. **Go live.** Merge `rebuild` into `main` (deploys to www.nallbani-tennis.com and
+   replaces the old site), then delete old branches and close PRs #15/#22 and the
+   old issues. Needs the owner's go.
 
 ---
 

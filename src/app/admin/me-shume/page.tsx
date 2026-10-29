@@ -10,6 +10,18 @@ import { logout } from "./actions";
 
 export const metadata: Metadata = { title: "Më shumë" };
 
+function MoreLink({ href, title, text }: { href: string; title: string; text: string }) {
+  return (
+    <Link href={href} className="flex items-center justify-between gap-3 rounded-xl border bg-card px-4 py-3.5 font-semibold">
+      <span>
+        {title}
+        <span className="block text-sm font-normal text-ink-muted">{text}</span>
+      </span>
+      <ChevronRight className="size-5 text-line-strong" />
+    </Link>
+  );
+}
+
 export default async function MorePage() {
   const user = await requireStaff();
 
@@ -29,29 +41,19 @@ export default async function MorePage() {
           </div>
         </section>
 
-        {user.role === "ADMIN" && (
-          <Link
-            href="/admin/me-shume/llogarite"
-            className="flex items-center justify-between gap-3 rounded-xl border bg-card px-4 py-3.5 font-semibold"
-          >
-            <span>
-              Llogaritë e stafit
-              <span className="block text-sm font-normal text-ink-muted">Shto trajner, rivendos fjalëkalime</span>
-            </span>
-            <ChevronRight className="size-5 text-line-strong" />
-          </Link>
-        )}
+        <nav className="flex flex-col gap-2">
+          <MoreLink href="/admin/me-shume/si-funksionon" title="Si funksionon" text="Udhëzime të shkurtra për panelin" />
+          {user.role === "ADMIN" && (
+            <>
+              <MoreLink href="/admin/me-shume/llogarite" title="Llogaritë e stafit" text="Shto trajner, rivendos fjalëkalime" />
+              <MoreLink href="/admin/me-shume/historiku" title="Historiku i ndryshimeve" text="Kush ndryshoi çfarë dhe kur" />
+            </>
+          )}
+        </nav>
 
         <section id="fjalekalimi" className="rounded-xl border bg-card p-4">
           <h2 className="eyebrow mb-3 text-ink-muted">Ndrysho fjalëkalimin</h2>
           <ChangePasswordForm />
-        </section>
-
-        <section className="rounded-xl border bg-card p-4">
-          <h2 className="eyebrow mb-2 text-ink-muted">Si funksionon</h2>
-          <p className="text-sm text-ink-muted">
-            Një faqe e shkurtër udhëzimesh për panelin shtohet në fazën e fundit të ndërtimit.
-          </p>
         </section>
 
         <form action={logout}>

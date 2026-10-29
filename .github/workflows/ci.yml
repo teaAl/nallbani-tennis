@@ -1,0 +1,52 @@
+name: CI
+
+on:
+  push:
+    branches: [main, rebuild]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_PASSWORD: nallbani
+          POSTGRES_DB: nallbani
+        ports: ["5433:5432"]
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      CI: "1"
+      DATABASE_URL: postgresql://postgres:nallbani@localhost:5433/nallbani
+      AUTH_SECRET: ci-only-secret-not-used-anywhere-else
+      SEED_ADMIN_EMAIL: admin@ci.local
+      SEED_ADMIN_PASSWORD: Ci-admin-pass-1
+      SEED_COACH_EMAIL: coach@ci.local
+      SEED_COACH_PASSWORD: Ci-coach-pass-1
+      NEXT_PUBLIC_SITE_URL: http://localhost:3000
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run lint
+      - run: npx prisma migrate deploy
+      - run: npx prisma db seed
+      - run: npm run build
+      - run: npx playwright install --with-deps chromium
+      - run: npx playwright test
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-report
+          path: test-results
+          retention-days: 7

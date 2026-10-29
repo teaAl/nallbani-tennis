@@ -8,6 +8,7 @@ import { MarkedHeading } from "@/components/site/mark";
 export const metadata: Metadata = {
   title: "Kontakt dhe rreth nesh",
   description: "Ku na gjeni, orari i hapjes, telefoni dhe WhatsApp i klubit të tenisit.",
+  alternates: { canonical: "/kontakt" },
 };
 
 export default async function ContactPage() {

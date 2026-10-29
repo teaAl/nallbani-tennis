@@ -10,6 +10,7 @@ import { SlotPicker } from "./slot-picker";
 export const metadata: Metadata = {
   title: "Fushat e tenisit, rezervim me orë",
   description: "Rezervoni një fushë tenisi me orë në Tiranë. Shikoni orët e lira dhe dërgoni kërkesën në WhatsApp.",
+  alternates: { canonical: "/fushat" },
 };
 
 export default async function CourtsPage() {

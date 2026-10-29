@@ -7,6 +7,7 @@ import { Band, BandHead, PageIntro } from "@/components/site/band";
 export const metadata: Metadata = {
   title: "Kurset e tenisit",
   description: "Grupe tenisi për fëmijë dhe të rritur sipas moshës dhe nivelit, mësime private dhe paketa në Tiranë.",
+  alternates: { canonical: "/kurset" },
 };
 
 export default async function CoursesPage() {

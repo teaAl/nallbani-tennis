@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Phone } from "lucide-react";
@@ -13,6 +14,8 @@ import { WhatsAppIcon } from "@/components/site/whatsapp-icon";
 import { MarkedHeading } from "@/components/site/mark";
 import { BouncingBall } from "@/components/site/bouncing-ball";
 import { Band } from "@/components/site/band";
+
+export const metadata: Metadata = { alternates: { canonical: "/" } };
 
 const stagger = (i: number) => ({ "--i": i }) as React.CSSProperties;
 

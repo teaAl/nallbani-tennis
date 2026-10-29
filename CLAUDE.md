@@ -46,7 +46,11 @@ npm run db:migrate     # prisma migrate dev (creates + applies a migration)
 npm run db:deploy      # prisma migrate deploy (production / CI)
 npm run db:seed        # prisma db seed  → prisma/seed.ts (idempotent)
 npm run db:studio
+npm test               # Playwright smoke tests (tests/smoke.spec.ts); reuses a running dev server on :3000
 ```
+
+CI (`.github/workflows/ci.yml`) runs typecheck, lint, migrations + seed against a
+Postgres service, `next build` and the Playwright suite on every push and PR.
 
 Local database for development: `docker run -d --name nallbani-pg -e POSTGRES_PASSWORD=nallbani -e POSTGRES_DB=nallbani -p 5433:5432 postgres:17-alpine`
 (matches the `DATABASE_URL` in `.env.example` style: `postgresql://postgres:nallbani@localhost:5433/nallbani`).
@@ -114,8 +118,12 @@ Conventions:
   write an `AuditLog` row for anything that changes data, `revalidatePath`.
 - Forms are small client components using `useActionState`; `FormState` is
   `{ error?, success? }`.
-- Public pages that read the database use `export const dynamic = "force-dynamic"`
-  until caching is tuned in phase 5.
+- Public pages are cached: `(site)/layout.tsx` sets `revalidate = 600`, and every
+  admin action calls `revalidatePath` for the public routes it affects, so edits are
+  visible immediately and anonymous traffic never waits on the database.
+- SEO lives in `(site)/layout.tsx` (metadata, JSON-LD via `components/site/structured-data.tsx`),
+  `(site)/opengraph-image.tsx` (share card generated from SiteSettings), per-page
+  `alternates.canonical`, `app/sitemap.ts`, `app/robots.ts`, and the icon files in `app/`.
 - All UI copy is Albanian, written inline. No i18n library.
 - Keep the schema the source of truth; UI labels for enums live in `lib/utils.ts`.
 
@@ -157,9 +165,11 @@ Conventions:
 
 ## 6. Status
 
-Phases 1–4 are done (phase 4: booking log at `/admin/fushat/rezervimet`, with a
-double-booking check against bookings and lessons on the same court): foundation and auth, admin content editing with the public
-site, and students (roster, groups → lessons materialised on demand in
-`lib/lessons.ts`, attendance at `/admin/mesimet/[id]`, monthly fee + payments in
-`lib/payments.ts`, notes, Sot tab). Phase 5 (polish/SEO)
-follow the plan in `docs/REBUILD-PLAN.md` section 9.
+Phases 1–5 are done: foundation and auth; admin content editing with the public
+site; students (roster, groups → lessons materialised on demand in `lib/lessons.ts`,
+attendance at `/admin/mesimet/[id]`, monthly fee + payments in `lib/payments.ts`,
+notes, Sot tab); the booking log at `/admin/fushat/rezervimet` with a double-booking
+check; and the finishing pass (SEO, caching, the in-app guide at
+`/admin/me-shume/si-funksionon`, the ADMIN-only audit log at `/admin/me-shume/historiku`,
+smoke tests + CI). Remaining: merge `rebuild` into `main` to go live, then clean up
+the old branches, PRs and issues. See `docs/REBUILD-PLAN.md` section 9.
