@@ -93,21 +93,25 @@ export type OfferingCardData = {
   description: string | null;
   price: string | null;
   priceUnit: string;
+  photoUrl: string | null;
 };
 
 export function OfferingCard({ o, askHref }: { o: OfferingCardData; askHref: string | null }) {
   return (
-    <article className="lift flex flex-col gap-3 rounded-2xl border bg-card p-5">
-      {o.kind && (
-        <div>
-          <Chip>{o.kind}</Chip>
+    <article className="lift flex flex-col overflow-hidden rounded-2xl border bg-card">
+      {o.photoUrl && <Image src={o.photoUrl} alt="" width={640} height={360} className="aspect-[16/9] w-full object-cover" />}
+      <div className="flex grow flex-col gap-3 p-5">
+        {o.kind && (
+          <div>
+            <Chip>{o.kind}</Chip>
+          </div>
+        )}
+        <h3 className="font-display text-3xl leading-8 font-bold">{o.title}</h3>
+        {o.description && <p className="text-ink-muted">{o.description}</p>}
+        <div className="mt-auto flex items-end justify-between gap-3 pt-2">
+          <Price amount={o.price} unit={PRICE_UNIT_LABELS[o.priceUnit] ?? "Lekë"} />
+          <AskButton href={askHref} />
         </div>
-      )}
-      <h3 className="font-display text-3xl leading-8 font-bold">{o.title}</h3>
-      {o.description && <p className="text-ink-muted">{o.description}</p>}
-      <div className="mt-auto flex items-end justify-between gap-3 pt-2">
-        <Price amount={o.price} unit={PRICE_UNIT_LABELS[o.priceUnit] ?? "Lekë"} />
-        <AskButton href={askHref} />
       </div>
     </article>
   );

@@ -40,6 +40,7 @@ export async function getPublishedOfferings(limit?: number): Promise<OfferingCar
     description: o.description,
     price: o.price ? o.price.toString() : null,
     priceUnit: o.priceUnit,
+    photoUrl: o.photoUrl,
   }));
 }
 

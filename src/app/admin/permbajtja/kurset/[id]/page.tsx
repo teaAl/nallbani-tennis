@@ -31,6 +31,7 @@ export default async function EditOfferingPage({ params }: { params: Promise<{ i
             priceUnit: item.priceUnit,
             sortOrder: item.sortOrder,
             published: item.published,
+            photoUrl: item.photoUrl,
           }}
         />
       </main>

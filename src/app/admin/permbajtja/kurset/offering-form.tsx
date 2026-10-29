@@ -5,6 +5,7 @@ import { CheckboxCard, Field, FormSection, MoneyField, Row, SelectField, Textare
 import { FormMessage, type FormState } from "@/components/admin/form-message";
 import { SubmitButton } from "@/components/admin/submit-button";
 import { DeleteForm } from "@/components/admin/delete-form";
+import { PhotoField } from "@/components/admin/photo-field";
 import { deleteOffering, saveOffering } from "./actions";
 
 export const PRICE_UNITS: Record<string, string> = {
@@ -23,6 +24,7 @@ export type OfferingFormValues = {
   priceUnit: string;
   sortOrder: number;
   published: boolean;
+  photoUrl: string | null;
 };
 
 export function OfferingForm({ offering }: { offering?: OfferingFormValues }) {
@@ -45,6 +47,7 @@ export function OfferingForm({ offering }: { offering?: OfferingFormValues }) {
             />
           </Row>
           <TextareaField label="Përshkrimi" name="description" defaultValue={offering?.description ?? ""} placeholder="Sa zgjat, çfarë përfshin, për kë është." />
+          <PhotoField currentUrl={offering?.photoUrl} hint="Shfaqet sipër kartës në faqe. JPG, PNG ose WebP deri në 5 MB." />
           <Field label="Renditja" name="sortOrder" type="number" inputMode="numeric" defaultValue={offering?.sortOrder ?? 0} hint="Numër më i vogël = më lart në listë." />
           <CheckboxCard name="published" title="E publikuar në faqe" defaultChecked={offering?.published ?? false} />
         </FormSection>

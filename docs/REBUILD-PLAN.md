@@ -210,7 +210,7 @@ slots later without a redesign.
 - `Group`: + `ageMin`, `ageMax`, `published`, `photoUrl`. Keep `dayOfWeek[]`, times, dates, price, capacity, coach.
 - `GroupMember`, `Lesson`, `LessonAttendee` kept. Lessons are generated from
   group schedules for the visible week; attendance per lesson.
-- `CourseOffering` (new): title, type PRIVATE | SEMI_PRIVATE | CAMP, `priceUnit` HOUR | PACKAGE, price, `packageLessons?`, description, published.
+- `CourseOffering` (new): title, `kind` free text, `priceUnit`, price, description, `photoUrl`, published.
 - `Activity` (new): title, `category` (free text with suggestion chips:
   Yoga, Pilates, Klinikë, Kamp, Turne), `startsAt`, `endsAt`, place, price,
   `guestCoachName`, `guestCoachBio`, capacity, description, `photoUrl`,
