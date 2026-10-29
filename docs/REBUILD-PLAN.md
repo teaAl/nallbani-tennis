@@ -283,7 +283,7 @@ Env vars after the rebuild: `DATABASE_URL`, `AUTH_SECRET`, `BLOB_READ_WRITE_TOKE
    **Done 2026-10-29** on branch `rebuild`.
 6. **Go live.** Merge `rebuild` into `main` (deploys to www.nallbani-tennis.com and
    replaces the old site), then delete old branches and close PRs #15/#22 and the
-   old issues. Needs the owner's go.
+   old issues. **Done 2026-10-29**: merged as #23, live on www.nallbani-tennis.com.
 
 ---
 

@@ -5,9 +5,9 @@ only, SEO matters, browser translation for other languages) and the admin
 panel the coach runs from his phone. The product plan, agreed decisions and
 phases live in `docs/REBUILD-PLAN.md`; read it before changing behaviour.
 
-This is the rebuilt codebase (branch `rebuild`, started 2026-10-26). The first
+This is the rebuilt codebase (started 2026-10-26, live since 2026-10-29). The first
 version of the app was removed; only Vercel, the Postgres database and the
-domain concepts were kept.
+domain concepts were kept. Work on feature branches and open a PR against `main`.
 
 ---
 
@@ -171,5 +171,5 @@ attendance at `/admin/mesimet/[id]`, monthly fee + payments in `lib/payments.ts`
 notes, Sot tab); the booking log at `/admin/fushat/rezervimet` with a double-booking
 check; and the finishing pass (SEO, caching, the in-app guide at
 `/admin/me-shume/si-funksionon`, the ADMIN-only audit log at `/admin/me-shume/historiku`,
-smoke tests + CI). Remaining: merge `rebuild` into `main` to go live, then clean up
-the old branches, PRs and issues. See `docs/REBUILD-PLAN.md` section 9.
+smoke tests + CI). The rebuild went live on 2026-10-29 (PR #23); `main` is production
+and every push to it deploys. See `docs/REBUILD-PLAN.md` section 9.

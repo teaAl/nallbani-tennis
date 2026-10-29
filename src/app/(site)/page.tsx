@@ -15,7 +15,11 @@ import { MarkedHeading } from "@/components/site/mark";
 import { BouncingBall } from "@/components/site/bouncing-ball";
 import { Band } from "@/components/site/band";
 
-export const metadata: Metadata = { alternates: { canonical: "/" } };
+// The home page carries the club's own SEO title, without the "· Tennis Nallbani" suffix.
+export async function generateMetadata(): Promise<Metadata> {
+  const s = await getSiteSettings();
+  return { title: { absolute: s.seoTitle ?? s.clubName }, alternates: { canonical: "/" } };
+}
 
 const stagger = (i: number) => ({ "--i": i }) as React.CSSProperties;
 
