@@ -11,8 +11,8 @@ import { cn, formatMoney } from "@/lib/utils";
 import { ActivityCard, GroupCard, OfferingCard } from "@/components/site/cards";
 import { WhatsAppIcon } from "@/components/site/whatsapp-icon";
 import { MarkedHeading } from "@/components/site/mark";
-import { Reveal } from "@/components/site/reveal";
 import { BouncingBall } from "@/components/site/bouncing-ball";
+import { Band } from "@/components/site/band";
 
 const stagger = (i: number) => ({ "--i": i }) as React.CSSProperties;
 
@@ -42,15 +42,6 @@ function SectionHead({
         {linkLabel} <ArrowRight className="size-4" />
       </Link>
     </div>
-  );
-}
-
-/** A full-width band: each home section gets its own ground so the eye can tell them apart. */
-function Band({ children, className, ...rest }: React.ComponentProps<"section">) {
-  return (
-    <section data-ball-stop className={cn("py-16 md:py-20", className)} {...rest}>
-      <Reveal className="mx-auto flex max-w-6xl flex-col gap-8 px-4">{children}</Reveal>
-    </section>
   );
 }
 

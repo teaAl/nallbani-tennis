@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { MarkedHeading } from "@/components/site/mark";
 import { getSiteSettings, whatsappLink } from "@/lib/site";
 import { getPublishedGroups, getPublishedOfferings } from "@/lib/public-data";
 import { GroupCard, OfferingCard } from "@/components/site/cards";
+import { Band, BandHead, PageIntro } from "@/components/site/band";
 
 export const metadata: Metadata = {
   title: "Kurset e tenisit",
@@ -14,17 +14,13 @@ export default async function CoursesPage() {
   const wa = (text: string) => whatsappLink(s.whatsapp, text);
 
   return (
-    <div className="mx-auto flex max-w-6xl flex-col gap-10 px-4 pt-12">
-      <header className="flex flex-col gap-3">
-        <p className="eyebrow text-lime-ink">Mësoni tenis</p>
-        <MarkedHeading text="Kurset" className="display text-5xl md:text-7xl" />
-        <p className="max-w-[48ch] text-lg text-ink-muted">Grupe të vogla sipas moshës dhe nivelit, mësime private dhe paketa. Pyesni në WhatsApp për një provë.</p>
-      </header>
+    <>
+      <PageIntro eyebrow="Mësoni tenis" title="Kurset" text="Grupe të vogla sipas moshës dhe nivelit, mësime private dhe paketa. Pyesni në WhatsApp për një provë." />
 
-      <section className="flex flex-col gap-5">
-        <h2 className="display text-3xl">Grupet</h2>
+      <Band className="border-y bg-raised">
+        <BandHead eyebrow="Në grup" title="Grupet" text="Me trajnerin, në grupe të vogla sipas moshës dhe nivelit." />
         {groups.length === 0 ? (
-          <p className="rounded-2xl border bg-card p-6 text-ink-muted">Grupet e reja shpallen së shpejti. Na shkruani për t&apos;u njoftuar.</p>
+          <p className="rounded-2xl border bg-surface p-6 text-ink-muted">Grupet e reja shpallen së shpejti. Na shkruani për t&apos;u njoftuar.</p>
         ) : (
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {groups.map((g, i) => (
@@ -32,18 +28,18 @@ export default async function CoursesPage() {
             ))}
           </div>
         )}
-      </section>
+      </Band>
 
       {offerings.length > 0 && (
-        <section className="flex flex-col gap-5">
-          <h2 className="display text-3xl">Mësime private dhe paketa</h2>
+        <Band className="bg-surface">
+          <BandHead eyebrow="Individualisht" title="Mësime private dhe paketa" text="Orar sipas jush, vetëm ose me një partner." />
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {offerings.map((o, i) => (
               <OfferingCard key={i} o={o} askHref={wa(`Përshëndetje! Dua të pyes për "${o.title}".`)} />
             ))}
           </div>
-        </section>
+        </Band>
       )}
-    </div>
+    </>
   );
 }
