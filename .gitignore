@@ -38,3 +38,7 @@ next-env.d.ts
 
 # vscode settings
 .vscode
+
+# playwright
+/test-results
+/playwright-report

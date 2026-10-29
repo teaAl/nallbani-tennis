@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Tennis Nallbani mark: the lime "N" square from the logo -->
+  <rect x="2" y="2" width="60" height="60" rx="12" fill="#cddc3b"/>
+  <rect x="4.5" y="4.5" width="55" height="55" rx="10" fill="none" stroke="#0f1f3d" stroke-width="3"/>
+  <path d="M17 15h8l14 22V15h8v34h-8L25 27v22h-8z" fill="#ffffff"/>
+</svg>

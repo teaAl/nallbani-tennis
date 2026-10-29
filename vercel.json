@@ -1,0 +1,4 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "prisma db execute --file prisma/baseline-legacy.sql --schema prisma/schema.prisma && prisma migrate deploy && prisma db seed && npm run build"
+}

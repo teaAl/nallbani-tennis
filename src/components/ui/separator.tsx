@@ -1,14 +1,27 @@
-type SeparatorProps = {
-    orientation?: "horizontal" | "vertical"
-    className?: string
-  }
-  
-  export function Separator({ orientation = "horizontal", className = "" }: SeparatorProps) {
-    return (
-      <div
-        className={`${orientation === "horizontal" ? "h-px w-full" : "h-full w-px"} bg-gray-200 ${className}`}
-        role="separator"
-      />
-    )
-  }
-  
+"use client"
+
+import * as React from "react"
+import { cn } from "cn"
+import { Separator as SeparatorPrimitive } from "radix-ui"
+
+function Separator({
+  className,
+  orientation = "horizontal",
+  decorative = true,
+  ...props
+}: React.ComponentProps<typeof SeparatorPrimitive.Root>) {
+  return (
+    <SeparatorPrimitive.Root
+      data-slot="separator"
+      decorative={decorative}
+      orientation={orientation}
+      className={cn(
+        "shrink-0 bg-border data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-px",
+        className
+      )}
+      {...props}
+    />
+  )
+}
+
+export { Separator }
